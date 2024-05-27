@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BlackBox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Schema>BlackBoxWeb</Schema>
+  <Class>Settings</Class>
+  <Version>1.00</Version>
+  <Instance>
+    <Name>BlackBoxWeb</Name>
+    <Status>active</Status>
+    <Description>BlackBox web portal settings</Description>
+  </Instance>
+  <Settings>
+    <setting group="General" name="Administrator" value="administrator" />
+    <setting group="General" name="AllowSelfRegistration" type="bool" value="false" />
+    <setting group="General" name="DefaultRole" value="Administrator" />
+    <setting group="General" name="ShowAdvanced" type="bool" value="false" />
+    <setting group="General" name="ShowSystem" type="bool" value="false" />
+    <setting group="General" name="ShowSupport" type="bool" value="false" />
+    <setting group="General" name="ShowManager" type="bool" value="false" />
+    <setting group="General" name="ShowAdministrator" type="bool" value="false" />
+    <setting group="General" name="VisibleGroups" value="RIOTINTO" />
+    <setting group="General" name="AllGroups" value="ITAM,ANALYSIS,RIOTINTO" />
+    <setting group="General" name="VisibleDataSources" value="System,Contacts,AssetCriticality,SiteAssetApplications" />
+    <setting group="General" name="AllDataSources" value="System,Contacts,Assets,Purchases,Metrics,AssetCriticality,SiteAssetApplications" />
+    <setting group="General" name="OleDbEnabled" type="bool" value="true" />
+    <setting group="Logging" name="LogFile" value="AssetIQ.log" />
+    <setting group="Logging" name="LogFilesDir" value="C:\\ProgramData\\Crayon\\AssetIQ\Logs" />
+    <setting group="Worker" name="WorkerPath" value="C:\\Program Files (x86)\\Crayon Australia\\AssetIQWorker\\AssetIQ.Worker.exe" />
+    <setting group="Worker" name="MGSBIPath" value="C:\\Program Files (x86)\\Flexera Software\\FlexNet Manager Platform\\DotNet\\bin\\mgsbi.exe" />
+    <setting group="Worker" name="Simulate" type="bool" value="false" />
+    <setting group="Worker" name="LocalSimulate" type="bool" value="false" />
+    <setting group="Adapters" name="AssetsDir" value="C:\\ProgramData\\Crayon\\AssetIQ\\Data\\adapters\\Assets" />
+    <setting group="Adapters" name="SiteAuditAssetListDir" value="C:\\ProgramData\\Crayon\\AssetIQ\\Data\\adapters\\SiteAuditAssetList" />
+    <setting group="Adapters" name="AssetRiskAssessmentDir" value="C:\\ProgramData\\Crayon\\AssetIQ\\Data\\adapters\\AssetRiskAssessment" />
+    <setting group="Adapters" name="SystemImpactAssessmentDir" value="C:\\ProgramData\\Crayon\\AssetIQ\Data\\adapters\\SystemImpactAssessment" />
+    <setting group="Adapters" name="SIADir" value="C:\\ProgramData\\Crayon\\AssetIQ\Data\\adapters\\SystemImpactAssessment" />
+    <setting group="Adapters" name="SystemImpactAssessmentAssetDir" value="C:\\ProgramData\Crayon\\AssetIQ\\Data\\adapters\\SystemImpactAssessmentAssets" />
+    <setting group="Adapters" name="SIDADir" value="C:\\ProgramData\Crayon\\AssetIQ\\Data\\adapters\\SystemImpactAssessmentAssets" />
+    <setting group="ContactsPage" name="AllowCardEdit" type="bool" value="true" />
+    <setting group="ContactsPage" name="CardsColumnCount" type="int" value="3" />
+    <setting group="ContactsPage" name="CardsRowsPerPage" type="int" value="2" />
+    <setting group="Contacts" name="Cohort" value="default" />
+    <setting group="Contacts" name="UserDomain" value="FLEXDEMO" />
+    <setting group="Contacts" name="SiteAuditADGroup" value="SG_AssetIQ_SiteAuditors" />
+    <setting group="Contacts" name="AssetManagerADGroup" value="SG_AssetIQ_AssetManagers" />
+    <setting group="Contacts" name="AdministratorADGroup" value="SG_AssetIQ_Administrators" />
+    <setting group="Contacts" name="Notes" value="this is the default cohort" />
+    <setting group="Lists" name="AllowStaticListItems" type="bool" value="true" />
+    <setting group="FileManager" name="Notes" value="this is the default cohort" />
+    <setting group="Templates" name="WorkBookName.System" value="Template-System.xlsx-v1.0" />
+    <setting group="Templates" name="WorkBookName.System.Previous" value="Template-System.xlsx-v1.0" />    
+    <setting group="Templates" name="WorkBookName.Contacts" value="Template-Contacts-v1.0.xlsx" />
+    <setting group="Templates" name="WorkBookName.Contacts.Previous" value="Template-Contacts-v1.0.xlsx" />    
+    <setting group="Templates" name="WorkBookName.AssetCriticality" value="Template-AssetCriticalityAssessment-v2.6-Test.xlsx" />
+    <setting group="Templates" name="WorkBookName.AssetCriticality.Previous" value="Template-AssetCriticalityAssessment-v2.6-Test.xlsx" />    
+    <setting group="Templates" name="WorkBookName.SIDA" value="Template-SIDA-v2.1.xlsx" />
+    <setting group="Templates" name="WorkBookName.SIDA.Previous" value="Template-SIDA-v2.1.xlsx" />    
+    <setting group="Templates" name="SheetName.SIA" value="SIA" />
+    <setting group="Templates" name="SheetName.SiteAuditAssetList" value="Assets" />
+    <setting group="Templates" name="SheetName.SIDA" value="%" />
+    <setting group="Templates" name="SheetName.Contacts" value="Contacts" />
+    <setting group="Templates" name="SheetName.Lists" value="Lists" />
+    <setting group="Templates" name="SheetName.DataMapping" value="DataMapping" />
+    <setting group="Templates" name="SheetName.Assets" value="Assets" />
+    <setting group="FileManager" name="Local" value="enabled" />
+    <setting group="FileManager" name="LocalRoot" value="~/Data/uploads" />
+    <setting group="FileManager" name="InitialFolder" value="~/Data/uploads" />
+    <setting group="FileManager" name="Google" value="enabled" />
+    <setting group="FileManager" name="GoogleRoot" value="~/GoogleData" />
+    <setting group="FileManager" name="AllowMove" type="bool" value="true" />
+    <setting group="FileManager" name="AllowDelete" type="bool" value="true" />
+    <setting group="FileManager" name="AllowRename" type="bool" value="true" />
+    <setting group="FileManager" name="AllowCreate" type="bool" value="true" />
+    <setting group="FileManager" name="AllowCopy" type="bool" value="true" />
+    <setting group="FileManager" name="AllowDownload" type="bool" value="true" />
+    <setting group="FileManager" name="ShowPath" type="bool" value="true" />
+    <setting group="FileManager" name="ShowFilterBox" type="bool" value="true" />
+    <setting group="FileManager" name="ShowLockedFolderIcons" type="bool" value="true" />
+    <setting group="FileManager" name="EnableCallBacks" type="bool" value="true" />
+    <setting group="FileManager" name="FoldersVisible" type="bool" value="true" />
+    <setting group="FileManager" name="UploadEnabled" type="bool" value="true" />
+    <setting group="FileManager" name="FileListShowFolders" type="bool" value="true" />
+    <setting group="FileManager" name="FileListShowParentFolder" type="bool" value="true" />
+    <setting group="FileManager" name="BreadcrumbsVisible" type="bool" value="true" />
+    <setting group="FileManager" name="BreadcrumbsShowParentFolder" type="bool" value="true" />
+    <setting group="FileManager" name="BreadcrumbsPosition" value="Top" />
+    <setting group="FileManager" name="UseAdvancedUploadMode" type="bool" value="true" />
+    <setting group="FileManager" name="EnableUploadMultiSelect" type="bool" value="true" />
+    <setting group="WebServices" name="Verbose" type="bool" value="false" />
+    <setting group="WebServices" name="WriteToSchema" type="bool" value="false" />
+    <setting group="WebServices" name="WriteToDatabase" type="bool" value="false" />
+    <setting group="WebServices" name="WriteToCSV" type="bool" value="false" />
+    <setting group="WebServices" name="CredentialTarget" value="FLEXDEMO\Administrator" />
+  </Settings>
+</BlackBox>

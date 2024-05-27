@@ -1,0 +1,847 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Manager.master.cs" Inherits="BlackBox.ManagerMaster" %>
+
+<%@ Register assembly="DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
+
+<!DOCTYPE html>
+
+<html>
+
+<head runat="server" EnableViewState="false">
+   <meta charset="UTF-8" />
+   <title></title>
+   <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
+   <meta http-equiv='refresh' content='14400;url=../timeout.aspx' />   
+   <link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Resources/Style/Content.css") %>' />
+   <link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Resources/Style/Root.css") %>' />
+   
+   <script type="text/javascript" src='<%# ResolveUrl("~/Resources/JavaScript/Script.js") %>'></script>   
+   <script type="text/javascript" src='<%# ResolveUrl("~/Resources/JavaScript/Site.js") %>'></script>  
+   
+   <link rel="icon" type="image/x-icon" href="~/logo.ico" >    
+
+   <asp:ContentPlaceHolder ID="ContentPlaceHolderHead" runat="server"></asp:ContentPlaceHolder>
+   
+   <script type="text/javascript">
+    
+    // ***
+    // *** menu bar functions
+    // ***
+    
+  function OnMenuItemClick(s, e) 
+  {
+    switch(e.item.name) 
+    {
+      case "TopMenuBlackBox":
+          tbSystemMessage.SetText("BlackBox: Version 0.01.0000\nCopyright Crayon Australia 2023");        
+          pcSystem.Show();
+          btCancel.Focus(); 
+          break;
+
+      case "HomeMenuHelpX":
+          tbAlertMessage.SetText("This function is currently not available");        
+          pcAlert.Show();
+          btConfirm.Focus();
+          //openURL("./Support/Help.aspx", false);
+          break;
+             
+      case "MainMenuNewTab":
+          openURL(window.location.href, true);
+          break;            
+    }
+  }
+
+    // ***
+    // *** settings xml gridview functions
+    // ***
+ 
+    function OnXmlGridViewSettingsInit(s, e) 
+    {
+    }
+    
+    function OnXmlGridViewSettingsSelectionChanged(s, e) 
+    {
+    }
+
+    function OnXmlGridViewSettingsItemClick(s, e) 
+    {
+      if (IsCustomExportGridToolbarCommand(e.item.name)) 
+      {
+        e.processOnServer=true;
+        e.usePostBack=true;
+      }
+    }
+ 
+    // ***
+    // *** settings gridview functions
+    // ***
+ 
+    function onGridViewSettingsInit(s, e) 
+    {
+    }
+      
+    function onGridViewSettingsSelectionChanged(s, e) 
+    {
+    }
+    
+    function onGridViewSettingsToolbarItemClick(s, e) 
+    {
+      if (IsCustomExportGridToolbarCommand(e.item.name)) 
+      {
+        e.processOnServer=true;
+        e.usePostBack=true;
+      }
+    }
+    
+    function IsCustomExportGridToolbarCommand(command) 
+    {
+      var isCustom = false;
+      switch(command) 
+      {
+        case "CustomExportToXLS":
+        case "CustomExportToXLSX":
+            isCustom = true;
+            break;
+        
+        case "CustomStageFile":
+        case "CustomStageSource":
+            isCustom = true;
+            break;
+        
+        case "CustomRejectInstance":
+        case "CustomApproveInstance":
+            isCustom = true;
+            break;
+        
+        case "CustomExportToSQL":
+            isCustom = true;
+            break;
+      }
+      return isCustom;
+    }
+     
+    // ***
+    // *** other functions
+    // ***
+      
+    function OnSplitterPaneResized(s, e) 
+    {
+      var name = e.pane.name;
+      if (name == 'ContentPane')
+      {
+        <%-- ResizeControl(sampleListBox, e.pane); --%>
+      }
+      else if (name == 'tableOfContentsTreeView')
+      {
+        ResizeControl(sampleGrid, e.pane);
+      }
+    }
+    
+    function ResizeControl(control, splitterPane) 
+    {
+      control.SetWidth(splitterPane.GetClientWidth());
+      control.SetHeight(splitterPane.GetClientHeight());
+    }
+       
+    function updateCheckBoxState(s, e) 
+    {
+      var checked = s.GetChecked();
+      if (checked)
+      {
+        //tbUserName.SetText("guest");
+        //tbUserName.SetEnabled(false);      
+      }
+      else
+      {
+        //tbUserName.SetText("");
+        //tbUserName.SetEnabled(true);      
+      }
+    }
+ 
+
+    // ***    
+    // *** function declarations
+    // ***
+
+    window.OnMenuItemClick = OnMenuItemClick;
+
+    window.OnXmlGridViewSettingsInit = OnXmlGridViewSettingsInit;
+    window.OnXmlGridViewSettingsSelectionChanged = OnXmlGridViewSettingsSelectionChanged;
+    window.OnXmlGridViewSettingsItemClick = OnXmlGridViewSettingsItemClick;
+  
+   </script>    
+   
+</head>
+
+<body>
+   <form id="PageForm" runat="server" class="form">
+
+      <asp:ScriptManager ID="MasterPageScriptManager" runat="server" EnablePageMethods="true">
+        <Scripts>
+           <asp:ScriptReference Path="~/Resources/JavaScript/Script.js" />
+           <asp:ScriptReference Path="~/Resources/JavaScript/Site.js" />
+           <asp:ScriptReference Path="~/Resources/JavaScript/Page.js" />
+        </Scripts>    
+          
+      </asp:ScriptManager>   
+   
+      <div class="content-wrapper">
+
+      <%--
+      **** LEFT PANEL
+      --%>
+
+      <%-- COLOR SCHEMES: GREY=#E1E1E1, USER=#616161, SYSTEM=#003300, ADMIN=#660033, DEV=#660033 --%>
+
+      <dx:ASPxPanel runat="server" ID="LeftPanel" ClientInstanceName="leftPanel"
+          Collapsible="true" ScrollBars="Auto" FixedPosition="WindowLeft" FixedPositionOverlap="true" Width="220px"
+          CssClass="left-panel" Paddings-Padding="0" BackColor="#003300">
+          <Styles>
+              <ExpandBar CssClass="expand-bar"></ExpandBar>
+          </Styles>
+          <SettingsAdaptivity CollapseAtWindowInnerWidth="600" />
+          <SettingsCollapsing ExpandButton-Visible="true" ExpandEffect="PopupToRight" AnimationType="Slide" Modal="true" >
+              <ExpandButton GlyphType="Strips" Position="Center" />
+          </SettingsCollapsing>
+          <Paddings Padding="0px"></Paddings>
+          <PanelCollection>
+              <dx:PanelContent>
+
+              <%--<Image IconID="iconbuilder_shopping_box_svg_white_32x32" />--%>
+              <%--<Image IconID="dashboards_servermode_svg_white_32x32" />--%>
+              <%--<Image IconID="businessobjects_bo_contact_svg_white_32x32" />--%>
+              <%--<Image IconID="outlookinspired_buynow_svg_white_32x32" />--%>
+              <%--<Image IconID="businessobjects_bo_organization_svg_white_32x32" />--%>                 
+              <%--<Image IconID="businessobjects_bo_order_svg_white_32x32" />--%>
+              <%--<Image IconID="businessobjects_bo_opportunity_svg_white_32x32" />--%>
+              <%--<Image IconID="spreadsheet_chartverticalaxis_logscale_svg_white_32x32" />--%>
+              <%--<Image IconID="setup_properties_svg_white_32x32" />--%>
+              <%--<Image IconID="dashboards_servermode_svg_white_32x32" />--%>
+            
+              <%--<Image IconID="businessobjects_bo_contact_svg_white_32x32" />--%>
+              <%--<Image IconID="format_listbullets_svg_white_32x32" />--%>
+              <%--<Image IconID="iconbuilder_actions_settings_svg_white_32x32" />--%>
+              <%--<Image IconID="page_documentmap_32x32white" />--%>
+            
+              <%-- this is an user level menu --%>                              
+              <dx:ASPxMenu ID="ASPxMenuTop" runat="server" ClientInstanceName="topMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="True" Font-Size="X-Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items>
+                      <dx:MenuItem Name="TopMenuBlackBox" Text="BlackBox">
+                          <Image Url="~/Resources/Images/Crayon/crayon.png" Height="32px" Width="36px" />
+                          <ItemStyle Font-Bold="True" Font-Size="X-Large" ForeColor="White" HorizontalAlign="Left" />
+                      </dx:MenuItem>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="X-Large"></Font>                        
+                  </ItemStyle>                        
+                  <LinkStyle>
+                      <Font Bold="True" Size="X-Large"></Font>
+                  </LinkStyle>
+                  <ClientSideEvents ItemClick="OnMenuItemClick" />
+              </dx:ASPxMenu>
+            
+              <%-- this is an user level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuHome" runat="server" ClientInstanceName="homeMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items>
+                      <dx:MenuItem Name="HomeMenuLanding" NavigateUrl="~/Default.aspx" Text="Home">
+                          <Image IconID="businessobjects_bo_address_svg_white_32x32" />
+                      </dx:MenuItem>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+                  <ClientSideEvents ItemClick="OnMenuItemClick" /> 
+              </dx:ASPxMenu>
+            
+              <%-- this is an user level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuBase" runat="server" ClientInstanceName="systemMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items> 
+                      <dx:MenuItem Name="MainMenuImports" NavigateUrl="~/Base/Uploads.aspx" Text="Uploads">
+                          <Image IconID="scheduling_import_svg_white_32x32" />
+                      </dx:MenuItem>
+                      <dx:MenuItem Name="MainMenuFileManager" NavigateUrl="~/Base/FileManager.aspx" Text="File Manager">
+                          <Image IconID="actions_open2_svg_white_32x32" />
+                      </dx:MenuItem>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+               
+              <%-- this is an user level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuITAM" runat="server" ClientInstanceName="itamMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items>
+                      <%--                   
+                      <dx:MenuItem Name="MainMenuAssets" NavigateUrl="~/Imports/AssetUploads.aspx?group=ITAM&source=Assets" Text="Assets">
+                          <Image IconID="businessobjects_bo_order_svg_white_32x32" />
+                      </dx:MenuItem>
+                      <dx:MenuItem Name="MainMenuPurchases" NavigateUrl="~/Imports/PurchaseUploads.aspx?group=ITAM&source=Purchases" Text="Purchases">
+                          <Image IconID="businessobjects_bo_price_svg_white_32x32" />
+                      </dx:MenuItem>
+                      --%>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+            
+              <%-- this is an manager level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuAnalysis" runat="server" ClientInstanceName="analysisMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items> 
+                      <dx:MenuItem Name="MainMenuMetrics" NavigateUrl="~/Imports/Metrics.aspx?group=ITAM&source=Metrics" Text="Metrics">
+                          <Image IconID="iconbuilder_business_calculator_svg_white_32x32" />
+                      </dx:MenuItem>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+
+              <%-- this is an manager level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuMiddle" runat="server" ClientInstanceName="middleMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items> 
+                      <dx:MenuItem Name="MainMenuDummy" NavigateUrl="~/Manager.aspx" Text="Users">
+                          <Image IconID="iconbuilder_shopping_box_svg_white_32x32" />
+                      </dx:MenuItem>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+                
+              <%-- this is an manager level menu --%>                 
+              <dx:ASPxMenu ID="ASPxMenuManager" runat="server" ClientInstanceName="managerMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items> 
+                      <dx:MenuItem Name="MainMenuTemplates" Text="Templates" NavigateUrl="~/Manager/TemplateUploads.aspx">
+                          <Image IconID="scheduling_import_svg_white_32x32" />
+                      </dx:MenuItem>       
+                      <dx:MenuItem Name="MainMenuContacts" NavigateUrl="~/Manager/Users.aspx" Text="Users">
+                          <Image IconID="businessobjects_bo_contact_svg_white_32x32" />
+                      </dx:MenuItem>                                     
+                      <dx:MenuItem Name="MainMenuLists" NavigateUrl="~/Manager/Lists.aspx" Text="Lists">
+                          <Image IconID="format_listbullets_svg_white_32x32" />           
+                      </dx:MenuItem>                                                 
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+            
+              <%-- this is an super-admin level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuAdvanced" runat="server" ClientInstanceName="advancedMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items> 
+                      <dx:MenuItem Name="MainMenuSystem" Text="Uploads" NavigateUrl="~/Advanced/Uploads.aspx">
+                          <Image IconID="scheduling_import_svg_white_32x32" />
+                      </dx:MenuItem>                          
+                      <dx:MenuItem Name="MainMenuCards" Text="Cards" NavigateUrl="~/Advanced/Cards.aspx">
+                          <Image IconID="iconbuilder_shopping_box_svg_white_32x32" />                          
+                      </dx:MenuItem>                          
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+
+              <%-- this is an administrator level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuSystem" runat="server" ClientInstanceName="systemMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items> 
+                      <dx:MenuItem Name="MainMenuFileManager" Text="File Manager" BeginGroup="true" NavigateUrl="~/System/FileManager.aspx">
+                          <Image IconID="actions_open2_svg_white_32x32" />
+                      </dx:MenuItem>
+                    
+                      <dx:MenuItem Name="MainMenuJobs" Text="Jobs" BeginGroup="true" NavigateUrl="~/System/Jobs.aspx">
+                          <Image IconID="outlookinspired_tasklist_svg_white_32x32" />
+                      </dx:MenuItem>
+                      <dx:MenuItem Name="MainMenuDatasets" Text="Datasets" BeginGroup="true" NavigateUrl="~/System/Datasets.aspx">
+                          <Image IconID="dashboards_updatedataextract_svg_white_32x32" />
+                      </dx:MenuItem>
+                      <dx:MenuItem Name="MainMenuDataSources" Text="DataSources" NavigateUrl="~/System/DataSources.aspx">
+                          <Image IconID="spreadsheet_selectdatasource_svg_white_32x32" />
+                      </dx:MenuItem>
+
+                      <dx:MenuItem Name="MainMenuProcessLogs" NavigateUrl="~/System/Logs.aspx" Text="Process Logs">
+                          <Image IconID="diagramicons_showprintpreview_svg_white_32x32" />
+                      </dx:MenuItem>               
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+                 
+              <%-- this is an administrator level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuAdministrator" runat="server" ClientInstanceName="mainMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                     
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />
+                  <Items>
+                      <dx:MenuItem Name="MainMenuFileManager" Text="File Manager" BeginGroup="true" NavigateUrl="~/Admin/FileManager.aspx">
+                          <Image IconID="actions_open2_svg_white_32x32" />
+                      </dx:MenuItem>
+                      <dx:MenuItem Name="MainMenuProcessLogs" NavigateUrl="~/Admin/Logs.aspx" Text="Process Logs">
+                          <Image IconID="diagramicons_showprintpreview_svg_white_32x32" />
+                      </dx:MenuItem>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+                  <ClientSideEvents ItemClick="OnMenuItemClick" />                     
+              </dx:ASPxMenu>
+            
+              <%-- this is an super administrator level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuSuper" runat="server" ClientInstanceName="superMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items> 
+                      <dx:MenuItem Name="MainMenuSettings" Text="Settings" NavigateUrl="~/Super/Settings.aspx">
+                          <Image IconID="setup_properties_svg_white_32x32" />
+                      </dx:MenuItem>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+                                  
+              <%-- this is an user level menu --%>                                     
+              <dx:ASPxMenu ID="ASPxMenuSupport" runat="server" ClientInstanceName="supportMenu" Orientation="Vertical"
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Bottom" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items>
+                   <%--
+                   <dx:MenuItem Name="MainMenuNewTab" Text="New Tab">
+                       <Image IconID="actions_new_svg_white_32x32" />
+                   </dx:MenuItem>
+                   --%>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+              </dx:ASPxMenu>
+
+              <%-- this is an administrator level menu --%>
+              <dx:ASPxMenu ID="ASPxMenuJump" runat="server" ClientInstanceName="jumpMenu" Orientation="Vertical" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                     
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />
+                  <Items>
+                     <dx:MenuItem Name="MainMenuManager" Text="Manager" NavigateUrl="~/Manager.aspx">
+                         <Image IconID="iconbuilder_shopping_box_svg_white_32x32" />
+                     </dx:MenuItem>           
+                     <dx:MenuItem Name="MainMenuAdmin" Text="Admin" NavigateUrl="~/Admin.aspx">
+                         <Image IconID="setup_pagesetup_svg_white_32x32" />
+                     </dx:MenuItem>                            
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+                  <ClientSideEvents ItemClick="OnMenuItemClick" />                     
+              </dx:ASPxMenu>
+                 
+              <%-- this is an user level menu --%>                                     
+              <dx:ASPxMenu ID="ASPxMenuBottom" runat="server" ClientInstanceName="bottomMenu" Orientation="Vertical"
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Bottom" 
+                  Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
+                  <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
+                  <Items>
+                      <dx:MenuItem Name="MainMenuLogs" NavigateUrl="~/Support/Logs.aspx" Text="Logs">
+                          <Image IconID="diagramicons_showprintpreview_svg_white_32x32" />
+                      </dx:MenuItem>                                                 
+                      <dx:MenuItem Name="MainMenuHelp" NavigateUrl="~/Help/Content.aspx" Text="Help">
+                          <Image IconID="iconbuilder_actions_question_svg_white_32x32" />
+                      </dx:MenuItem>                       
+                      <%--
+                      <dx:MenuItem Name="MainMenuNewTab" Text="New Tab">
+                          <Image IconID="actions_new_svg_white_32x32" />
+                      </dx:MenuItem>
+                      --%>
+                  </Items>
+                  <ItemStyle VerticalAlign="Middle" ForeColor="White">
+                      <Font Bold="True" Size="Large"></Font>                        
+                  </ItemStyle>
+                  <LinkStyle>
+                      <Font Bold="True" Size="Large"></Font>
+                  </LinkStyle>
+                  <ClientSideEvents ItemClick="OnMenuItemClick" />
+              </dx:ASPxMenu>
+            
+              <table>
+                 <tr>
+                    <td style="width: 18px">&nbsp&nbsp</td>
+                    <td>                           
+                    </td>
+                 </tr>
+              </table>
+
+              </dx:PanelContent>
+          </PanelCollection>
+          <ClientSideEvents Init="onLeftPanelInit" Collapsed="onLeftPanelCollapsed" />
+      </dx:ASPxPanel>
+
+      <%--
+      **** RIGHT PANEL
+      --%>
+      
+      <dx:ASPxPanel runat="server" ID="RightPanel" ClientInstanceName="rightPanel"
+          FixedPosition="WindowRight" FixedPositionOverlap="false" Collapsible="true" Paddings-Padding="0"
+          ScrollBars="Auto" Width="650px" CssClass="right-panel" Styles-ExpandBar-CssClass="expand-bar">
+          <Styles>
+             <ExpandBar CssClass="expand-bar"></ExpandBar>
+          </Styles>
+          <SettingsCollapsing ExpandButton-Visible="false" ExpandEffect="PopupToLeft" AnimationType="Slide" Modal="true" ExpandOnPageLoad="False" >
+             <ExpandButton Visible="False"></ExpandButton>
+          </SettingsCollapsing>
+          <Paddings Padding="0px"></Paddings>
+          <PanelCollection>
+              <dx:PanelContent>
+                 <asp:ContentPlaceHolder runat="server" ID="ContentPlaceHolderRightPanelContent" />                                                
+              </dx:PanelContent>
+          </PanelCollection>
+          <ClientSideEvents Init="onRightPanelInit" Collapsed="onRightPanelCollapsed" />
+      </dx:ASPxPanel>
+
+      <%--
+      **** HEADER PANEL
+      --%>
+              
+      <dx:ASPxPanel runat="server" ID="HeaderPanel" ClientInstanceName="headerPanel" FixedPosition="WindowTop"
+          FixedPositionOverlap="false" CssClass="app-header">
+          <PanelCollection>
+              <dx:PanelContent runat="server">
+
+                  <div class="left-block">
+                      <dx:ASPxMenu runat="server" ID="LeftAreaMenu" ClientInstanceName="leftAreaMenu"
+                          ItemAutoWidth="false" ItemWrap="false" SeparatorWidth="0" EnableHotTrack="false"
+                          Width="100%" CssClass="header-menu" SyncSelectionMode="None">
+                          <ItemStyle VerticalAlign="Middle" CssClass="item" />
+                          <Items>
+                              <dx:MenuItem Text="" Name="ToggleLeftPanel" GroupName="LeftPanel">
+                                  <ItemStyle CssClass="toggle-item vertically-aligned" CheckedStyle-CssClass="checked selected" >
+                                     <CheckedStyle CssClass="checked selected"></CheckedStyle>
+                                  </ItemStyle>
+                                  <Image Url="~/Resources/Images/menu.svg" Height="18px" Width="18px" />
+                              </dx:MenuItem>
+                          </Items>
+                          <ClientSideEvents ItemClick="onLeftMenuItemClick" />
+                      </dx:ASPxMenu>
+                  </div>
+                  
+                  <div class="left-block">
+                      <asp:ContentPlaceHolder runat="server" ID="ContentPlaceHolderBreadcrumbs" />
+                  </div>
+                  
+                  <div class="right-block">
+                      <dx:ASPxMenu runat="server" ID="RightAreaMenu" ClientInstanceName="rightAreaMenu"
+                          ItemAutoWidth="false" ItemWrap="false" ShowPopOutImages="False"
+                          SeparatorWidth="0" ApplyItemStyleToTemplates="true"
+                          Width="100%" CssClass="header-menu" OnItemClick="RightAreaMenu_ItemClick">
+                          <Items>                                                                 
+                              <dx:MenuItem Name="AccountItem" ItemStyle-CssClass="image-item" AdaptivePriority="2">
+                                  <ItemStyle CssClass="image-item"></ItemStyle>
+                                  <TextTemplate>
+                                      <div class="account-background">
+                                          <div runat="server" id="AccountImage" class="empty-image" />
+                                      </div>
+                                  </TextTemplate>
+                                  <Items>
+                                      <dx:MenuItem Name="SignInItem" Text="Sign in" NavigateUrl="~/Account/SignIn.aspx"></dx:MenuItem>
+                                      <dx:MenuItem Name="RegisterItem" Text="Register" NavigateUrl="~/Account/Register.aspx"></dx:MenuItem>
+                                      <dx:MenuItem Name="MyAccountItem" Text="My account" ItemStyle-CssClass="myaccount-item">
+                                          <ItemStyle CssClass="myaccount-item"></ItemStyle>
+                                          <TextTemplate>
+                                              <div class="user-info">
+                                                  <div class="avatar">
+                                                      <img runat="server" id="AvatarUrl" src="~/Resources/Images/user.svg" />
+                                                  </div>
+                                                  <div class="text-container">
+                                                      <dx:ASPxLabel ID="UserNameLabel" runat="server" CssClass="user-name"></dx:ASPxLabel>
+                                                      <dx:ASPxLabel ID="EmailLabel" runat="server" CssClass="email"></dx:ASPxLabel>
+                                                  </div>
+                                              </div>
+                                          </TextTemplate>
+                                      </dx:MenuItem>
+                                      <dx:MenuItem Name="ReauthenticateItem" Text="Reauthentice user" NavigateUrl="../Default.aspx?fx=reauthenticate" Image-Url="~/Resources/Images/sign-out.svg" Image-Height="16px">
+                                         <Image Height="16px" Url="~/Resources/Images/sign-out.svg"></Image>
+                                      </dx:MenuItem>
+                                  </Items>
+                              </dx:MenuItem>
+                              <dx:MenuItem Text="" Name="ToggleRightPanel" GroupName="RightPanel">
+                                  <ItemStyle CssClass="toggle-item vertically-aligned" CheckedStyle-CssClass="checked selected" >
+                                     <CheckedStyle CssClass="checked selected"></CheckedStyle>
+                                  </ItemStyle>
+                                  <Image Url="~/Resources/Images/menu.svg" Height="18px" Width="18px" />
+                              </dx:MenuItem>
+                          </Items>
+                          <ItemStyle VerticalAlign="Middle" ForeColor="Gray" CssClass="item" SelectedStyle-CssClass="selected" HoverStyle-CssClass="hovered">
+                              <Font Bold="True" Size="Medium"></Font>                        
+                              <SelectedStyle CssClass="selected"></SelectedStyle>
+                              <HoverStyle CssClass="hovered"></HoverStyle>
+                          </ItemStyle>
+                          <LinkStyle>
+                              <Font Bold="True" Size="Medium"></Font>
+                          </LinkStyle>       
+                          <ItemImage Width="16" Height="16" />
+                          <SubMenuStyle CssClass="header-sub-menu" />                            
+                          <SubMenuItemStyle CssClass="item" />
+                          <ClientSideEvents ItemClick="onHeaderPanelRightMenuItemClick" />
+                      </dx:ASPxMenu>
+                  </div>
+
+                  <div id="PageMenuContainer" class="menu-container">
+                      <div>
+                           <asp:ContentPlaceHolder runat="server" ID="ContentPlaceHolderMenu" />
+                      </div>
+                  </div>
+                  <div class="dx-clear"></div>
+
+              </dx:PanelContent>
+          </PanelCollection>
+      </dx:ASPxPanel>
+
+      <%--
+      **** POPUP CONTROLS
+      --%>
+
+      <dx:ASPxPopupControl ID="pcAlert" runat="server" Width="500" CloseAction="CloseButton" CloseOnEscape="true"
+          PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ClientInstanceName="pcAlert"
+          HeaderText="Alert" AllowDragging="True" Modal="True" PopupAnimationType="Fade"
+          EnableViewState="False" PopupHorizontalOffset="40" PopupVerticalOffset="40" AutoUpdatePosition="true">
+          <ClientSideEvents PopUp="function(s, e) { }" CloseButtonClick="function(s, e) { window.location.reload(); }" />
+          <SizeGripImage Width="11px" />
+          <ContentCollection>
+              <dx:PopupControlContentControl runat="server">
+                  <dx:ASPxPanel ID="AlertPanel" runat="server" DefaultButton="btConfirm">
+                      <PanelCollection>
+                          <dx:PanelContent runat="server">
+                              <dx:ASPxFormLayout runat="server" ID="AlertFormLayout" Width="100%" Height="100%">
+                                  <Items>
+                                      <dx:LayoutItem Caption="Message">
+                                          <LayoutItemNestedControlCollection>
+                                              <dx:LayoutItemNestedControlContainer>
+                                                  <dx:ASPxMemo ID="tbMessage" runat="server" Width="350px" Height="100px" MaxLength="200" ReadOnly="True" ClientInstanceName="tbMessage"/>
+                                              </dx:LayoutItemNestedControlContainer>
+                                          </LayoutItemNestedControlCollection>
+                                      </dx:LayoutItem>
+                                      <dx:LayoutItem ShowCaption="False">
+                                          <LayoutItemNestedControlCollection>
+                                              <dx:LayoutItemNestedControlContainer>
+                                                  <dx:ASPxButton ID="btConfirm" runat="server" Text="OK" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
+                                                      <ClientSideEvents Click="function(s, e) { pcAlert.Hide(); window.location.reload(); }" />
+                                                  </dx:ASPxButton>
+                                              </dx:LayoutItemNestedControlContainer>
+                                          </LayoutItemNestedControlCollection>
+                                      </dx:LayoutItem>
+                                  </Items>
+                              </dx:ASPxFormLayout>
+                          </dx:PanelContent>
+                      </PanelCollection>
+                  </dx:ASPxPanel>
+              </dx:PopupControlContentControl>
+          </ContentCollection>
+      </dx:ASPxPopupControl>                                 
+
+      <dx:ASPxPopupControl ID="pcSystem" runat="server" Width="510" CloseAction="CloseButton" CloseOnEscape="true"
+          PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ClientInstanceName="pcSystem"
+          HeaderText="BlackBox" AllowDragging="True" Modal="True" PopupAnimationType="Fade"
+          EnableViewState="False" PopupHorizontalOffset="40" PopupVerticalOffset="40" AutoUpdatePosition="true">
+          <ClientSideEvents PopUp="function(s, e) { }" CloseButtonClick="function(s, e) { pcSystem.Hide(); window.location.reload(); }" />
+          <SizeGripImage Width="11px" />
+          <ContentCollection>
+              <dx:PopupControlContentControl runat="server">
+                  <dx:ASPxPanel ID="pcSystemPanel" runat="server" DefaultButton="btCancel">
+                      <PanelCollection>
+                          <dx:PanelContent runat="server">
+                              <dx:ASPxFormLayout runat="server" ID="pcSystemFormLayout" Width="100%" Height="100%">
+                                  <Items>
+                                      <dx:LayoutItem Caption="Message" ShowCaption="false">
+                                          <LayoutItemNestedControlCollection>
+                                              <dx:LayoutItemNestedControlContainer>
+                                                  <dx:ASPxMemo ID="tbSystemMessage" runat="server" Width="450px" Height="100px" MaxLength="200" ReadOnly="True" ClientInstanceName="tbSystemMessage"/>
+                                              </dx:LayoutItemNestedControlContainer>
+                                          </LayoutItemNestedControlCollection>
+                                      </dx:LayoutItem>
+                                      <dx:LayoutItem ShowCaption="False">
+                                          <LayoutItemNestedControlCollection>
+                                              <dx:LayoutItemNestedControlContainer>
+                                                  <dx:ASPxButton ID="btCancel" runat="server" Text="Cancel" Width="80px" AutoPostBack="False" ClientInstanceName="btCancel" Style="float: left; margin-right: 8px">
+                                                      <ClientSideEvents Click="function(s, e) { pcSystem.Hide(); }" />
+                                                  </dx:ASPxButton>
+                                                  <dx:ASPxLabel ID="SpacerLabel1" runat="server" Text="  " />
+                                                  <dx:ASPxButton ID="btMgrPages" runat="server" Text="Manager Pages" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
+                                                      <ClientSideEvents Click="function(s, e) { pcSystem.Hide(); window.open('../manager.aspx','_self'); }" />
+                                                  </dx:ASPxButton>
+                                                  <dx:ASPxLabel ID="SpacerLabel2" runat="server" Text="  " />
+                                                  <dx:ASPxButton ID="btAdminPages" runat="server" Text="Admin Pages" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
+                                                      <ClientSideEvents Click="function(s, e) { pcSystem.Hide(); window.open('../admin.aspx','_self'); }" />
+                                                  </dx:ASPxButton>
+                                                  <dx:ASPxLabel ID="SpacerLabel3" runat="server" Text=" " />
+                                                  <dx:ASPxButton ID="btLog" runat="server" Text="System Log" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
+                                                      <ClientSideEvents Click="function(s, e) { pcSystem.Hide(); window.open('../examine.ashx','_blank'); }" />
+                                                  </dx:ASPxButton>
+                                              </dx:LayoutItemNestedControlContainer>
+                                          </LayoutItemNestedControlCollection>
+                                      </dx:LayoutItem>
+                                  </Items>
+                              </dx:ASPxFormLayout>
+                          </dx:PanelContent>
+                      </PanelCollection>
+                  </dx:ASPxPanel>
+              </dx:PopupControlContentControl>
+          </ContentCollection>
+      </dx:ASPxPopupControl>                                 
+
+      <dx:ASPxPopupControl ID="pcBlock" runat="server" Width="500" ClientInstanceName="pcBlock" HeaderText="Assess Rights Check"
+          CloseAction="CloseButton" CloseOnEscape="true" Modal="True" EnableViewState="False" AllowDragging="True"
+          PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" PopupAnimationType="Fade"
+          PopupHorizontalOffset="40" PopupVerticalOffset="40" AutoUpdatePosition="true">
+          <ClientSideEvents PopUp="function(s, e) { }" CloseButtonClick="function(s, e) { window.location.reload(); }" />
+          <SizeGripImage Width="11px" />
+          <ContentCollection>
+              <dx:PopupControlContentControl runat="server">
+                  <dx:ASPxPanel ID="BlockPanel" runat="server" DefaultButton="btBlockConfirm">
+                      <PanelCollection>
+                          <dx:PanelContent runat="server">
+                              <dx:ASPxFormLayout runat="server" ID="BlockFormLayout" Width="100%" Height="100%">
+                                  <Items>
+                                      <dx:LayoutItem Caption="BlackBox">
+                                          <LayoutItemNestedControlCollection>
+                                              <dx:LayoutItemNestedControlContainer>
+                                                  <dx:ASPxMemo ID="tbReason" runat="server" Width="350px" Height="100px" MaxLength="200" ReadOnly="True" ClientInstanceName="tbReason"/>
+                                              </dx:LayoutItemNestedControlContainer>
+                                          </LayoutItemNestedControlCollection>
+                                      </dx:LayoutItem>
+                                      <dx:LayoutItem ShowCaption="False">
+                                          <LayoutItemNestedControlCollection>
+                                              <dx:LayoutItemNestedControlContainer>
+                                                  <dx:ASPxButton ID="btBlockConfirm" runat="server" Text="OK" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
+                                                      <ClientSideEvents Click="function(s, e) { pcBlock.Hide(); window.open('../default.aspx','_self'); }" />
+                                                  </dx:ASPxButton>
+                                              </dx:LayoutItemNestedControlContainer>
+                                          </LayoutItemNestedControlCollection>
+                                      </dx:LayoutItem>
+                                  </Items>
+                              </dx:ASPxFormLayout>
+                          </dx:PanelContent>
+                      </PanelCollection>
+                  </dx:ASPxPanel>
+              </dx:PopupControlContentControl>
+          </ContentCollection>
+      </dx:ASPxPopupControl>                                 
+
+      <%--
+      **** MAIN SPLITTER
+      --%>
+      
+      <div class="content" ID="ContentPlaceHolderContent">
+        <asp:ContentPlaceHolder runat="server" ID="ContentPlaceHolderPageContent"></asp:ContentPlaceHolder>
+      </div>               
+             
+      </div>
+
+      <%--
+      **** FORM COMMON
+      --%>
+       
+       
+       
+      <%--
+      **** CONTENT DATA SOURCES
+      --%>
+      
+      <dx:ASPxGlobalEvents runat="server">
+          <ClientSideEvents ControlsInitialized="onControlsInitialized" BrowserWindowResized="onBrowserWindowResized" />
+      </dx:ASPxGlobalEvents>
+      
+   </form>
+</body>
+</html>
