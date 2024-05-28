@@ -363,6 +363,11 @@
       case "CustomIncludeRecord":
           isCustom = true;
           break;
+
+      case "CustomDeleteStep":     
+          LoadingPanel.Show();      
+          isCustom = true;
+          break;
     }
     return isCustom;
   }
@@ -1127,10 +1132,11 @@
                                     <Items>
                                         <dx:GridViewToolbarItem Name="CustomRegisterStep" Text="Register" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomLoadStep" Text="Load" BeginGroup="false" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomRecallStep" Text="Recall" BeginGroup="false" Enabled="false" />                                          
+                                        <dx:GridViewToolbarItem Name="CustomRecallStep" Text="Recall" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomStageStep" Text="Stage" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomRejectStep" Text="Reject" BeginGroup="false" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="false" Enabled="false" />                                        	
+                                        <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomDeleteStep" Text="Delete" BeginGroup="true" Enabled="false" />                                        	
                                     </Items>
                                 </dx:GridViewToolbarItem>
 
