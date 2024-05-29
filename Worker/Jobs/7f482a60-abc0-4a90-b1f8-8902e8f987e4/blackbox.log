@@ -1,0 +1,15 @@
+
+SETUP WORKSPACE: blackbox @ D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs\7f482a60-abc0-4a90-b1f8-8902e8f987e4
+2024-04-16 14:36:21  Write params file blackbox.params.xml to workspace
+2024-04-16 14:36:21  Writing folder map file blackbox.map.xml
+2024-04-16 14:36:21  Unpack package blackbox.package.zip
+Processing files from folder group BlackBox
+Copy files from directory 
+2024-04-16 14:36:22  ERROR Failed to copy file: BlackBoxWorker.exe
+Processing files from folder group BlackBoxTargetDir
+Copy files from directory 
+Copy files from directory Jobs\8059431d-f83b-4ba3-b852-0b38d1dce33a
+Copy files from directory Logs
+Copy files from directory Scripts
+Copy files from directory Setup
+

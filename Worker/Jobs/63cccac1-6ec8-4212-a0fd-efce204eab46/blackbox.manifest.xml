@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BlackBox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Schema>BlackBox</Schema>
+  <Class>Manifest</Class>
+  <Version>1.00</Version>
+  <Instance>
+    <Name>blackbox</Name>
+    <Status>active</Status>
+    <Description>BlackBox file catalog</Description>
+  </Instance>
+  <Parameters>
+    <Parameter name="FolderMode" value="local" />
+    <Parameter name="Name" value="blackbox" />
+    <Parameter name="JobID" value="0" />
+    <Parameter name="FileID" value="0" />
+    <Parameter name="TaskFileName" value="blackbox.job.xml" />
+    <Parameter name="TasksType" value="xml" />
+    <Parameter name="DataFileName" value="" />
+    <Parameter name="DataType" value="" />
+    <Parameter name="Mode" value="simple" />
+    <Parameter name="Action" value="catalog" />
+    <Parameter name="Qualifier" value="blackbox" />
+    <Parameter name="Repeat" value="False" />
+    <Parameter name="UseGUID" value="True" />
+    <Parameter name="Guid" value="8059431d-f83b-4ba3-b852-0b38d1dce33a" />
+    <Parameter name="ItemNum" value="0" />
+    <Parameter name="ReportID" value="0" />
+    <Parameter name="TableName" value="" />
+    <Parameter name="RunAs" value="False" />
+    <Parameter name="CredAccount" value="" />
+    <Parameter name="CredDomain" value="" />
+    <Parameter name="CredUser" value="" />
+    <Parameter name="CredPassword" value="" />
+    <Parameter name="DatabaseName" value="" />
+    <Parameter name="Days" value="7" />
+    <Parameter name="Months" value="3" />
+    <Parameter name="Include" value="setup" />
+    <Parameter name="ZipFileName" value="blackbox.package.zip" />
+    <Parameter name="Destination" value="mapped" />
+    <Parameter name="Clean" value="False" />
+    <Parameter name="WriteToDatabase" value="False" />
+    <Parameter name="WriteToCSV" value="False" />
+    <Parameter name="WriteToSchema" value="False" />
+    <Parameter name="Debug" value="True" />
+    <Parameter name="Verbose" value="False" />
+    <Parameter name="Simulate" value="False" />
+    <Parameter name="NoWindow" value="False" />
+  </Parameters>
+  <SetupScript>blackbox.setup.ps1</SetupScript>
+  <FolderGroups>
+    <FolderGroup Name="BlackBox">
+      <Root>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Setup</Root>
+      <Mapping>BlackBoxRootDir</Mapping>
+      <Note></Note>
+      <Folders>
+        <Folder Name="" Status="0" FileCount="6">
+          <FilePath>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Setup</FilePath>
+          <Files>
+            <File Name="BlackBox.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.reg" Type="reg" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.setup.ps1" Type="ps1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.exe" Type="exe" Version="" Status="1" IsEnabled="yes" />
+            <File Name="readme.txt" Type="txt" Version="" Status="1" IsEnabled="yes" />
+            <File Name="WsGetReport.sql" Type="sql" Version="" Status="1" IsEnabled="yes" />
+          </Files>
+        </Folder>
+      </Folders>
+    <FolderGroup Name="BlackBoxTargetDir">
+      <Root>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox</Root>
+      <Mapping>BlackBoxTargetDir</Mapping>
+      <Note></Note>
+      <Folders>
+        <Folder Name="" Status="0" FileCount="4">
+          <FilePath>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox</FilePath>
+          <Files>
+            <File Name="BlackBox.exe" Type="exe" Version="" Status="1" IsEnabled="yes" />
+            <File Name="catalog.cmd" Type="cmd" Version="" Status="1" IsEnabled="yes" />
+            <File Name="pack.cmd" Type="cmd" Version="" Status="1" IsEnabled="yes" />
+            <File Name="unpack.cmd" Type="cmd" Version="" Status="1" IsEnabled="yes" />
+          </Files>
+        </Folder>
+        <Folder Name="Jobs\8059431d-f83b-4ba3-b852-0b38d1dce33a" Status="0" FileCount="4">
+          <FilePath>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs\8059431d-f83b-4ba3-b852-0b38d1dce33a</FilePath>
+          <Files>
+            <File Name="blackbox.log" Type="log" Version="" Status="1" IsEnabled="yes" />
+            <File Name="blackbox.map.xml" Type="xml" Version="" Status="1" IsEnabled="yes" />
+            <File Name="blackbox.params.xml" Type="xml" Version="" Status="1" IsEnabled="yes" />
+            <File Name="blackbox.rerun.cmd" Type="cmd" Version="" Status="1" IsEnabled="yes" />
+          </Files>
+        </Folder>
+        <Folder Name="Logs" Status="0" FileCount="1">
+          <FilePath>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Logs</FilePath>
+          <Files>
+            <File Name="BlackBoxWorker.log" Type="log" Version="" Status="1" IsEnabled="yes" />
+          </Files>
+        </Folder>
+        <Folder Name="Scripts" Status="0" FileCount="8">
+          <FilePath>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Scripts</FilePath>
+          <Files>
+            <File Name="BlackBox.DeleteAgedFiles.ps1" Type="ps1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.setup.ps1" Type="ps1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="CUA-AppServer-Functions.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="CUA-Beacon-Functions.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="CUA-DB-Functions.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="CUA-Other-Functions.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="CUA-System-Functions.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+          </Files>
+        </Folder>
+        <Folder Name="Setup" Status="0" FileCount="6">
+          <FilePath>D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Setup</FilePath>
+          <Files>
+            <File Name="BlackBox.psm1" Type="psm1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.reg" Type="reg" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.setup.ps1" Type="ps1" Version="" Status="1" IsEnabled="yes" />
+            <File Name="BlackBox.exe" Type="exe" Version="" Status="1" IsEnabled="yes" />
+            <File Name="readme.txt" Type="txt" Version="" Status="1" IsEnabled="yes" />
+            <File Name="WsGetReport.sql" Type="sql" Version="" Status="1" IsEnabled="yes" />
+          </Files>
+        </Folder>
+      </Folders>
+    </FolderGroup>
+  </FolderGroups>
+  <FolderMappings>
+    <FolderMode>local</FolderMode>
+    <WorkingFolderName>default</WorkingFolderName>
+    <FolderLocations>
+      <FolderLocation Name="BlackBoxRootDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox" />
+      <FolderLocation Name="BlackBoxTempDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Temp" />
+      <FolderLocation Name="BlackBoxLogsDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Logs" />
+      <FolderLocation Name="BlackBoxTasksDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Tasks" />
+      <FolderLocation Name="BlackBoxScriptsDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Scripts" />
+      <FolderLocation Name="BlackBoxDataDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Data" />
+      <FolderLocation Name="BlackBoxSetupDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Setup" />
+      <FolderLocation Name="BlackBoxTemplatesDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Templates" />
+      <FolderLocation Name="BlackBoxArchivesDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Archives" />
+      <FolderLocation Name="BlackBoxPackagesDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Packages" />
+      <FolderLocation Name="BlackBoxJobsDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs" />
+      <FolderLocation Name="BlackBoxWorkingDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs\default" />
+      <FolderLocation Name="BlackBoxTargetDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox" />
+    </FolderLocations>
+  </FolderMappings>
+  <Help><![CDATA[
+     BlackBox manifest
+     ]]>
+  </Help>
+</BlackBox>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<BlackBox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Schema>BlackBox</Schema>
+  <Class>Parameters</Class>
+  <Version>1.00</Version>
+  <Instance>
+    <Name>blackbox</Name>
+    <Status>active</Status>
+    <Description>BlackBox folder locations</Description>
+  </Instance>
+  <Map>
+    <FolderMode>local</FolderMode>
+    <WorkingFolderName>default</WorkingFolderName>
+    <FolderLocations>
+      <FolderLocation Name="BlackBoxRootDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox" />
+      <FolderLocation Name="BlackBoxTempDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Temp" />
+      <FolderLocation Name="BlackBoxLogsDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Logs" />
+      <FolderLocation Name="BlackBoxTasksDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Tasks" />
+      <FolderLocation Name="BlackBoxScriptsDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Scripts" />
+      <FolderLocation Name="BlackBoxDataDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Data" />
+      <FolderLocation Name="BlackBoxSetupDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Setup" />
+      <FolderLocation Name="BlackBoxTemplatesDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Templates" />
+      <FolderLocation Name="BlackBoxArchivesDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Archives" />
+      <FolderLocation Name="BlackBoxPackagesDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Packages" />
+      <FolderLocation Name="BlackBoxJobsDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs" />
+      <FolderLocation Name="BlackBoxWorkingDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs\default" />
+      <FolderLocation Name="BlackBoxTargetDir" Directory="D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox" />
+    </FolderLocations>
+  </Map>
+</BlackBox>

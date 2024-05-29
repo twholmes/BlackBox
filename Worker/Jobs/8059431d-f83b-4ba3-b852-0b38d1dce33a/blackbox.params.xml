@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BlackBox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Schema>BlackBox</Schema>
+  <Class>Parameters</Class>
+  <Version>1.00</Version>
+  <Instance>
+    <Name>blackbox</Name>
+    <Status>active</Status>
+    <Description>BlackBox parameters</Description>
+  </Instance>
+  <Params count="33">
+    <Param  name="FolderMode" value="local" />
+    <Param  name="Name" value="blackbox" />
+    <Param  name="JobID" value="0" />
+    <Param  name="FileID" value="0" />
+    <Param  name="TaskFileName" value="blackbox.job.xml" />
+    <Param  name="TasksType" value="xml" />
+    <Param  name="DataFileName" value="" />
+    <Param  name="DataType" value="" />
+    <Param  name="Mode" value="simple" />
+    <Param  name="Action" value="catalog" />
+    <Param  name="Qualifier" value="blackbox" />
+    <Param  name="Repeat" value="False" />
+    <Param  name="UseGUID" value="True" />
+    <Param  name="Guid" value="8059431d-f83b-4ba3-b852-0b38d1dce33a" />
+    <Param  name="ItemNum" value="0" />
+    <Param  name="ReportID" value="0" />
+    <Param  name="TableName" value="" />
+    <Param  name="RunAs" value="False" />
+    <Param  name="CredAccount" value="" />
+    <Param  name="CredDomain" value="" />
+    <Param  name="CredUser" value="" />
+    <Param  name="CredPassword" value="" />
+    <Param  name="DatabaseName" value="" />
+    <Param  name="Days" value="7" />
+    <Param  name="Months" value="3" />
+    <Param  name="Include" value="setup" />
+    <Param  name="ZipFileName" value="blackbox.package.zip" />
+    <Param  name="Destination" value="mapped" />
+    <Param  name="Clean" value="False" />
+    <Param  name="WriteToDatabase" value="False" />
+    <Param  name="WriteToCSV" value="False" />
+    <Param  name="WriteToSchema" value="False" />
+    <Param  name="Debug" value="True" />
+    <Param  name="Verbose" value="False" />
+    <Param  name="Simulate" value="False" />
+    <Param  name="NoWindow" value="False" />
+  </Params>
+  <Help><![CDATA[
+     BlackBox params
+     ]]></Help>
+</BlackBox>

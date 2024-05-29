@@ -1,0 +1,8 @@
+
+SETUP WORKSPACE: blackbox @ D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs\63cccac1-6ec8-4212-a0fd-efce204eab46
+2024-04-16 14:35:45  Write params file blackbox.params.xml to workspace
+2024-04-16 14:35:45  Writing folder map file blackbox.map.xml
+2024-04-16 14:35:45  Pack catalog blackbox
+2024-04-16 14:35:45  Write manifest to directory D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs\63cccac1-6ec8-4212-a0fd-efce204eab46
+2024-04-16 14:35:45  Writing blackbox manifest complete
+2024-04-16 14:35:45  ERROR Catalog: an archive file already exists at D:\DevOps\Workspace\BlackBox.Worker\packages\blackbox\Jobs\63cccac1-6ec8-4212-a0fd-efce204eab46\blackbox.package.zip
