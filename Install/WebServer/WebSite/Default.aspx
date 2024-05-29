@@ -151,17 +151,17 @@
 
   function OnGetUploadedFilesFocusedRowValues1(fid)
   {
-    openUrlWithParamFromPage("../Imports/Spreadsheet.aspx", "fid", fid, true);
+    openUrlWithParamFromPage("Imports/Spreadsheet.aspx", "fid", fid, true);
   }
 
   function OnGetUploadedFilesFocusedRowValues2(fid)
   {
-    openUrlWithParamFromPage("../Imports/Files.aspx", "fid", fid, true);
+    openUrlWithParamFromPage("Imports/Files.aspx", "fid", fid, true);
   }
 
   function OnGetUploadedFilesFocusedRowValues3(fid)
   {
-    openUrlWithParamFromPage("../Imports/DataFiles.aspx", "fid", fid, true);
+    openUrlWithParamFromPage("Imports/DataFiles.aspx", "fid", fid, true);
   }
 
   // ///////////////////////

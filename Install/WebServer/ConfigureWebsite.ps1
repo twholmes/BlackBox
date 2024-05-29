@@ -129,9 +129,9 @@ function ConfigureWebSite
   Log "...Data = '$dataDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Data" -PhysicalPath $dataDir | Out-Host
   
-  $imagesDir = Join-Path $WebSiteContentPath "Images\"
-  Log "...Images = '$imagesDir'" 
-  New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Data" -PhysicalPath $imagesDir | Out-Host
+  #$imagesDir = Join-Path $WebSiteContentPath "Images\"
+  #Log "...Images = '$imagesDir'" 
+  #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Images" -PhysicalPath $imagesDir | Out-Host
   
   $jobsDir = Join-Path $WebSiteContentPath "Jobs\"
   Log "...Jobs = '$jobsDir'" 
@@ -141,9 +141,9 @@ function ConfigureWebSite
   Log "...Logs = '$logsDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Logs" -PhysicalPath $logsDir | Out-Host
   
-  $photosDir = Join-Path $WebSiteContentPath "Photos\"
-  Log "...Photos = '$photosDir'" 
-  New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Photos" -PhysicalPath $photosDir | Out-Host
+  #$photosDir = Join-Path $WebSiteContentPath "Photos\"
+  #Log "...Photos = '$photosDir'" 
+  #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Photos" -PhysicalPath $photosDir | Out-Host
   
   $scriptsDir = Join-Path $WebSiteContentPath "Scripts\"
   Log "...Scripts = '$scriptsDir'" 
