@@ -60,7 +60,7 @@ function ConfigureWebSite
   else
   {
     Log "Creating new AppPool $AppPoolName"
-    New-WebAppPool -Force -Name $AppPoolName  
+    New-WebAppPool -Force -Name $AppPoolName | Out-Host
   }
 
   # set AppPool properties
