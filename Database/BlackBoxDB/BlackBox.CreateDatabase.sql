@@ -2,14 +2,20 @@
 -- Copyright (C) 2024 Crayon Australia
 ---------------------------------------------------------------------------
 
-IF NOT EXISTS 
+IF EXISTS 
 (
 	SELECT * FROM master..sysdatabases WHERE name = '$(DBName)'
 )
 BEGIN
-	PRINT '---------------------------'
+	PRINT '-----------------------------'
+	PRINT 'Database $(DBName) exists'
+	PRINT '-----------------------------'
+END
+ELSE
+BEGIN
+	PRINT '-----------------------------'
 	PRINT 'Creating database $(DBName)'
-	PRINT '---------------------------'
+	PRINT '-----------------------------'
 
 	DECLARE @a NVARCHAR(256)
 	SELECT @a = CONVERT(NVARCHAR(256),SERVERPROPERTY('collation')) 
@@ -25,6 +31,7 @@ BEGIN
 
 	EXECUTE ('CREATE DATABASE $(DBName) COLLATE '+ @collation)
 END
+
 GO
 
 ALTER DATABASE $(DBName) SET RECOVERY SIMPLE
