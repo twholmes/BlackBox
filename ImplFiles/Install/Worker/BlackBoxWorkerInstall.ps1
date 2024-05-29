@@ -80,18 +80,18 @@ function ConfigureWindowsFeaturesForBlackBox
 }
 
 ###########################################################################
-# Install BlackBox App Server
+# Install BlackBox worker app components
 
-function InstallBlackBoxAppServer
+function InstallBlackBoxWorker
 {
-	Log "Installation of BlackBox app server components succeeded"
+	Log "Installation of BlackBox worker app components succeeded"
 	return $true	
 }
 
 ###########################################################################
-# Uninstall BlackBox App Server
+# Uninstall BlackBox worker app
 
-function UninstallBlackBoxAppServer
+function UninstallBlackBoxWorker
 {
 	$supportDir = Join-Path $dlDir "Support"
 	$configFile = Join-Path $supportDir "Config\FNMS Windows Authentication Config.xml"
