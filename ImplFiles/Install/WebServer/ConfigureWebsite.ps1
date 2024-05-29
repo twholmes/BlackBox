@@ -121,6 +121,10 @@ function ConfigureWebSite
   Log "...Adapters = '$adaptersDir'"   
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Adapters" -PhysicalPath $adaptersDir | Out-Host
   
+  $archivesDir = Join-Path $WebSiteContentPath "Archives\"
+  Log "...Archives = '$archivesDir'"   
+  New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Archives" -PhysicalPath $archivesDir | Out-Host
+  
   $contentDir = Join-Path $WebSiteContentPath "Content\"
   Log "...Content = '$contentDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Content" -PhysicalPath $contentDir | Out-Host
@@ -140,6 +144,10 @@ function ConfigureWebSite
   $logsDir = Join-Path $WebSiteContentPath "Logs\"
   Log "...Logs = '$logsDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Logs" -PhysicalPath $logsDir | Out-Host
+  
+  $packagesDir = Join-Path $WebSiteContentPath "Packages\"
+  Log "...Packages = '$packagesDir'" 
+  New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Packages" -PhysicalPath $packagesDir | Out-Host
   
   #$photosDir = Join-Path $WebSiteContentPath "Photos\"
   #Log "...Photos = '$photosDir'" 
