@@ -2,6 +2,10 @@
 # Copyright (C) 2024 Crayon
 ###########################################################################
 
+## Get this script name and path
+$ScriptName = Split-Path (Get-Variable MyInvocation -Scope 0).Value.MyCommand.Name
+$ScriptPath = Split-Path (Get-Variable MyInvocation -Scope 0).Value.MyCommand.Path
+
 ###########################################################################
 # Install BlackBox Web Server
 

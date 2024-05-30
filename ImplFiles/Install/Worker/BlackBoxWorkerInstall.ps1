@@ -28,6 +28,14 @@ function ListBlackBoxFolders
     $RootDir = $WorkerAppPath
   }
 
+  # get adapters path
+  $regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
+  $AdaptersDir = Join-Path (GetRegKeyValue $regPath "BaseDirectory") "BusinessAdapter"
+  if ([string]::IsNullOrEmpty($AdaptersDir) -OR !(Test-Path $AdaptersDir)) 
+  {
+    $AdaptersDir = $RootDir + "\Scripts"
+  }
+
   # get scripts path
   $ScriptsDir = [Environment]::GetEnvironmentVariable('BlackBoxScriptsDir')
   if ([string]::IsNullOrEmpty($ScriptsDir) -OR !(Test-Path $ScriptsDir)) 
@@ -79,6 +87,7 @@ function ListBlackBoxFolders
 
   # Show directories
   Log ("RootDir:     {0}" -f $RootDir)
+  Log ("AdaptersDir: {0}" -f $Adapters)
   Log ("ScriptsDir:  {0}" -f $ScriptsDir)
   Log ("TempDir:     {0}" -f $TempDir)
   Log ("TasksDir:    {0}" -f $TasksDir)  
@@ -92,7 +101,21 @@ function ListBlackBoxFolders
 }
 
 ###########################################################################
-# RegKey delete
+# RegKey functions
+
+function GetRegKeyValue([string]$regPath, [string]$regName)
+{
+  $value = ""
+  try 
+  {
+    $value = Get-ItemPropertyValue -Path $regPath -Name $regName -ErrorAction Stop
+  }
+  catch 
+  {
+    Write-Warning "$_"
+  }
+	return $value
+}
 
 function RegKeyDelete([string]$regPath, [string]$regName)
 {
@@ -182,6 +205,21 @@ function InstallBlackBoxWorkerLocally
     $RootDir = $WorkerAppPath
   }
 
+  # get adapters path
+  $regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
+  $AdaptersDir = Join-Path (GetRegKeyValue $regPath "BaseDirectory") "BusinessAdapter"
+  if ([string]::IsNullOrEmpty($AdaptersDir) -OR !(Test-Path $AdaptersDir)) 
+  {
+    $AdaptersDir = $RootDir + "\Adapters"
+  }
+
+  # get scripts path
+  $ScriptsDir = [Environment]::GetEnvironmentVariable('BlackBoxScriptsDir')
+  if ([string]::IsNullOrEmpty($ScriptsDir) -OR !(Test-Path $ScriptsDir)) 
+  {
+    $ScriptsDir = $RootDir + "\Scripts"
+  }
+
   # get scripts path
   $ScriptsDir = [Environment]::GetEnvironmentVariable('BlackBoxScriptsDir')
   if ([string]::IsNullOrEmpty($ScriptsDir) -OR !(Test-Path $ScriptsDir)) 
@@ -233,6 +271,7 @@ function InstallBlackBoxWorkerLocally
 
   # Show directories
   Log ("RootDir:     {0}" -f $RootDir)
+  Log ("AdaptersDir:  {0}" -f $Adapters)
   Log ("ScriptsDir:  {0}" -f $ScriptsDir)
   Log ("TempDir:     {0}" -f $TempDir)
   Log ("TasksDir:    {0}" -f $TasksDir)  
