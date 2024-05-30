@@ -9,7 +9,7 @@ CD /D %~dp0
 REM Run the PowerShell command line as Admin
 REM PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 InstallAll -FlexAdminPath C:\BlackBox\ImplFiles"
 
-PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 InstallBlackBoxWorkerLocally"
+PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ResetBlackBoxWorker"
 
 pause
 
