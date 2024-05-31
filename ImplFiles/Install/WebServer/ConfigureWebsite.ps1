@@ -14,49 +14,6 @@ $ScriptPath = Split-Path (Get-Variable MyInvocation -Scope 0).Value.MyCommand.Pa
 
 #Import-Module WebAdministration
 
-###########################################################################
-# RegKey functions
-
-function GetRegKeyValue([string]$regPath, [string]$regName)
-{
-  $value = ""
-  try 
-  {
-    $value = Get-ItemPropertyValue -Path $regPath -Name $regName -ErrorAction Stop
-    #Write-Host "Registry key found"
-    #Write-Host "  key=$regPath"
-    #Write-Host "  entry=$regName"
-    #Write-Host "  value=$value"
-  }
-  catch 
-  {
-    Write-Warning "$_"
-  }
-	return $value
-}
-
-function RegKeyDelete([string]$regPath, [string]$regName)
-{
-  try 
-  {
-    # delete this registry key in path
-    if (Get-ItemProperty -Path $regPath -Name $regName -ErrorAction Stop) 
-    {
-      Remove-ItemProperty -Path $regPath -Name $regName -ErrorAction Stop
-      Write-Host "Registry key $regPath $regName deleted"    
-    }
-    else 
-    {
-      Write-Host "Registry key $regPath $regName does not exist"
-    }
-  }
-  catch 
-  {
-    Write-Warning "$_"
-  }
-	return $true	
-}
-
 ############################################################
 # Configure BlackBox WebSite
 
@@ -162,7 +119,7 @@ function ConfigureWebSite
 
   # get adapters path and set virtual directory
   $regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
-  $beaconDir = GetRegKeyValue $regPath "BaseDirectory"
+  $beaconDir = Get-RegKeyValue $regPath "BaseDirectory"
   $adaptersDir = Join-Path $beaconDir "BusinessAdapter\"
   if ([string]::IsNullOrEmpty($adaptersDir) -OR !(Test-Path $adaptersDir)) 
   {

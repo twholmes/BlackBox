@@ -30,7 +30,7 @@ function ListBlackBoxFolders
 
   # get adapters path
   $regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
-  $AdaptersDir = Join-Path (GetRegKeyValue $regPath "BaseDirectory") "BusinessAdapter"
+  $AdaptersDir = Join-Path (Get-RegKeyValue $regPath "BaseDirectory") "BusinessAdapter"
   if ([string]::IsNullOrEmpty($AdaptersDir) -OR !(Test-Path $AdaptersDir)) 
   {
     $AdaptersDir = $RootDir + "\Scripts"
@@ -101,45 +101,6 @@ function ListBlackBoxFolders
 }
 
 ###########################################################################
-# RegKey functions
-
-function GetRegKeyValue([string]$regPath, [string]$regName)
-{
-  $value = ""
-  try 
-  {
-    $value = Get-ItemPropertyValue -Path $regPath -Name $regName -ErrorAction Stop
-  }
-  catch 
-  {
-    Write-Warning "$_"
-  }
-	return $value
-}
-
-function RegKeyDelete([string]$regPath, [string]$regName)
-{
-  try 
-  {
-    # delete this registry key in path
-    if (Get-ItemProperty -Path $regPath -Name $regName -ErrorAction Stop) 
-    {
-      Remove-ItemProperty -Path $regPath -Name $regName -ErrorAction Stop
-      Write-Host "Registry key $regPath $regName deleted"    
-    }
-    else 
-    {
-      Write-Host "Registry key $regPath $regName does not exist"
-    }
-  }
-  catch 
-  {
-    Write-Warning "$_"
-  }
-	return $true	
-}
-
-###########################################################################
 # Clear BlackBox worker environment variables
 
 function ClearBlackBoxWorkerEnvironmentVariables
@@ -156,11 +117,11 @@ function ClearBlackBoxWorkerEnvironmentVariables
 
   # delete this registry key path
   $regPath = "HKCU:\Environment"
-  RegKeyDelete $regPath "BlackBoxRootDir" | Out-Null
+  Remove-RegKey $regPath "BlackBoxRootDir" | Out-Null
 
   # delete this registry key path
   $regPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment"
-  RegKeyDelete $regPath "BlackBoxRootDir" | Out-Null
+  Remove-RegKey $regPath "BlackBoxRootDir" | Out-Null
   Log ""
 
   # set environment variables for script run
@@ -207,7 +168,7 @@ function InstallBlackBoxWorkerLocally
 
   # get adapters path
   $regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
-  $AdaptersDir = Join-Path (GetRegKeyValue $regPath "BaseDirectory") "BusinessAdapter"
+  $AdaptersDir = Join-Path (Get-RegKeyValue $regPath "BaseDirectory") "BusinessAdapter"
   if ([string]::IsNullOrEmpty($AdaptersDir) -OR !(Test-Path $AdaptersDir)) 
   {
     $AdaptersDir = $RootDir + "\Adapters"
