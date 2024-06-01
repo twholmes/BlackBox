@@ -1,5 +1,33 @@
+##-------------------------------------------------------------------------
+## Copyright (C) 2024 Crayon Australia
+## This script runs a PowerShell procedure to setup IIS for Blackbox
+## Updated: 31/05/2024 21:15
+##-------------------------------------------------------------------------
+
+############################################################
+# Build a BlackBox Web.config file
+
+function BuildWebConfig
+{
+  # set key web site config variables
+	$WebSite = GetConfigValue "WebSiteName"
+	$AppPoolName = GetConfigValue "WebAppPool"
+	$WebApp = GetConfigValue "WebApplication"
+
+	$WebSitePath = GetConfigValue "WebSitePath"
+	$WebSiteContentPath = GetConfigValue "WebSiteContentPath"	
+
+	$WorkerPath = GetConfigValue "WorkerAppPath"
+
+  $WebConfileFileName = "Web.config"
+  
+  $block1 = @"
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+"@
+Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block1 -Encoding ASCII
+
+  $block2 = @"
   <configSections>
     <sectionGroup name="devExpress">
       <section name="themes" type="DevExpress.Web.ThemesConfigurationSection, DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" requirePermission="false" />
@@ -12,13 +40,59 @@
       <section name="BlackBox.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
     </sectionGroup>
   </configSections>
+"@
+Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block2 -Encoding ASCII -Append
+
+  ## configure the connection scrings
+  $block3 = @"
   <connectionStrings>
-    <add name="BlackBoxConnectionString" connectionString="Data Source=localhost;Initial Catalog=BlackBox;Integrated Security=True" providerName="System.Data.SqlClient" />
-    <add name="BlackBoxStagingConnectionString" connectionString="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" providerName="System.Data.SqlClient" />
     <add name="FnmsConnectionString" connectionString="XpoProvider=MSSqlServer;data source=localhost;integrated security=SSPI;initial catalog=FNMSCompliance" />
+    <add name="BlackBoxConnectionString" connectionString="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" providerName="System.Data.SqlClient" />
     <add name="FlexeraConnectionString" connectionString="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" providerName="System.Data.SqlClient" />
     <add name="FNMSComplianceConnectionString" connectionString="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" providerName="System.Data.SqlClient" />
   </connectionStrings>
+"@
+  $block3A = @"
+  <connectionStrings>
+"@
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block3A -Encoding ASCII -Append
+
+  $csn = "BlackBoxConnectionString"
+  $cshost = "localhost"
+  $database = GetConfigValue "BlackBoxDBName"
+  $cs = ("    <add name=`"{0}`" connectionString=`"Data Source={1};Initial Catalog={2};Integrated Security=True`" providerName=`"System.Data.SqlClient`" />" -f $csn, $cshost, $database)
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $cs -Encoding ASCII -Append
+
+  $csn = "BlackBoxStagingConnectionString"
+  $cshost = "localhost"
+  $database = GetConfigValue "StagingDatabase"
+  $cs = ("    <add name=`"{0}`" connectionString=`"Data Source={1};Initial Catalog={2};Integrated Security=True`" providerName=`"System.Data.SqlClient`" />" -f $csn, $cshost, $database)
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $cs -Encoding ASCII -Append
+
+  $csn = "FnmsConnectionString"
+  $cshost = "localhost"
+  $database = GetConfigValue "FNMSComplianceDatabase"
+  $cs = ("    <add name=`"{0}`" connectionString=`"XpoProvider=MSSqlServer;data source={1};integrated security=SSPI;initial catalog={2}`" />" -f $csn, $cshost, $database)
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $cs -Encoding ASCII -Append
+
+  $csn = "FlexeraConnectionString"
+  $cshost = "localhost"
+  $database = GetConfigValue "FNMSComplianceDatabase"
+  $cs = ("    <add name=`"{0}`" connectionString=`"Data Source={1};Initial Catalog={2};Integrated Security=True`" providerName=`"System.Data.SqlClient`" />" -f $csn, $cshost, $database)
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $cs -Encoding ASCII -Append
+
+  $csn = "FNMSComplianceConnectionString"
+  $cshost = "localhost"
+  $database = GetConfigValue "FNMSComplianceDatabase"
+  $cs = ("    <add name=`"{0}`" connectionString=`"Data Source={1};Initial Catalog={2};Integrated Security=True`" providerName=`"System.Data.SqlClient`" />" -f $csn, $cshost, $database)
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $cs -Encoding ASCII -Append
+
+  $block3B = @"
+  </connectionStrings>
+"@
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block3B -Encoding ASCII -Append
+
+  $block4 = @"
   <system.web>
   	<sessionState timeout="480">
   	</sessionState>
@@ -78,6 +152,10 @@
     </pages>
     <globalization culture="" uiCulture="" />
   </system.web>
+"@
+Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block4 -Encoding ASCII -Append
+
+  $block5 = @"
   <system.webServer>
     <modules runAllManagedModulesForAllRequests="true">
       <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" name="ASPxHttpHandlerModule" />
@@ -114,6 +192,10 @@
     <settings accessibilityCompliant="false" doctypeMode="Html5" rightToLeft="false" checkReferencesToExternalScripts="true" protectControlState="true" ieCompatibilityVersion="edge" />
     <errors callbackErrorRedirectUrl="" />
   </devExpress>
+"@
+Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block5 -Encoding ASCII -Append
+
+  $block6 = @"
   <appSettings>
     <add key="vs:EnableBrowserLink" value="false" />
     <add key="Administrator" value="Administrator" />
@@ -133,6 +215,10 @@
     <add key="SqlConnectionString" value="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" />
     <add key="FlexeraConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
   </appSettings>
+"@
+Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block6 -Encoding ASCII -Append
+
+  $block7 = @"
   <applicationSettings>
     <BlackBox.Properties.Settings>
       <setting name="LogFilesDir" serializeAs="String">
@@ -182,4 +268,17 @@
       </setting>
     </BlackBox.Properties.Settings>
   </applicationSettings>
+"@
+Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block7 -Encoding ASCII -Append
+
+  $block8 = @"
 </configuration>
+"@
+  Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block8 -Encoding ASCII -Append
+
+
+  Log "New Web.config written"
+
+  return $true
+}
+
