@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Imports.master" CodeBehind="DataFiles.aspx.cs" Inherits="BlackBox.ImportsDataFilesPage" Title="BlackBox" %>
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Root.master" CodeBehind="DataFiles.aspx.cs" Inherits="BlackBox.DataFilesPage" Title="BlackBox" %>
 
 <%@ Register assembly="DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
 <%@ Register assembly="DevExpress.Web.ASPxSpreadsheet.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.ASPxSpreadsheet" tagprefix="dx" %>
@@ -42,7 +42,7 @@
     switch(e.item.name) 
     {
       case "PageMenuJobFiles":
-          openUrlFromPage("./Files.aspx", false);
+          openUrlFromPage("./JobFiles.aspx", false);
           break;
     }
   }
@@ -241,9 +241,9 @@
                      <table>
                        <tr style="padding: inherit; margin: 2px 2px 2px 2px; vertical-align: middle; height: 46px; text-indent: 8px;">
                          <td>
-                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="~/Home.aspx" Text="Imports" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
+                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="~/Default.aspx" Text="Root" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
                            <dx:ASPxLabel ID="BreadcrumbsSpacer" runat="server" Text=">"></dx:ASPxLabel>
-                           <dx:ASPxLabel ID="BreadcrumbsLabel" ClientIDMode="Static" runat="server" Text="Files" Font-Bold="True" Font-Size="Large" Width="300px" />
+                           <dx:ASPxLabel ID="BreadcrumbsLabel" ClientIDMode="Static" runat="server" Text="Data Files" Font-Bold="True" Font-Size="Large" Width="300px" />
                          </td>
                          <td>&nbsp;</td>
                        </tr>

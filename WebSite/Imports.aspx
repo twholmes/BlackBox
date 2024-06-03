@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Manager.master" CodeBehind="TemplateUploads.aspx.cs" Inherits="BlackBox.TemplateUploadsPage" Title="BlackBox" %>
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Root.master" CodeBehind="Imports.aspx.cs" Inherits="BlackBox.ImportsPage" Title="BlackBox" %>
 
 <%@ Register assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
 
@@ -25,9 +25,6 @@
   // page toolbar
   function updateToolbarButtonsState() 
   {
-    var enabled = cardView.GetSelectedCardCount() > 0;
-    //pageToolbar.GetItemByName("Delete").SetEnabled(enabled);
-    //pageToolbar.GetItemByName("Edit").SetEnabled(cardView.GetFocusedRowIndex() !== -1);
   }
 
   // page toolbar click
@@ -36,20 +33,15 @@
     var fri = gridViewUploadedFiles.GetFocusedRowIndex();
     switch(e.item.name) 
     {
-      case "PageMenuValidations":
-          gridViewUploadedFiles.GetRowValues(fri, 'DataSourceInstanceID', OnGetUploadedFilesFocusedRowValues);
+      case "PageMenuDataFiles":
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues2);
           break;
-
-      default:
+      case "PageMenuJobFiles":
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues3);
           break;
     }
   }
-
-  function OnGetUploadedFilesFocusedRowValues(dsiid)
-  {
-    openUrlWithParamFromPage("../Support/Validations.aspx", "dsiid", dsiid, true);
-  }  
- 
+   
   // /////////////////////////////
   // actions callback functions
   // /////////////////////////////
@@ -57,15 +49,9 @@
   function OnActionsCallbackComplete(s, e) 
   {
     var result = e.result;
-    gridViewUploadedFiles.Refresh();    
+    //gridViewUploadedFiles.Refresh();    
     LoadingPanel.Hide();
   }
-  
-  // ///////////////////////
-  // popup functions
-  // ///////////////////////
-
-
 
   // /////////////////////
   // uploader functions
@@ -97,11 +83,11 @@
     var toolbar = gridViewUploadedFiles.GetToolbar(0);  
     if (toolbar != null) 
     {  
-      //var btSubmit = toolbar.Items["CustomSubmitStaged"];  btSubmit.enabled = false;
+      //var btSubmit = toolbar.Items["CustomStageStep"];  btSubmit.enabled = false;
     }
     gridViewUploadedFiles.GetRowValues(0, 'FID;DataSourceInstanceID', OnGetImportsFocusedRowValues);    
   }
-
+ 
   // imports grid focused row changed
   function OnGridViewImportsFocusedRowChanged(s, e)
   {
@@ -114,6 +100,7 @@
   {
     var dsiid = values[1];
     var filterCondition1 = "[DataSourceInstanceID] = " + dsiid;
+    //gridViewValidationResults.ApplyFilter(filterCondition1);    
     var fid = values[0];
     var filterCondition2 = "[RefID] = " + fid;
     gridViewHistory.ApplyFilter(filterCondition2);    
@@ -129,83 +116,50 @@
   // imports grid toolbar functions  
   function OnGridViewImportsToolbarItemClick(s, e) 
   {
-    if (IsCustomGridViewToolbarCommand(e.item.name)) 
-    {
-      e.processOnServer=true;
-      e.usePostBack=true;
-    }
-    else
-    {
-      var fri = gridViewUploadedFiles.GetFocusedRowIndex();
-      switch(e.item.name) 
-      {
-        case "CustomOpenFile":
-           gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues1);     
-           break;
+   if (IsCustomGridViewToolbarCommand(e.item.name)) 
+   {
+     e.processOnServer=true;
+     e.usePostBack=true;
+   }
+   else
+   {
+     var fri = gridViewUploadedFiles.GetFocusedRowIndex();
+     switch(e.item.name) 
+     {
+       case "CustomOpenFile":
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues1);     
+          break;
 
-        case "CustomShowValidation":
-           gridViewUploadedFiles.GetRowValues(fri, 'DataSourceInstanceID', OnGetUploadedFilesFocusedRowValues2);
-           break;
+       case "CustomFileFolder":
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues2);
+          break;
 
-        case "CustomArchiveStaged":
-           memoActionMessage.SetText("Do you really want to achive this file?");        
-           pcAction.Show();
-           btActionCancel.Focus(); 
-           break;           
+       case "CustomDataFolder":
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues3);
+          break;
+
+       case "CustomArchiveStep":
+          memoActionMessage.SetText("Do you really want to achive this file?");        
+          pcAction.Show();
+          btActionCancel.Focus(); 
+          break;
       }
     }
   }
 
   function OnGetUploadedFilesFocusedRowValues1(fid)
   {
-    openUrlWithParamFromPage("../Spreadsheet.aspx", "fid", fid, true);
+    openUrlWithParamFromPage("Spreadsheet.aspx", "fid", fid, true);
   }
 
-  function OnGetUploadedFilesFocusedRowValues2(dsiid)
+  function OnGetUploadedFilesFocusedRowValues2(fid)
   {
-    openUrlWithParamFromPage("../Support/Validations.aspx", "dsiid", dsiid, true);
+    openUrlWithParamFromPage("DataFiles.aspx", "fid", fid, true);
   }
 
-  // //////////////////////////////////
-  // history gridview functions
-  // //////////////////////////////////
-
-  // history grid toolbar functions  
-  function OnGridViewHistoryToolbarItemClick(s, e) 
+  function OnGetUploadedFilesFocusedRowValues3(fid)
   {
-    if (IsCustomGridViewToolbarCommand(e.item.name)) 
-    {
-      e.processOnServer=true;
-      e.usePostBack=true;
-    }
-  }
-
-  // history gridview functions
-  function OnGridViewHistoryInit(s, e) 
-  { 
-    var toolbar = gridViewHistory.GetToolbar(0);  
-    if (toolbar != null) 
-    {  
-    }
-  }
-    
-  function OnGridViewHistorySelectionChanged(s, e) 
-  {
-    e.processOnServer=true;
-    e.usePostBack=true;
-  }
- 
-  function OnGridViewHistoryFocusedRowChanged(s, e)
-  {
-    var fri = gridViewHistory.GetFocusedRowIndex();
-    //gridViewValidationLists.GetRowValues(fri, 'ID,ListName', OnGetValidationListsFocusedRowValues);
-    //gridViewValidationLists.Refresh();    
-  }
-
-  function OnGetHistoryFocusedRowValues(values)
-  {
-    var id = values[0];
-    var col = values[1];
+    openUrlWithParamFromPage("JobFiles.aspx", "fid", fid, true);
   }
 
   // ///////////////////////
@@ -217,7 +171,7 @@
   {
     if (e.item.name == 'CustomInspectStaged')
     {
-      ShowModalInspectPopup();
+      //ShowModalInspectPopup();
     }
     else
     {
@@ -304,6 +258,48 @@
     var col = values[1];
   }
 
+  // //////////////////////////////////
+  // history gridview functions
+  // //////////////////////////////////
+
+  // history grid toolbar functions  
+  function OnGridViewHistoryToolbarItemClick(s, e) 
+  {
+    if (IsCustomGridViewToolbarCommand(e.item.name)) 
+    {
+      e.processOnServer=true;
+      e.usePostBack=true;
+    }
+  }
+
+  // history gridview functions
+  function OnGridViewHistoryInit(s, e) 
+  { 
+    var toolbar = gridViewHistory.GetToolbar(0);  
+    if (toolbar != null) 
+    {  
+    }
+  }
+    
+  function OnGridViewHistorySelectionChanged(s, e) 
+  {
+    e.processOnServer=true;
+    e.usePostBack=true;
+  }
+ 
+  function OnGridViewHistoryFocusedRowChanged(s, e)
+  {
+    var fri = gridViewHistory.GetFocusedRowIndex();
+    //gridViewValidationLists.GetRowValues(fri, 'ID,ListName', OnGetValidationListsFocusedRowValues);
+    //gridViewValidationLists.Refresh();    
+  }
+
+  function OnGetHistoryFocusedRowValues(values)
+  {
+    var id = values[0];
+    var col = values[1];
+  }
+  
   // ///////////////////////////
   // common gridview functions
   // ///////////////////////////
@@ -314,45 +310,70 @@
     var isCustom = false;
     switch(command) 
     {
-      case "CustomDownloadFile":      
-          isCustom = true;
+      case "CustomFileFolder":
+      case "CustomDataFolder":      
+          isCustom = false;
           break;
 
+      case "CustomDownloadFile":
+          isCustom = true;
+          break;
+                
       case "CustomOpenFile":      
+          //openUrlWithParamFromPage("../Spreadsheet.aspx", true);
           isCustom = false;
           break;
-           
-      case "CustomLoadFileData":      
+
+      case "CustomScheduleStep":
+      case "CustomRecallStep":
+          isCustom = false;
+          break;
+
+      case "CustomRegisterStep":
+      case "CustomLoadStep":
+      case "CustomValidateStep":
           LoadingPanel.Show();      
           isCustom = true;
           break;
 
-      case "CustomValidateLoadedData":
+      case "CustomStageStep":
+      case "CustomRejectStep":   
+          LoadingPanel.Show();         
+          isCustom = true;
+          break;
+
+      case "CustomProcessStep":
+      case "CustomPublishStep":
           LoadingPanel.Show();      
           isCustom = true;
           break;
-         
-      case "CustomShowValidation":      
-          isCustom = false;
-          break;
 
-      case "CustomStageLoadedData":
-          LoadingPanel.Show();
-          isCustom = false;
-          break;
-
-      case "CustomArchiveSource":
+      case "CustomWithdrawStep":     
           LoadingPanel.Show();      
           isCustom = true;
+          break;
+
+      case "CustomArchiveStep":
+          isCustom = false;
           break;
 
       case "CustomExcludeRecord":
       case "CustomIncludeRecord":
           isCustom = true;
           break;
+
+      case "CustomDeleteStep":     
+          LoadingPanel.Show();      
+          isCustom = true;
+          break;
     }
     return isCustom;
   }
+
+  // ///////////////////////
+  // popup functions
+  // ///////////////////////
+
 
   // /////////////////////
   // common functions
@@ -432,9 +453,9 @@
                      <table>
                        <tr style="padding: inherit; margin: 2px 2px 2px 2px; vertical-align: middle; height: 46px; text-indent: 8px;">
                          <td>
-                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="~/Manager.aspx" Text="Manager" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
+                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="~/Default.aspx" Text="Root" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
                            <dx:ASPxLabel ID="BreadcrumbsSpacer" runat="server" Text=">"></dx:ASPxLabel>
-                           <dx:ASPxLabel ID="BreadcrumbsLabel" ClientIDMode="Static" runat="server" Text="Template Uploads" Font-Bold="True" Font-Size="Large" Width="300px" />
+                           <dx:ASPxLabel ID="BreadcrumbsLabel" ClientIDMode="Static" runat="server" Text="Home" Font-Bold="True" Font-Size="Large" Width="300px" />
                          </td>
                          <td>&nbsp;</td>
                        </tr>
@@ -461,9 +482,12 @@
           <SpriteProperties CssClass="adaptive-image"></SpriteProperties>
        </AdaptiveMenuImage>
        <Items>
-          <dx:MenuItem Name="PageMenuValidations" Text="Validation Results" Alignment="Right" AdaptivePriority="1" Visible="false">
+          <dx:MenuItem Name="PageMenuDataFiles" Text="Data Files" Alignment="Right" AdaptivePriority="1">
                <Image IconID="format_listbullets_svg_dark_16x16" />
-          </dx:MenuItem>                        
+          </dx:MenuItem>        
+          <dx:MenuItem Name="PageMenuJobFiles" Text="Job Files" Alignment="Right" AdaptivePriority="2">
+               <Image IconID="format_listbullets_svg_dark_16x16" />
+          </dx:MenuItem>        
           <dx:MenuItem Alignment="Right" AdaptivePriority="2">  
               <ItemStyle BackColor="White" />  
               <TextTemplate>  
@@ -495,24 +519,78 @@
     **** RIGHT PANEL DATA SOURCES
     --%>
 
+   <asp:ObjectDataSource ID="ContactsDataSource" runat="server" TypeName="BlackBox.Model.DataProvider" 
+       SelectMethod="GetContact" UpdateMethod="UpdateContact" OldValuesParameterFormatString="original_{0}"
+       OnSelecting="ContactsDataSource_Selecting" OnUpdating="ContactsDataSource_Updating" >
+       <SelectParameters>
+           <asp:QueryStringParameter DefaultValue="1" Name="id" QueryStringField="id" Type="Int64" />
+       </SelectParameters>
+       <UpdateParameters>
+           <asp:QueryStringParameter DefaultValue="0" Name="id" QueryStringField="id" Type="Int64" />
+           <asp:Parameter Name="uid" Type="String" />
+           <asp:Parameter Name="full" Type="String" />               
+           <asp:Parameter Name="first" Type="String" />
+           <asp:Parameter Name="last" Type="String" />
+           <asp:Parameter Name="birth" Type="DateTime" />
+           <asp:Parameter Name="phone" Type="String" />
+           <asp:Parameter Name="email" Type="String" />            
+           <asp:Parameter Name="country" Type="String" />
+           <asp:Parameter Name="city" Type="String" />
+           <asp:Parameter Name="address" Type="String" />
+           <asp:Parameter Name="dom" Type="String" />
+           <asp:Parameter Name="sam" Type="String" />
+           <asp:Parameter Name="site" Type="String" />
+           <asp:Parameter Name="business" Type="String" />
+           <asp:Parameter Name="job" Type="String" />
+           <asp:Parameter Name="memberships" Type="String" />
+           <asp:Parameter Name="guest" Type="Boolean" />
+           <asp:Parameter Name="Operator" Type="Boolean" />
+           <asp:Parameter Name="assetmanager" Type="Boolean" />
+           <asp:Parameter Name="administrator" Type="Boolean" />                                               
+       </UpdateParameters>
+       <InsertParameters>
+           <asp:QueryStringParameter DefaultValue="0" Name="ID" QueryStringField="id" Type="Int64" />
+           <asp:ControlParameter ControlID="uidLabel" Name="UID" PropertyName="Text" Type="String" />
+           <asp:ControlParameter ControlID="fullNameTextBox" Name="FullName" PropertyName="Text" Type="String" />                
+           <asp:ControlParameter ControlID="firstNameTextBox" Name="FirstName" PropertyName="Text" Type="String" />
+           <asp:ControlParameter ControlID="lastNameTextBox" Name="LastName" PropertyName="Text" Type="String" />
+           <asp:ControlParameter ControlID="birthDateEdit" Name="Birthday" PropertyName="Value" Type="DateTime" />
+           <asp:ControlParameter ControlID="phoneTextBox" Name="Phone" PropertyName="Text" Type="String" />
+           <asp:ControlParameter ControlID="emailTextBox" Name="Email" PropertyName="Text" Type="String" />
+           <asp:ControlParameter ControlID="countryTextBox" Name="Country" PropertyName="Text" Type="String" />
+           <asp:ControlParameter ControlID="cityTextBox" Name="City" PropertyName="Text" Type="String" />
+           <asp:ControlParameter ControlID="addressTextBox" Name="Address" PropertyName="Text" Type="String" />
+       </InsertParameters>
+   </asp:ObjectDataSource>   
+
    <asp:SqlDataSource ID="SqlSysValidationLists" runat="server" 
      ConnectionString="<%$ ConnectionStrings:BlackBoxConnectionString %>"     
-     SelectCommand="SELECT [ID],[DataSource],[ListName],[Value],[Status] FROM [dbo].[stagedValidationLists]"     
-     InsertCommand="INSERT INTO [dbo].[stagedValidationLists] ([DataSource],[ListName],[Value],[Status]) VALUES(@DataSource,@ListName,@Value,@Status)"     
-     UpdateCommand="UPDATE [dbo].[stagedValidationLists] SET [DataSource]=@DataSource,[ListName]=@ListName,[Value]=@Value,[Status]=@Status WHERE [ID]=@ID"
-     DeleteCommand="DELETE FROM [dbo].[stagedValidationLists] WHERE [ID] = @ID">
+     SelectCommand="SELECT [ID],[JobID],[DataSourceInstanceID],[LineNumber],[Exclude],[FlexeraID],[DataSource],[ListName],[Value],[Status] FROM [dbo].[sysValidationLists]"     
+     InsertCommand="INSERT INTO [dbo].[sysValidationLists] ([JobID],[DataSourceInstanceID],[LineNumber],[Exclude],[FlexeraID],[DataSource],[ListName],[Value],[Status]) VALUES(@JobID,@DataSourceInstanceID,@LineNumber,@Exclude,@FlexeraID,@DataSource,@ListName,@Value,@Status)" 
+     UpdateCommand="UPDATE [dbo].[sysValidationLists] SET [JobID]=@JobID,[DataSourceInstanceID]=@DataSourceInstanceID,[LineNumber]=@LineNumber,[Exclude]=@Exclude,[FlexeraID]=@FlexeraID,[DataSource]=@DataSource,[ListName]=@ListName,[Value]=@Value,[Status]=@Status WHERE [ID]=@ID"
+     DeleteCommand="DELETE FROM [dbo].[sysValidationLists] WHERE [ID] = @ID">
      <InsertParameters>
+         <asp:FormParameter FormField="JobID" Name="JobID" />
+         <asp:FormParameter FormField="DataSourceInstanceID" Name="DataSourceInstanceID" />
+         <asp:FormParameter FormField="LineNumber" Name="LineNumber" />
+         <asp:FormParameter FormField="Exclude" Name="Exclude" />
+         <asp:FormParameter FormField="FlexeraID" Name="FlexeraID" />
          <asp:FormParameter FormField="DataSource" Name="DataSource" />
          <asp:FormParameter FormField="ListName" Name="ListName" />
          <asp:FormParameter FormField="Value" Name="Value" />
-         <asp:FormParameter FormField="Status" Name="Status" />           
+         <asp:FormParameter FormField="Status" Name="Status" />
      </InsertParameters>
      <UpdateParameters>
          <asp:FormParameter FormField="ID" Name="ID" />       
+         <asp:FormParameter FormField="JobID" Name="JobID" />
+         <asp:FormParameter FormField="DataSourceInstanceID" Name="DataSourceInstanceID" />
+         <asp:FormParameter FormField="LineNumber" Name="LineNumber" />
+         <asp:FormParameter FormField="Exclude" Name="Exclude" />
+         <asp:FormParameter FormField="FlexeraID" Name="FlexeraID" />
          <asp:FormParameter FormField="DataSource" Name="DataSource" />
          <asp:FormParameter FormField="ListName" Name="ListName" />
          <asp:FormParameter FormField="Value" Name="Value" />
-         <asp:FormParameter FormField="Status" Name="Status" />           
+         <asp:FormParameter FormField="Status" Name="Status" />
      </UpdateParameters>
      <DeleteParameters>
          <asp:QueryStringParameter Name="ID" />
@@ -562,22 +640,224 @@
     --%>    
 
     <dx:ASPxPageControl ID="TabPagesRightPanel" Width="100%" runat="server" ActiveTabIndex="0" EnableHierarchyRecreation="true" >
-       <TabPages>
+       <TabPages>          
+           <%--
+           **** PROFILE TABPAGE
+           --%>
+         
+           <dx:TabPage Text="My Profile">
+              <ContentCollection>
+                  <dx:ContentControl ID="RightPanelContentControl1" runat="server">    
+         
+                  <dx:ASPxFormLayout ID="UserFormLayout" runat="server" DataSourceID="ContactsDataSource" AlignItemCaptionsInAllGroups="True" UseDefaultPaddings="False">
+                     <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="700" />
+                     <Items>        
+                         <dx:LayoutGroup Caption="User Information" ShowCaption="false" ColCount="2" SettingsItems-HorizontalAlign="Left" HorizontalAlign="Left" Width="600">
+                             <Items>
+                                 <dx:LayoutItem Caption="User Name" ShowCaption="false" VerticalAlign="Top" HorizontalAlign="Left" CaptionSettings-VerticalAlign="Middle" ColumnSpan="2">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                            <dx:ASPxLabel ID="FormUserNameLabel" runat="server" Font-Size="30px" Font-Bold="True"></dx:ASPxLabel> 
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <dx:LayoutItem Caption="Photo" ShowCaption="false" HorizontalAlign="Left" Width="100px" CaptionSettings-VerticalAlign="Middle" RowSpan="5">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                            <dx:ASPxImage ID="FormUserImage" runat="server" Height=150 Width=150 ImageAlign="Left" /> 
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <dx:LayoutItem Caption="Cohort" FieldName="Cohort">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="cohortTextBox" runat="server" Width="95%" ReadOnly="True" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <dx:LayoutItem Caption="Account Name" FieldName="SAMAccountName">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="FormAccountTextBox" runat="server" Width="95%" ReadOnly="True" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <dx:LayoutItem Caption="Domain Name" FieldName="Domain">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="FormDomainTextBox" runat="server" Width="95%" ReadOnly="True" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+              
+                                 <%--
+                                 <dx:LayoutItem Caption="Birth Date" FieldName="Birthday">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxDateEdit ID="birthdateEdit" runat="server" EditFormat="Date" Width="95%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <dx:LayoutItem Caption="Address Book" FieldName="AddressBook">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="addressbookTextBox" runat="server" Width="95%" ReadOnly="True" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 --%>
+              
+                                 <%--                         
+                                 <dx:LayoutItem Caption="Memberships" FieldName="Memberships" HorizontalAlign="Right" ColumnSpan="1">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="membershipsTextBox" ClientIDMode="Static" runat="server" Width="95%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 --%>
+                                 
+                                <dx:EmptyLayoutItem />
+                             </Items>
+                         </dx:LayoutGroup>           
+                         <%--<dx:EmptyLayoutItem />--%>
+              
+                         <dx:LayoutGroup Caption="Names" ShowCaption="true" ColCount="2" SettingsItems-HorizontalAlign="Left" HorizontalAlign="Left" Width="600">
+                             <Items>
+                                 <dx:LayoutItem Caption="First Name" FieldName="FirstName">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <%-- <dx:ASPxLabel ID="firstNameLabel" runat="server" /> --%>
+                                             <dx:ASPxTextBox ID="firstTextBox" runat="server" Width="90%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <dx:LayoutItem Caption="Last Name" FieldName="LastName">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <%-- <dx:ASPxLabel ID="lastNameLabel" runat="server" />  --%>
+                                             <dx:ASPxTextBox ID="lastTextBox" runat="server" Width="95%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <%--
+                                 <dx:LayoutItem Caption="Birth Date" FieldName="Birthday">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxDateEdit ID="birthdateEdit" runat="server" EditFormat="Date" Width="95%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 --%>
+                             </Items>
+                         </dx:LayoutGroup>           
+              
+                         <dx:LayoutGroup Caption="Home" ShowCaption="true" ColCount="2" SettingsItems-HorizontalAlign="Left" HorizontalAlign="Left" Width="600">
+                             <Items>
+                                 <dx:LayoutItem Caption="Site" FieldName="Site">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="siteTextBox" runat="server" Width="95%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <dx:LayoutItem Caption="Business" FieldName="Business">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="businessTextBox" runat="server" Width="95%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 <%--
+                                 <dx:LayoutItem Caption="Job" FieldName="Job">
+                                     <LayoutItemNestedControlCollection>
+                                         <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                             <dx:ASPxTextBox ID="jobTextBox" runat="server" Width="95%" ReadOnly="False" />
+                                         </dx:LayoutItemNestedControlContainer>
+                                     </LayoutItemNestedControlCollection>
+                                 </dx:LayoutItem>
+                                 --%>
+                             </Items>
+                         </dx:LayoutGroup>    
+                         <%--<dx:EmptyLayoutItem />--%>
+                  
+                         <dx:LayoutGroup Caption="Roles" ShowCaption="true" ColCount="3" SettingsItems-HorizontalAlign="Left" HorizontalAlign="Left" Width="600">
+                             <Items>
+                                <dx:LayoutItem Caption="Guest" ColumnSpan="1">
+                                    <LayoutItemNestedControlCollection>
+                                        <dx:LayoutItemNestedControlContainer>
+                                            <dx:ASPxCheckBox ID="cbUserGuest" runat="server" AutoPostBack="False" Width="50" Checked="True" />
+                                        </dx:LayoutItemNestedControlContainer>
+                                    </LayoutItemNestedControlCollection>
+                                </dx:LayoutItem>
+                               
+                                <dx:LayoutItem Caption="User">
+                                    <LayoutItemNestedControlCollection>
+                                        <dx:LayoutItemNestedControlContainer>
+                                            <dx:ASPxCheckBox ID="cbUserOperator" runat="server" AutoPostBack="False" Width="50" Checked="False" />
+                                        </dx:LayoutItemNestedControlContainer>
+                                    </LayoutItemNestedControlCollection>
+                                </dx:LayoutItem>
+              
+                                <dx:LayoutItem Caption="Manager" ColumnSpan="1">
+                                    <LayoutItemNestedControlCollection>
+                                        <dx:LayoutItemNestedControlContainer>
+                                            <dx:ASPxCheckBox ID="cbUserManager" runat="server" AutoPostBack="False" Width="50" Checked="False" />
+                                        </dx:LayoutItemNestedControlContainer>
+                                    </LayoutItemNestedControlCollection>
+                                </dx:LayoutItem>
+                                
+                                <dx:LayoutItem Caption="Administrator" ColumnSpan="1">
+                                    <LayoutItemNestedControlCollection>
+                                        <dx:LayoutItemNestedControlContainer>
+                                            <dx:ASPxCheckBox ID="cbUserAdmin" runat="server" AutoPostBack="False" Width="50" Checked="False" />
+                                        </dx:LayoutItemNestedControlContainer>
+                                    </LayoutItemNestedControlCollection>
+                                </dx:LayoutItem>                                                  
+                             </Items>
+                         </dx:LayoutGroup>    
+                         <dx:EmptyLayoutItem />
+                         
+                         <dx:LayoutItem ShowCaption="False" CssClass="buttonAlign" Width="100%">
+                             <LayoutItemNestedControlCollection>
+                                 <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                     <dx:ASPxButton ID="ReauthenticateButton" runat="server" Text="Refresh" OnClick="ReauthenticateButtonClick" Width="100" />
+                                 </dx:LayoutItemNestedControlContainer>
+                             </LayoutItemNestedControlCollection>
+                         </dx:LayoutItem>
+                         
+                         <dx:LayoutItem ShowCaption="False" CssClass="buttonAlign" Width="100%">
+                             <LayoutItemNestedControlCollection>
+                                 <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
+                                     <dx:ASPxButton ID="UpdateUserButton" runat="server" Text="Update" OnClick="UpdateUserButtonClick" Width="100" />
+                                 </dx:LayoutItemNestedControlContainer>
+                             </LayoutItemNestedControlCollection>
+                         </dx:LayoutItem>
+
+                     </Items>
+                  </dx:ASPxFormLayout>
+                              
+                  </dx:ContentControl>
+             </ContentCollection>
+           </dx:TabPage>
+         
+
            <%--
            **** TEMPLATES TABPAGE
            --%>
 
-           <dx:TabPage Text="Template Files" Visible="true">
+           <dx:TabPage Text="Templates" Visible="true">
               <ContentCollection>
-                  <dx:ContentControl ID="RightPanelContentControl1" runat="server">    
+                  <dx:ContentControl ID="RightPanelContentControl2" runat="server">
            
                   <dx:ASPxFileManager runat="server" ID="fileManager" ClientInstanceName="fileManager" OnFolderCreating="FileManager_FolderCreating"
                       OnItemDeleting="FileManager_ItemDeleting" OnItemMoving="FileManager_ItemMoving" OnCustomThumbnail="OnFileManagerCustomThumbnails"
-                      OnItemRenaming="FileManager_ItemRenaming" OnFileUploading="FileManager_FileUploading" OnItemCopying="FileManager_ItemCopying">
+                      OnItemRenaming="FileManager_ItemRenaming" OnFileUploading="FileManager_FileUploading" OnFilesUploaded="FileManager_FilesUploaded" 
+                      OnItemCopying="FileManager_ItemCopying">
                       <Settings RootFolder="~/Templates" ThumbnailFolder="~/Resources/Thumbnails" 
                           AllowedFileExtensions=".csv,.xls,.xlsx"
                           InitialFolder="~/Templates" />
-                      <SettingsEditing AllowCreate="false" AllowDelete="true" AllowMove="true" AllowRename="true" AllowCopy="true" AllowDownload="true" />
+                      <SettingsEditing AllowCreate="false" AllowDelete="true" AllowMove="false" AllowRename="true" AllowCopy="true" AllowDownload="true" />
                       <SettingsPermissions>
                           <AccessRules>
                               <dx:FileManagerFolderAccessRule Path="system" Edit="Deny" />
@@ -603,7 +883,7 @@
 
            <dx:TabPage Text="Data Sources" Visible="true">
               <ContentCollection>
-                  <dx:ContentControl ID="RightPanelContentControl2" runat="server">
+                  <dx:ContentControl ID="RightPanelContentControl3" runat="server">
 
                   <dx:ASPxGridView ID="DataSourcesGridView" runat="server" ClientInstanceName="gridViewDataSources" DataSourceID="SqlBlackBoxDataSources" KeyFieldName="Name"                   
                     OnRowCommand="DataSourcesGridView_RowCommand" OnSelectionChanged="DataSourcesGridView_SelectionChanged"
@@ -803,15 +1083,15 @@
 
                   </dx:ContentControl>
              </ContentCollection>
-           </dx:TabPage>
-           
+           </dx:TabPage>          
+
            <%--
            **** VALIDATION LISTS TABPAGE
            --%>
 
            <dx:TabPage Text="Validation Lists" Visible="true">
               <ContentCollection>
-                  <dx:ContentControl ID="RightPanelContentControl3" runat="server">
+                  <dx:ContentControl ID="RightPanelContentControl4" runat="server">
 
                   <dx:ASPxGridView ID="ValidationListsGridView" runat="server" ClientInstanceName="gridViewValidationLists" DataSourceID="SqlSysValidationLists" KeyFieldName="ID"
                     OnRowCommand="ValidationListsGridView_RowCommand" OnSelectionChanged="ValidationListsGridView_SelectionChanged"
@@ -823,13 +1103,11 @@
                             <SettingsAdaptivity Enabled="true" EnableCollapseRootItemsToIcons="true" />
                             <Items>
                                 <dx:GridViewToolbarItem Command="Refresh" BeginGroup="true" AdaptivePriority="1"/>
-                                <dx:GridViewToolbarItem Command="New" BeginGroup="true" AdaptivePriority="2" Visible="true"/>
-                                <dx:GridViewToolbarItem Command="Edit" AdaptivePriority="3" Visible="true"/>
-                                <dx:GridViewToolbarItem Command="Delete" AdaptivePriority="4" Visible="true"/>
+                                <%--<dx:GridViewToolbarItem Command="New" BeginGroup="true" AdaptivePriority="2"/>--%>
+                                <%--<dx:GridViewToolbarItem Command="Edit" AdaptivePriority="3"/>--%>
+                                <%--<dx:GridViewToolbarItem Command="Delete" AdaptivePriority="4"/>--%>
                                 <dx:GridViewToolbarItem Command="ShowFilterRow" BeginGroup="true" AdaptivePriority="5"/>
-                                <%--
                                 <dx:GridViewToolbarItem Command="ShowCustomizationWindow" BeginGroup="true" AdaptivePriority="6"/>
-                                --%>
                             </Items>
                         </dx:GridViewToolbar>
                     </Toolbars>                     
@@ -838,11 +1116,15 @@
                     </SettingsPopup>
                     <Columns>                            
                           <dx:GridViewCommandColumn VisibleIndex="0" SelectAllCheckboxMode="AllPages" ShowSelectCheckbox="True" Width="50px" Visible="true" />
-                          <dx:GridViewDataTextColumn FieldName="ID" Caption="ID" VisibleIndex="1" Width="60px" Visible="true" />                            
-                          <dx:GridViewDataTextColumn FieldName="DataSource" Caption="DataSource" VisibleIndex="2" Width="140px" Visible="true" />
-                          <dx:GridViewDataTextColumn FieldName="ListName" Caption="ListName" VisibleIndex="3" Width="140px" Visible="true" />
-                          <dx:GridViewDataTextColumn FieldName="Value" VisibleIndex="4" Width="240px" Visible="true" />
-                          <dx:GridViewDataTextColumn FieldName="Status" VisibleIndex="5" Width="50px" Visible="false" />                            
+                          <dx:GridViewDataColumn FieldName="ID" Caption="ID" VisibleIndex="1" Width="60px" Visible="true" />
+                          <dx:GridViewDataColumn FieldName="JobID" Caption="JobID" VisibleIndex="2" Width="90px" Visible="false" />
+                          <dx:GridViewDataColumn FieldName="DataSourceInstanceID" Caption="DSIID" VisibleIndex="3" Width="100px" Visible="false" />
+                          <dx:GridViewDataColumn FieldName="Exclude" Caption="Exclude" VisibleIndex="4" Width="90px" Visible="false" />
+                          <dx:GridViewDataColumn FieldName="FlexeraID" Caption="FlexeraID" VisibleIndex="5" Width="100px" Visible="false" />                               
+                          <dx:GridViewDataTextColumn FieldName="DataSource" Caption="DataSource" VisibleIndex="6" Width="120px" Visible="false" />
+                          <dx:GridViewDataTextColumn FieldName="ListName" Caption="ListName" VisibleIndex="7" Width="180px" Visible="true" />
+                          <dx:GridViewDataTextColumn FieldName="Value" VisibleIndex="8" Width="300px" Visible="true" />
+                          <dx:GridViewDataColumn FieldName="Status" VisibleIndex="9" Width="50px" Visible="false" />
                       </Columns>
                       <SettingsPager PageSize="10" AlwaysShowPager="True" EllipsisMode="OutsideNumeric" EnableAdaptivity="True">
                           <PageSizeItemSettings Visible="True"></PageSizeItemSettings>
@@ -875,27 +1157,60 @@
                                            <dx:ASPxLabel ID="idLabel" runat="server" Width="40%" Text='<%# Bind("ID") %>' />
                                         </Template>
                                       </dx:GridViewColumnLayoutItem>
-                                      <dx:GridViewColumnLayoutItem ColumnName="Status" Caption="Status">
+                                      
+                                      <dx:GridViewColumnLayoutItem ColumnName="JobID" Caption="JobID" ShowCaption="false">
                                         <Template>
-                                           <dx:ASPxTextBox ID="statusTextBox" runat="server" Width="50%" Text='<%# Bind("Status") %>' />
+                                           <dx:ASPxLabel ID="jobidLabel" runat="server" Width="80%" Text='<%# "JobID: " + Convert.ToString(Eval("JobID")) %>' />
+                                        </Template>
+                                      </dx:GridViewColumnLayoutItem>
+                                      
+                                      <dx:GridViewColumnLayoutItem ColumnName="DataSourceInstanceID" Caption="DSIID" ShowCaption="false">
+                                        <Template>
+                                           <dx:ASPxLabel ID="dsiidLabel" runat="server" Width="80%" Text='<%# "DataSourceInstanceID: " + Convert.ToString(Eval("DataSourceInstanceID")) %>' />
                                         </Template>
                                       </dx:GridViewColumnLayoutItem>
 
-                                      <dx:GridViewColumnLayoutItem ColumnName="DataSource" Caption="DataSource" ColumnSpan="2">
+                                      <dx:GridViewColumnLayoutItem ColumnName="Exclude" Caption="Exclude" ShowCaption="false">
                                         <Template>
-                                           <dx:ASPxTextBox ID="datasourceTextBox" runat="server" Width="80%" Text='<%# Bind("DataSource") %>' />
+                                           <dx:ASPxCheckBox ID="excludeChackBox" runat="server" Width="80%" Text="Exclude" Checked='<%# Bind("Exclude") %>' />
                                         </Template>
                                       </dx:GridViewColumnLayoutItem>
+
+                                      <dx:GridViewColumnLayoutItem ColumnName="FlexeraID" Caption="FlexeraID" ColumnSpan="1">
+                                        <Template>
+                                           <dx:ASPxTextBox ID="flexidTextBox" runat="server" Width="60%" Text='<%# Bind("FlexeraID") %>' />
+                                        </Template>
+                                      </dx:GridViewColumnLayoutItem>                                     
 
                                       <dx:GridViewColumnLayoutItem ColumnName="ListName" Caption="ListName" ColumnSpan="2">
                                         <Template>
                                            <dx:ASPxTextBox ID="colnameTextBox" runat="server" Width="50%" Text='<%# Bind("ListName") %>' />                                             
                                         </Template>
                                       </dx:GridViewColumnLayoutItem>                                     
+
+                                      <dx:GridViewColumnLayoutItem ColumnName="DataSource" Caption="DataSource" ColumnSpan="2">
+                                        <Template>
+                                           <dx:ASPxTextBox ID="listnameTextBox" runat="server" Width="80%" Text='<%# Bind("DataSource") %>' />
+                                        </Template>
+                                      </dx:GridViewColumnLayoutItem>
                                                                         
                                       <dx:GridViewColumnLayoutItem ColumnName="Value" Caption="Value" ColumnSpan="2">
                                         <Template>
                                            <dx:ASPxTextBox ID="valueTextBox" runat="server" Width="480%" Text='<%# Bind("Value") %>' />
+                                        </Template>
+                                      </dx:GridViewColumnLayoutItem>
+                                      
+                                      <dx:GridViewColumnLayoutItem ColumnName="Status" Caption="Status">
+                                        <Template>
+                                           <%--<dx:ASPxTextBox ID="statusTextBox" runat="server" Width="50%" Text='<%# Bind("Status") %>' />--%>
+                                           <dx:ASPxComboBox ID="statusComboBox" DropDownStyle="DropDown" runat="server" Width="50%" Value='<%# Bind("Status") %>'>
+                                              <Items>
+                                                  <dx:ListEditItem Value="0" Text="0-Loaded" />
+                                                  <dx:ListEditItem Value="1" Text="1-Static" />                                                     
+                                                  <dx:ListEditItem Value="2" Text="2-Hidden" />
+                                                  <dx:ListEditItem Value="3" Text="3-Remove" />
+                                               </Items>
+                                           </dx:ASPxComboBox>   
                                         </Template>
                                       </dx:GridViewColumnLayoutItem>
 
@@ -914,7 +1229,7 @@
                       </Styles>
                       <ClientSideEvents Init="OnGridViewValidationListsInit" SelectionChanged="OnGridViewValidationListsSelectionChanged" FocusedRowChanged="OnGridViewValidationListsFocusedRowChanged" 
                         ToolbarItemClick="OnGridViewValidationListsToolbarItemClick" />
-                  </dx:ASPxGridView>
+                   </dx:ASPxGridView>
 
                   </dx:ContentControl>
              </ContentCollection>
@@ -931,16 +1246,16 @@
 --%>
 
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolderPageContent" runat="server">
-
+ 
    <asp:SqlDataSource ID="SqlBlackBoxFiles" runat="server" 
       ConnectionString="<%$ ConnectionStrings:BlackBoxConnectionString %>" 
-      SelectCommand="SELECT TOP(1000) [FID],[JOBID],[GUID],[Name],[Location],[TypeID],[Type],[Group],[Description],[DataSource],[DataSourceInstanceID],[Datasets],[StatusID],[Status],[Validations],[Locked],[UserID],[TimeStamp],[Age],[Rank] FROM [dbo].[vBlackBoxFilesWithValidation] WHERE [Group] = @group ORDER BY [TimeStamp] DESC"
+      SelectCommand="SELECT TOP(1000) [FID],[JOBID],[GUID],[Name],[Location],[TypeID],[Type],[Group],[Description],[DataSource],[DataSourceInstanceID],[Datasets],[StatusID],[Status],[Validations],[Locked],[UserID],[TimeStamp],[Age],[Rank] FROM [dbo].[vBlackBoxFilesWithValidation] WHERE [Group] != 'Templates' AND [UserID] = @userid ORDER BY [TimeStamp] DESC"
       InsertCommand="INSERT INTO [dbo].[BlackBoxFiles] ([JOBID],[GUID],[Name],[Location],[TypeID],[Group],[Description],[DataSource],[DataSourceInstanceID],[Datasets],[StatusID],[Locked],[TimeStamp]) VALUES(@jobid,@guid,@name,@location,@typeid,@group,@description,@datasource,@dsiid,@datasets,@statusid,@locked,@timestamp)"
       UpdateCommand="UPDATE [dbo].[BlackBoxFiles] SET [JOBID]=@jobid,[GUID]=@guid,[Name]=@name,[Location]=@location,[TypeID]=@typeid,[Group]=@group,[Description]=@description,[DataSource]=@datasource,[DataSourceInstanceID]=@dsiid,[Datasets]=@datasets,[StatusID]=@statusid,[Locked]=@locked,[TimeStamp]=@timestamp WHERE [FID] = @fid"
       DeleteCommand="DELETE FROM [dbo].[BlackBoxFiles] WHERE [FID] = @fid">
       <%--OnSelecting="SqlBlackBoxFiles_Selecting">--%>
        <SelectParameters>
-           <asp:QueryStringParameter DefaultValue="Template" Name="group" QueryStringField="Group" />
+           <asp:QueryStringParameter DefaultValue="0" Name="userid" QueryStringField="UserID" Type="Int32" />
        </SelectParameters>
       <InsertParameters>
           <asp:QueryStringParameter Name="jobid" />       
@@ -978,48 +1293,48 @@
       </DeleteParameters>
    </asp:SqlDataSource>
    
-    <asp:SqlDataSource ID="SqlActionHistory" runat="server" 
-      ConnectionString="<%$ ConnectionStrings:BlackBoxConnectionString %>"     
-      SelectCommand="SELECT TOP 1000 [ID],[Object],[RefID],[UserID],[User],[SAMAccountName],[ActorID],[Action],[Message],[TimeStamp] FROM [dbo].[vBlackBoxHistory]"
-      InsertCommand="INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES(@Object,@RefID,@UserID,@ActorID,@Action,@Message,GetDate())"
-      UpdateCommand="UPDATE [dbo].[BlackBoxHistory] SET [Object]=@Object,[RefID]=@RefID,[UserID]=@UserID,[ActorID]=@ActorID,[Action]=@Action,[Message]=@Message,[TimeStamp]=GetDate() WHERE [ID]=@ID"
-      DeleteCommand="DELETE FROM [dbo].[BlackBoxHistory] WHERE [ID] = @ID">
-      <InsertParameters>
-          <asp:FormParameter FormField="Object" Name="Object" />
-          <asp:FormParameter FormField="RefID" Name="RefID" />
-          <asp:FormParameter FormField="UserID" Name="UserID" />
-          <asp:FormParameter FormField="ActorID" Name="ActorID" />
-          <asp:FormParameter FormField="Action" Name="Action" />
-          <asp:FormParameter FormField="Message" Name="Message" />
-      </InsertParameters>
-      <UpdateParameters>
-          <asp:FormParameter FormField="ID" Name="ID" />       
-          <asp:FormParameter FormField="Object" Name="Object" />
-          <asp:FormParameter FormField="RefID" Name="RefID" />
-          <asp:FormParameter FormField="UserID" Name="UserID" />
-          <asp:FormParameter FormField="ActorID" Name="ActorID" />
-          <asp:FormParameter FormField="Action" Name="Action" />
-          <asp:FormParameter FormField="Message" Name="Message" />
-      </UpdateParameters>
-      <DeleteParameters>
-          <asp:QueryStringParameter Name="ID" />
-      </DeleteParameters>
-    </asp:SqlDataSource>
-        
+   <asp:SqlDataSource ID="SqlActionHistory" runat="server" 
+     ConnectionString="<%$ ConnectionStrings:BlackBoxConnectionString %>"     
+     SelectCommand="SELECT TOP 1000 [ID],[Object],[RefID],[UserID],[User],[SAMAccountName],[ActorID],[Action],[Message],[TimeStamp] FROM [dbo].[vBlackBoxHistory]"
+     InsertCommand="INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES(@Object,@RefID,@UserID,@ActorID,@Action,@Message,GetDate())"
+     UpdateCommand="UPDATE [dbo].[BlackBoxHistory] SET [Object]=@Object,[RefID]=@RefID,[UserID]=@UserID,[ActorID]=@ActorID,[Action]=@Action,[Message]=@Message,[TimeStamp]=GetDate() WHERE [ID]=@ID"
+     DeleteCommand="DELETE FROM [dbo].[BlackBoxHistory] WHERE [ID] = @ID">
+     <InsertParameters>
+         <asp:FormParameter FormField="Object" Name="Object" />
+         <asp:FormParameter FormField="RefID" Name="RefID" />
+         <asp:FormParameter FormField="UserID" Name="UserID" />
+         <asp:FormParameter FormField="ActorID" Name="ActorID" />
+         <asp:FormParameter FormField="Action" Name="Action" />
+         <asp:FormParameter FormField="Message" Name="Message" />
+     </InsertParameters>
+     <UpdateParameters>
+         <asp:FormParameter FormField="ID" Name="ID" />       
+         <asp:FormParameter FormField="Object" Name="Object" />
+         <asp:FormParameter FormField="RefID" Name="RefID" />
+         <asp:FormParameter FormField="UserID" Name="UserID" />
+         <asp:FormParameter FormField="ActorID" Name="ActorID" />
+         <asp:FormParameter FormField="Action" Name="Action" />
+         <asp:FormParameter FormField="Message" Name="Message" />
+     </UpdateParameters>
+     <DeleteParameters>
+         <asp:QueryStringParameter Name="ID" />
+     </DeleteParameters>
+   </asp:SqlDataSource>
+       
    <%--
    **** TABBED PAGES
    --%>
 
    <dx:ASPxPageControl ID="mainTabPages" Width="100%" ClientInstanceName="mainTabPages" runat="server" ActiveTabIndex="0" EnableHierarchyRecreation="True" >
        <TabPages>
-        
+                
            <%--
-           **** UPLOADED FILES TABPAGE
+           **** UPLOADS TABPAGE
            --%>
                                                                                                                               
            <dx:TabPage Text="Uploaded Files">
               <ContentCollection>
-                  <dx:ContentControl ID="MainContentControl1" runat="server">    
+                  <dx:ContentControl ID="MainContentControl1" runat="server">
 
                   <table>
                     <tr style="vertical-align: middle">
@@ -1038,6 +1353,7 @@
                         </fieldset>          
                       </td>
                       <td style="width: 50px">&nbsp;
+                         <dx:ASPxCheckBox ID="AutoScheduleCheckBox" runat="server" Text="Auto Schedule" AutoPostBack="False" Width="250" Checked="True" />                        
                       </td>
                    </tr>
                   </table>
@@ -1053,30 +1369,43 @@
                             <SettingsAdaptivity Enabled="true" EnableCollapseRootItemsToIcons="true" />
                             <Items>
                                 <dx:GridViewToolbarItem Command="Refresh" />
-                                <%--
-                                <dx:GridViewToolbarItem Command="New" BeginGroup="true" AdaptivePriority="5" Visible="false"/>
-                                <dx:GridViewToolbarItem Command="Edit" AdaptivePriority="6" Visible="false"/>
-                                <dx:GridViewToolbarItem Command="Delete" AdaptivePriority="7" Visible="false"/>
-                                --%>
-                                  
                                 <dx:GridViewToolbarItem Command="ShowFilterRow" BeginGroup="true" AdaptivePriority="1"/>
-                                <dx:GridViewToolbarItem Command="ShowCustomizationWindow" AdaptivePriority="2"/>
+                                <dx:GridViewToolbarItem Command="ShowCustomizationWindow" AdaptivePriority="2"/>  
 
-                                <dx:GridViewToolbarItem Name="CustomDownloadFile" Text="Download" BeginGroup="true" AdaptivePriority="3" Enabled="false" />
-                                <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="true" AdaptivePriority="4" Enabled="false" />
+                                <dx:GridViewToolbarItem Command="Edit" BeginGroup="true" Visible="false" Enabled="false"/>
+                                <dx:GridViewToolbarItem Command="Delete" Visible="false" Enabled="false"/>
 
-                                <dx:GridViewToolbarItem Name="CustomLoadFileData" Text="Load" BeginGroup="true" AdaptivePriority="5" Enabled="false" />
+                                <dx:GridViewToolbarItem Text="Files" BeginGroup="true" AdaptivePriority="3">
+                                    <Items>
+                                        <dx:GridViewToolbarItem Name="CustomFileFolder" Text="Job Files" BeginGroup="true" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomDataFolder" Text="Data Files" BeginGroup="true" Enabled="false" />
+                                    </Items>
+                                </dx:GridViewToolbarItem>
 
-                                 <dx:GridViewToolbarItem Text="Validate" BeginGroup="true" AdaptivePriority="6">
-                                     <Items>
-                                         <dx:GridViewToolbarItem Name="CustomValidateLoadedData" Text="Validate" BeginGroup="true" AdaptivePriority="6" Enabled="false" />
-                                         <dx:GridViewToolbarItem Name="CustomShowValidation" Text="Show Results..." BeginGroup="false" Enabled="false" />
-                                     </Items>
-                                 </dx:GridViewToolbarItem>  
+                                <dx:GridViewToolbarItem Name="CustomDownloadFile" Text="Download" BeginGroup="true" AdaptivePriority="4" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="true" AdaptivePriority="5" Enabled="false" />                   
 
-                                <dx:GridViewToolbarItem Name="CustomStageLoadedData" Text="Publish" BeginGroup="true" AdaptivePriority="7" Enabled="false" />
+                                <dx:GridViewToolbarItem Text="Steps" BeginGroup="true" AdaptivePriority="6">
+                                    <Items>
+                                        <dx:GridViewToolbarItem Name="CustomRegisterStep" Text="Register" BeginGroup="true" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomLoadStep" Text="Load" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomRecallStep" Text="Recall" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomStageStep" Text="Stage" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomRejectStep" Text="Reject" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomDeleteStep" Text="Delete" BeginGroup="true" Enabled="false" />                                          
+                                    </Items>
+                                </dx:GridViewToolbarItem>
+                                  
 
-                                <dx:GridViewToolbarItem Name="CustomArchiveStaged" Text="Archive" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomScheduleStep" Text="Schedule" BeginGroup="true" AdaptivePriority="7" Enabled="false" />
+                                                                   
+                                <dx:GridViewToolbarItem Name="CustomValidateStep" Text="Validate" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
+                   
+                                <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="9" Enabled="false" />
+                                   
+                                <dx:GridViewToolbarItem Name="CustomWithdrawStep" Text="Withdraw" BeginGroup="true" AdaptivePriority="10" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomArchiveStep" Text="Archive" BeginGroup="true" AdaptivePriority="11" Enabled="false" />
                             </Items>
                         </dx:GridViewToolbar>
                     </Toolbars>                     
@@ -1092,13 +1421,13 @@
                           <dx:GridViewDataTextColumn FieldName="Location" VisibleIndex="5" Width="420px" Visible="false" />
                           <dx:GridViewDataTextColumn FieldName="TypeID" VisibleIndex="6" Width="80px" Visible="false" />
                           <dx:GridViewDataTextColumn FieldName="Type" VisibleIndex="7" Width="90px" Visible="false" />
-                          <dx:GridViewDataTextColumn FieldName="Group" VisibleIndex="8" Width="150px" Visible="false" />                           
-                          <dx:GridViewDataTextColumn FieldName="Description" VisibleIndex="9" Width="230px" Visible="false" />
-                          <dx:GridViewDataTextColumn FieldName="DataSource" VisibleIndex="10" Width="200px" Visible="true" />
+                          <dx:GridViewDataTextColumn FieldName="Group" VisibleIndex="8" Width="120px" Visible="true" />                           
+                          <dx:GridViewDataTextColumn FieldName="Description" VisibleIndex="9" Width="330px" Visible="false" />
+                          <dx:GridViewDataTextColumn FieldName="DataSource" VisibleIndex="10" Width="140px" Visible="true" />
                           <dx:GridViewDataTextColumn FieldName="DataSourceInstanceID" Caption="DSIID" VisibleIndex="11" Width="90px" Visible="true" />
                           <dx:GridViewDataTextColumn FieldName="Datasets" VisibleIndex="12" Width="300px" Visible="false" />                            
                           <dx:GridViewDataTextColumn FieldName="StatusID" VisibleIndex="13" Width="80px" Visible="false" />
-                          <dx:GridViewDataTextColumn FieldName="Validations" VisibleIndex="14" Width="160px" Visible="true" />
+                          <dx:GridViewDataTextColumn FieldName="Validations" VisibleIndex="14" Width="140px" Visible="true" />
                           <dx:GridViewDataTextColumn FieldName="Status" VisibleIndex="15" Width="120px" Visible="true" />
                           <dx:GridViewDataTextColumn FieldName="Locked" VisibleIndex="16" Width="90px" Visible="false" />
                           <dx:GridViewDataTextColumn FieldName="UserID" VisibleIndex="17" Width="80px" Visible="true" />                            
@@ -1269,7 +1598,7 @@
 
                   </dx:ContentControl>
              </ContentCollection>                                    
-           </dx:TabPage>
+           </dx:TabPage>       
         
            <%--
            **** PROCESSING HISTORY TABPAGE
@@ -1422,7 +1751,7 @@
                   </dx:ContentControl>
              </ContentCollection>                                    
            </dx:TabPage>
-          
+           
        </TabPages>
        <ClientSideEvents Init="OnPageControlInit" />
    </dx:ASPxPageControl>
@@ -1430,6 +1759,44 @@
    <%--
    **** POPUP PANEL
    --%>
+
+   <dx:ASPxPopupControl ID="pcBlock" runat="server" Width="500" ClientInstanceName="pcBlock" HeaderText="Access Rights Check"
+       CloseAction="CloseButton" CloseOnEscape="true" Modal="True" EnableViewState="False" AllowDragging="True"
+       PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" PopupAnimationType="Fade"
+       PopupHorizontalOffset="40" PopupVerticalOffset="40" AutoUpdatePosition="true">
+       <ClientSideEvents PopUp="function(s, e) { }" CloseButtonClick="function(s, e) { window.location.reload(); }" />
+       <SizeGripImage Width="11px" />
+       <ContentCollection>
+           <dx:PopupControlContentControl runat="server">
+               <dx:ASPxPanel ID="BlockPanel" runat="server" DefaultButton="btBlockConfirm">
+                   <PanelCollection>
+                       <dx:PanelContent runat="server">
+                           <dx:ASPxFormLayout runat="server" ID="BlockFormLayout" Width="100%" Height="100%">
+                               <Items>
+                                   <dx:LayoutItem Caption="BlackBox">
+                                       <LayoutItemNestedControlCollection>
+                                           <dx:LayoutItemNestedControlContainer>
+                                               <dx:ASPxMemo ID="tbReason" runat="server" Width="350px" Height="100px" MaxLength="200" ReadOnly="True" ClientInstanceName="tbReason"/>
+                                           </dx:LayoutItemNestedControlContainer>
+                                       </LayoutItemNestedControlCollection>
+                                   </dx:LayoutItem>
+                                   <dx:LayoutItem ShowCaption="False">
+                                       <LayoutItemNestedControlCollection>
+                                           <dx:LayoutItemNestedControlContainer>
+                                               <dx:ASPxButton ID="btBlockConfirm" runat="server" Text="OK" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
+                                                   <ClientSideEvents Click="function(s, e) { pcBlock.Hide(); window.open('../default.aspx','_self'); }" />
+                                               </dx:ASPxButton>
+                                           </dx:LayoutItemNestedControlContainer>
+                                       </LayoutItemNestedControlCollection>
+                                   </dx:LayoutItem>
+                               </Items>
+                           </dx:ASPxFormLayout>
+                       </dx:PanelContent>
+                   </PanelCollection>
+               </dx:ASPxPanel>
+           </dx:PopupControlContentControl>
+       </ContentCollection>
+   </dx:ASPxPopupControl>  
 
    <dx:ASPxPopupControl ID="pcMsg" runat="server" Width="500" CloseAction="CloseButton" CloseOnEscape="true"
        PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ClientInstanceName="pcMsg"
@@ -1545,6 +1912,92 @@
    <%--
    **** CONTENT DATA SOURCES
    --%>
+ 
+
+   
+   <asp:SqlDataSource ID="SqlSysContacts" runat="server" 
+       ConnectionString="<%$ ConnectionStrings:BlackBoxConnectionString %>" 
+    
+       SelectCommand="SELECT [ID],[Cohort],[UID],[FullName],[FirstName],[LastName],[AddressBook],[Domain],[SAMAccountName],[Email],[PhotoFileName],[Country],[City],
+                        [Address],[Phone],[Birthday],[Site],[Business],[Job],[Memberships],[Guest],[Operator],[Manager],[Administrator],[Password],[Credits],
+                        [Status],[UpdatedBy],[Updated] FROM [dbo].[sysContacts] ORDER BY [Updated] DESC"
        
+       InsertCommand="INSERT INTO [dbo].[sysContacts] ([Cohort],[UID],[FullName],[FirstName],[LastName],[AddressBook],[Domain],[SAMAccountName],[Email],[PhotoFileName],
+                         [Country],[City],[Address],[Phone],[Birthday],[Site],[Business],[Job],[Memberships],[Guest],[Operator],[Manager],[Administrator],
+                         [Password],[Credits],[Status],[UpdatedBy],[Updated])
+                      VALUES(@cohort,CONVERT(nvarchar(36),NEWID()),@full,@first,@last,@book,@domain,@sam,@email,@photo,@country,@city,@address,@phone,@birthday,@site,@business,@job,@memberships,
+                         @guest,@sa,@am,@admin,@password,@credits,@status,@updatedby,GetDate())"
        
+       UpdateCommand="UPDATE [dbo].[sysContacts] SET [Cohort]=@cohort,[UID]=@uid,[FullName]=@full,[FirstName]=@first,[LastName]=@last,[AddressBook]=@book,[Domain]=@domain,[SAMAccountName]=@sam
+                         ,[Email]=@email,[PhotoFileName]=@photo,[Country]=@country,[City]=@city,[Address]=@address,[Phone]=@phone,[Birthday]=@birthday,[Site]=@site,[Business]=@business
+                         ,[Job]=@job,[Memberships]=@memberships,[Guest]=@guest,[Operator]=@sa,[Manager]=@am,[Administrator]=@admin
+                         ,[Password]=@password,[Credits]=@credits,[Status]=@status,[UpdatedBy]=@updatedby,[Updated]=GetDate() WHERE [ID] = @id"
+       
+       DeleteCommand="DELETE FROM [dbo].[sysContacts] WHERE [ID] = @id">
+       <InsertParameters>
+           <asp:QueryStringParameter Name="cohort" />
+           <asp:QueryStringParameter Name="uid" />
+           <asp:QueryStringParameter Name="full" />             
+           <asp:QueryStringParameter Name="first" />
+           <asp:QueryStringParameter Name="last" />
+           <asp:QueryStringParameter Name="book" />
+           <asp:QueryStringParameter Name="domain" />
+           <asp:QueryStringParameter Name="sam" />
+           <asp:QueryStringParameter Name="email" />
+           <asp:QueryStringParameter Name="photo" />
+           <asp:QueryStringParameter Name="country" />
+           <asp:QueryStringParameter Name="city" />
+           <asp:QueryStringParameter Name="address" />
+           <asp:QueryStringParameter Name="phone" />
+           <asp:QueryStringParameter Name="birthday" />
+           <asp:QueryStringParameter Name="site" />
+           <asp:QueryStringParameter Name="business" />
+           <asp:QueryStringParameter Name="job" />
+           <asp:QueryStringParameter Name="memberships" />
+           <asp:QueryStringParameter Name="guest" />
+           <asp:QueryStringParameter Name="sa" />
+           <asp:QueryStringParameter Name="am" />
+           <asp:QueryStringParameter Name="admin" />
+           <asp:QueryStringParameter Name="password" />
+           <asp:QueryStringParameter Name="credits" />
+           <asp:QueryStringParameter Name="status" />
+           <asp:QueryStringParameter Name="updatedby" />
+       </InsertParameters>
+       <UpdateParameters>
+           <asp:QueryStringParameter Name="id" />         
+           <asp:QueryStringParameter Name="cohort" />
+           <asp:QueryStringParameter Name="uid" />
+           <asp:QueryStringParameter Name="full" />             
+           <asp:QueryStringParameter Name="first" />
+           <asp:QueryStringParameter Name="last" />
+           <asp:QueryStringParameter Name="book" />
+           <asp:QueryStringParameter Name="domain" />
+           <asp:QueryStringParameter Name="sam" />
+           <asp:QueryStringParameter Name="email" />
+           <asp:QueryStringParameter Name="photo" />
+           <asp:QueryStringParameter Name="country" />
+           <asp:QueryStringParameter Name="city" />
+           <asp:QueryStringParameter Name="address" />
+           <asp:QueryStringParameter Name="phone" />
+           <asp:QueryStringParameter Name="birthday" />
+           <asp:QueryStringParameter Name="site" />
+           <asp:QueryStringParameter Name="business" />
+           <asp:QueryStringParameter Name="job" />
+           <asp:QueryStringParameter Name="memberships" />
+           <asp:QueryStringParameter Name="guest" />
+           <asp:QueryStringParameter Name="sa" />
+           <asp:QueryStringParameter Name="am" />
+           <asp:QueryStringParameter Name="admin" />
+           <asp:QueryStringParameter Name="password" />
+           <asp:QueryStringParameter Name="credits" />
+           <asp:QueryStringParameter Name="status" />
+           <asp:QueryStringParameter Name="updatedby" />
+       </UpdateParameters>
+
+       <DeleteParameters>
+           <asp:QueryStringParameter Name="id" />
+       </DeleteParameters>
+   </asp:SqlDataSource>
+
+
 </asp:Content>

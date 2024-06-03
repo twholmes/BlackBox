@@ -151,7 +151,7 @@ function Get-RegKeyValue([string]$regPath, [string]$regName)
   $value = ""
   try 
   {
-    $value = Get-ItemPropertyValue -Path $regPath -Name $regName -ErrorAction Stop
+    $value = Get-ItemPropertyValue -Path $regPath -Name $regName
     #Write-Host "Registry key found"
     #Write-Host "  key=$regPath"
     #Write-Host "  entry=$regName"
@@ -181,7 +181,7 @@ function Remove-RegKey([string]$regPath, [string]$regName)
   try 
   {
     # delete this registry key in path
-    if (Get-ItemProperty -Path $regPath -Name $regName -ErrorAction Stop) 
+    if (Get-ItemProperty -Path $regPath -Name $regName) 
     {
       Remove-ItemProperty -Path $regPath -Name $regName -ErrorAction Stop
       Write-Host "Registry key $regPath $regName deleted"    
