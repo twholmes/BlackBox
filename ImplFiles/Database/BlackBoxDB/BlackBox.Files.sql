@@ -42,10 +42,10 @@ INSERT INTO [dbo].[BlackBoxFileStatus] ([StatusID],[Status])
 VALUES (1, 'filed')
 
 INSERT INTO [dbo].[BlackBoxFileStatus] ([StatusID],[Status])
-VALUES (2, 'pending')
+VALUES (2, 'loaded')
 
 INSERT INTO [dbo].[BlackBoxFileStatus] ([StatusID],[Status])
-VALUES (3, 'loaded')
+VALUES (3, 'pending')
 
 INSERT INTO [dbo].[BlackBoxFileStatus] ([StatusID],[Status])
 VALUES (4, 'validated')
@@ -156,8 +156,8 @@ CREATE VIEW [dbo].[vBlackBoxFiles] AS
        when uf.[StatusID] is null then ''       
        when uf.[StatusID] = 0 then 'null'
        when uf.[StatusID] = 1 then 'filed'
-       when uf.[StatusID] = 2 then 'pending'       
-       when uf.[StatusID] = 3 then 'loaded'
+       when uf.[StatusID] = 2 then 'loaded'
+       when uf.[StatusID] = 3 then 'pending'
        when uf.[StatusID] = 4 then 'validated'       
        when uf.[StatusID] = 5 then 'staged'
        when uf.[StatusID] = 6 then 'processing'
