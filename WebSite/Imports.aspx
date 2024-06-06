@@ -2,10 +2,6 @@
 
 <%@ Register assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
 
-<%@ Register assembly="DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
-<%@ Register assembly="DevExpress.XtraCharts.v22.2.Web, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.XtraCharts.Web" tagprefix="dx" %>
-<%@ Register assembly="DevExpress.XtraCharts.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.XtraCharts" tagprefix="dx" %>
-
 <%--
 **** HEADER CONTENT
 --%>
@@ -16,7 +12,7 @@
   // ///////////////////////
   // page functions
   // ///////////////////////
-  
+
   // main page control
   function OnPageControlInit(s, e) 
   { 
@@ -130,12 +126,16 @@
           gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues1);     
           break;
 
-       case "CustomFileFolder":
+       case "CustomDataFolder":
           gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues2);
           break;
 
-       case "CustomDataFolder":
+       case "CustomFileFolder":
           gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues3);
+          break;
+
+       case "CustomEditFile":
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues4);
           break;
 
        case "CustomArchiveStep":
@@ -162,6 +162,11 @@
     openUrlWithParamFromPage("JobFiles.aspx", "fid", fid, true);
   }
 
+  function OnGetUploadedFilesFocusedRowValues4(fid)
+  {
+    openUrlWithParamFromPage("Editor.aspx", "fid", fid, true);
+  }
+  
   // ///////////////////////
   // data source functions
   // ///////////////////////
@@ -320,7 +325,11 @@
           break;
                 
       case "CustomOpenFile":      
-          //openUrlWithParamFromPage("../Spreadsheet.aspx", true);
+          //openUrlWithParamFromPage("~/Spreadsheet.aspx", true);
+          isCustom = false;
+          break;
+                
+      case "CustomEditFile":
           isCustom = false;
           break;
 
@@ -1353,7 +1362,7 @@
                         </fieldset>          
                       </td>
                       <td style="width: 50px">&nbsp;
-                         <dx:ASPxCheckBox ID="AutoScheduleCheckBox" runat="server" Text="Auto Schedule" AutoPostBack="False" Width="250" Checked="True" />                        
+                         <dx:ASPxCheckBox ID="AutoScheduleCheckBox" runat="server" Text="Auto Publish" AutoPostBack="False" Width="250" Checked="True" />                        
                       </td>
                    </tr>
                   </table>
@@ -1372,40 +1381,34 @@
                                 <dx:GridViewToolbarItem Command="ShowFilterRow" BeginGroup="true" AdaptivePriority="1"/>
                                 <dx:GridViewToolbarItem Command="ShowCustomizationWindow" AdaptivePriority="2"/>  
 
-                                <dx:GridViewToolbarItem Command="Edit" BeginGroup="true" Visible="false" Enabled="false"/>
-                                <dx:GridViewToolbarItem Command="Delete" Visible="false" Enabled="false"/>
-
                                 <dx:GridViewToolbarItem Text="Files" BeginGroup="true" AdaptivePriority="3">
                                     <Items>
+                                        <dx:GridViewToolbarItem Name="CustomDownloadFile" Text="Download" BeginGroup="true" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomFileFolder" Text="Job Files" BeginGroup="true" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomDataFolder" Text="Data Files" BeginGroup="true" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomDataFolder" Text="Data Files" BeginGroup="false" Enabled="false" />
+                                        <%--<dx:GridViewToolbarItem Name="CustomEditFile" Text="Edit" BeginGroup="true" Enabled="false" />--%>
                                     </Items>
                                 </dx:GridViewToolbarItem>
-
-                                <dx:GridViewToolbarItem Name="CustomDownloadFile" Text="Download" BeginGroup="true" AdaptivePriority="4" Enabled="false" />
-                                <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="true" AdaptivePriority="5" Enabled="false" />                   
 
                                 <dx:GridViewToolbarItem Text="Steps" BeginGroup="true" AdaptivePriority="6">
                                     <Items>
                                         <dx:GridViewToolbarItem Name="CustomRegisterStep" Text="Register" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomLoadStep" Text="Load" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomScheduleStep" Text="Schedule" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomRecallStep" Text="Recall" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomValidateStep" Text="Validate" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomStageStep" Text="Stage" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomRejectStep" Text="Reject" BeginGroup="false" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="false" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomDeleteStep" Text="Delete" BeginGroup="true" Enabled="false" />                                          
                                     </Items>
                                 </dx:GridViewToolbarItem>
-                                  
-
-                                <dx:GridViewToolbarItem Name="CustomScheduleStep" Text="Schedule" BeginGroup="true" AdaptivePriority="7" Enabled="false" />
-                                                                   
-                                <dx:GridViewToolbarItem Name="CustomValidateStep" Text="Validate" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
                    
-                                <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="9" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="7" Enabled="false" />
                                    
-                                <dx:GridViewToolbarItem Name="CustomWithdrawStep" Text="Withdraw" BeginGroup="true" AdaptivePriority="10" Enabled="false" />
-                                <dx:GridViewToolbarItem Name="CustomArchiveStep" Text="Archive" BeginGroup="true" AdaptivePriority="11" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomWithdrawStep" Text="Withdraw" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomArchiveStep" Text="Archive" BeginGroup="true" AdaptivePriority="9" Enabled="false" />
                             </Items>
                         </dx:GridViewToolbar>
                     </Toolbars>                     
