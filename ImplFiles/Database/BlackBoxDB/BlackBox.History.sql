@@ -29,7 +29,6 @@ CREATE TABLE [dbo].[BlackBoxHistory]
   [Object] [nvarchar](64),
   [RefID] int NULL,
   [UserID] int,
-  [ActorID] int,  
   [Action] [nvarchar](256),  
   [Message] [nvarchar](2048),  
   [TimeStamp] datetime
@@ -57,7 +56,6 @@ CREATE VIEW [dbo].[vBlackBoxHistory] AS
     ,h.[Object]
     ,h.[RefID]
     ,h.[UserID]
-    ,h.[ActorID]    
     ,COALESCE(c.[FirstName],' ',c.[LastName]) AS [User]
     ,c.[SAMAccountName]
     ,h.[Action]

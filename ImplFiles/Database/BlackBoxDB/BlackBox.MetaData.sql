@@ -29,7 +29,6 @@ CREATE TABLE [dbo].[BlackBoxMetaData]
   [Object] [nvarchar](64) NOT NULL,
   [RefID] int NULL,
   [UserID] int,
-  [ActorID] int,  
   [Item] [nvarchar](256) NOT NULL,  
   [Value] [nvarchar](2048),  
   [TimeStamp] datetime

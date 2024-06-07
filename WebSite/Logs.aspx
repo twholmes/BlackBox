@@ -279,15 +279,14 @@
   
     <asp:SqlDataSource ID="SqlActionHistory" runat="server" 
       ConnectionString="<%$ ConnectionStrings:BlackBoxConnectionString %>"     
-      SelectCommand="SELECT TOP 1000 [ID],[Object],[RefID],[UserID],[User],[ActorID],[Action],[Message],[TimeStamp] FROM [dbo].[vBlackBoxHistory]"
-      InsertCommand="INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES(@Object,@RefID,@UserID,@ActorID,@Action,@Message,GetDate())"
-      UpdateCommand="UPDATE [dbo].[BlackBoxHistory] SET [Object]=@Object,[RefID]=@RefID,[UserID]=@UserID,[ActorID]=@ActorID,[Action]=@Action,[Message]=@Message,[TimeStamp]=GetDate() WHERE [ID]=@ID"
+      SelectCommand="SELECT TOP 1000 [ID],[Object],[RefID],[UserID],[User],[Action],[Message],[TimeStamp] FROM [dbo].[vBlackBoxHistory]"
+      InsertCommand="INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES(@Object,@RefID,@UserID,@Action,@Message,GetDate())"
+      UpdateCommand="UPDATE [dbo].[BlackBoxHistory] SET [Object]=@Object,[RefID]=@RefID,[UserID]=@UserID,[Action]=@Action,[Message]=@Message,[TimeStamp]=GetDate() WHERE [ID]=@ID"
       DeleteCommand="DELETE FROM [dbo].[BlackBoxHistory] WHERE [ID] = @ID">
       <InsertParameters>
           <asp:FormParameter FormField="Object" Name="Object" />
           <asp:FormParameter FormField="RefID" Name="RefID" />
           <asp:FormParameter FormField="UserID" Name="UserID" />
-          <asp:FormParameter FormField="ActorID" Name="ActorID" />
           <asp:FormParameter FormField="Action" Name="Action" />
           <asp:FormParameter FormField="Message" Name="Message" />
       </InsertParameters>
@@ -296,7 +295,6 @@
           <asp:FormParameter FormField="Object" Name="Object" />
           <asp:FormParameter FormField="RefID" Name="RefID" />
           <asp:FormParameter FormField="UserID" Name="UserID" />
-          <asp:FormParameter FormField="ActorID" Name="ActorID" />
           <asp:FormParameter FormField="Action" Name="Action" />
           <asp:FormParameter FormField="Message" Name="Message" />
       </UpdateParameters>
@@ -368,7 +366,6 @@
                       <dx:GridViewDataTextColumn FieldName="RefID" Caption="RefID" VisibleIndex="3" Width="60px" Visible="true" />
                       <dx:GridViewDataTextColumn FieldName="UserID" Caption="UserID" VisibleIndex="4" Width="60px" Visible="true" />
                       <dx:GridViewDataTextColumn FieldName="User" Caption="User" VisibleIndex="5" Width="120px" Visible="true" />
-                      <dx:GridViewDataTextColumn FieldName="ActorID" Caption="ActorID" VisibleIndex="6" Width="70px" Visible="true" />
                       <dx:GridViewDataTextColumn FieldName="Action" Caption="Action" VisibleIndex="7" Width="120px" Visible="true" />
                       <dx:GridViewDataTextColumn FieldName="Message" Caption="Message" VisibleIndex="8" Width="600px" Visible="true" />
                       <dx:GridViewDataTextColumn FieldName="TimeStamp" Caption="TimeStamp" VisibleIndex="9" Width="180px" Visible="true" />                           
@@ -421,12 +418,6 @@
                                   <dx:GridViewColumnLayoutItem ColumnName="UserID" Caption="UserID" ColumnSpan="1">
                                     <Template>
                                        <dx:ASPxTextBox ID="useridTextBox" runat="server" Width="60%" Text='<%# Bind("UserID") %>' />
-                                    </Template>
-                                  </dx:GridViewColumnLayoutItem>
-
-                                  <dx:GridViewColumnLayoutItem ColumnName="ActorID" Caption="ActorID" ColumnSpan="1">
-                                    <Template>
-                                       <dx:ASPxTextBox ID="actoridTextBox" runat="server" Width="60%" Text='<%# Bind("ActorID") %>' />
                                     </Template>
                                   </dx:GridViewColumnLayoutItem>
 

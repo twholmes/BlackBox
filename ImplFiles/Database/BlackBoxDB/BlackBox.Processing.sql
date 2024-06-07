@@ -231,7 +231,7 @@ AS
   /***
   **** DECLARE @Message [nvarchar](1024)
   **** SET @Message = 'DataSourceInstance status update: Action=' + @Action + ', DataSourceInstanceID=' + convert(nvarchar(5),@DataSourceInstanceID
-  **** INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES('DataSourceInstance', @DataSourceInstanceID, @UserID, @ActorID, @Action, @Message, GetDate())
+  **** INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES('DataSourceInstance', @DataSourceInstanceID, @UserID, @Action, @Message, GetDate())
   ***/
 GO
 
@@ -387,8 +387,7 @@ CREATE PROCEDURE [dbo].[PostHistory]
   @DSIID int,  
   @Action [nvarchar](20),  
   @Msg [nvarchar](2048),
-  @UserID [int] = 99,
-  @ActorID [int] = 99  
+  @UserID [int] = 99
 AS
   PRINT 'Post to history for FID=' + convert(nvarchar(5), @FID) + ' and DSIID=' + convert(nvarchar(5), @DSIID)
 
@@ -400,8 +399,8 @@ AS
   DECLARE @InsertedID int  
   IF @DSIID IS NOT NULL AND @DSIID > 0
   BEGIN 
-    INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) OUTPUT Inserted.ID 
-    VALUES(@Object,@DSIID,@UserID,@ActorID,@Action,@Msg,GetDate())
+    INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) OUTPUT Inserted.ID 
+    VALUES(@Object,@DSIID,@UserID,@Action,@Msg,GetDate())
     SET @InsertedID = SCOPE_IDENTITY()
   END
   
@@ -531,8 +530,7 @@ CREATE PROCEDURE [dbo].[UpdateFileStatus]
   @FileID [int],
   @StatusID [int],
   @Action [nvarchar](20) = 'unknown',
-  @UserID [int] = 99,
-  @ActorID [int] = 99
+  @UserID [int] = 99
 AS
   PRINT 'Updating status (' + convert(nvarchar(2), @StatusID) + ') for fid=' + convert(nvarchar(5), @FileID)
 
@@ -547,7 +545,7 @@ AS
   DECLARE @Message [nvarchar](1024)
   SET @Message = 'File status updated to sid=' + convert(nvarchar(2),@StatusID) + ' after action=' + @Action  
 
-  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES('File', @DataSourceInstanceID, @UserID, @ActorID, @Action, @Message, GetDate())
+  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES('File', @DataSourceInstanceID, @UserID, @Action, @Message, GetDate())
 
 GO
 
@@ -560,8 +558,7 @@ CREATE PROCEDURE [dbo].[UpdateDataSourceStatus]
   @DataSourceInstanceID [int],
   @StatusID [int],
   @Action [nvarchar](20) = 'unknown',
-  @UserID [int] = 99,
-  @ActorID [int] = 99
+  @UserID [int] = 99
 AS
   PRINT 'Updating status (' + convert(nvarchar(2), @StatusID) + ') for dsiid=' + convert(nvarchar(5), @DataSourceInstanceID)
 
@@ -575,7 +572,7 @@ AS
   DECLARE @Message [nvarchar](1024)
   SET @Message = 'DataSourceInstance status updated to sid=' + convert(nvarchar(2),@StatusID) + ' after action=' + @Action
 
-  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES('DataSource', @FileID, @UserID, @ActorID, @Action, @Message, GetDate())
+  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES('DataSource', @FileID, @UserID, @Action, @Message, GetDate())
 
 GO
 
@@ -886,8 +883,7 @@ GO
 CREATE PROCEDURE [dbo].[RemoveRecordsByFileID]
   @FileID [int],
   @Action [nvarchar](20) = 'archive',  
-  @UserID [int] = 99,
-  @ActorID [int] = 99
+  @UserID [int] = 99
 AS
   PRINT 'Removing records for fid=' + convert(nvarchar(5), @FileID)
 
@@ -908,7 +904,7 @@ AS
   DECLARE @Message [nvarchar](1024)
   SET @Message = 'Removed records for File=' + convert(nvarchar(5),@FileID) + ' and DSIID=' + convert(nvarchar(5),@DataSourceInstanceID)
 
-  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES('File', @DataSourceInstanceID, @UserID, @ActorID, @Action, @Message, GetDate())
+  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES('File', @DataSourceInstanceID, @UserID, @Action, @Message, GetDate())
 
 GO
 
@@ -920,8 +916,7 @@ GO
 CREATE PROCEDURE [dbo].[RemoveRecordsByDataSourceID]
   @DataSourceInstanceID [int],
   @Action [nvarchar](20) = 'archive',  
-  @UserID [int] = 99,
-  @ActorID [int] = 99
+  @UserID [int] = 99
 AS
   PRINT 'Removing records for dsiid=' + convert(nvarchar(5), @DataSourceInstanceID)
 
@@ -942,7 +937,7 @@ AS
   DECLARE @Message [nvarchar](1024)
   SET @Message = 'Removed records for File=' + convert(nvarchar(5),@FileID) + ' and DSIID=' + convert(nvarchar(5),@DataSourceInstanceID)
 
-  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[ActorID],[Action],[Message],[TimeStamp]) VALUES('File', @DataSourceInstanceID, @UserID, @ActorID, @Action, @Message, GetDate())
+  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES('File', @DataSourceInstanceID, @UserID, @Action, @Message, GetDate())
 
 GO
 
