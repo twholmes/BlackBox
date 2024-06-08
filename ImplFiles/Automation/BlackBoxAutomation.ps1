@@ -38,3 +38,52 @@ function CompleteUploadJob
 	return $true
 }
 
+
+###########################################################################
+# Execute a SOAP request
+
+function Execute-SOAPRequest([String]$action, [String]$fid) 
+{ 
+  # http://localhost/BlackBoxDev/BlackBoxAPIService.asmx?op=ValidateDataFileByID
+
+  #based on the WSDL, create the request
+  $body = '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Body>
+    <LoadDataFileByID xmlns="http://tempuri.org/">
+      <fid>{1}</fid>
+      <userid>0</userid>
+    </LoadDataFileByID>
+  </soap12:Body>
+</soap12:Envelope>
+' -f $action, $fid
+
+	$LogsPath = GetConfigValue "LogDir"
+	$OutputPath = Join-Path $LogsPath "soapResult.xml"
+
+  #make the web request and save the result to an XML file
+  (Invoke-WebRequest -UseBasicParsing -UseDefaultCredentials -method Post -Body $body `
+     -uri 'http://localhost/BlackBoxDev/BlackBoxAPIService.asmx' `
+     -ContentType "text/xml").content | Out-File -FilePath $OutputPath -Force
+
+  #load the file into an XMLDocument object
+  $xmlResult = New-Object System.Xml.XmlDocument
+  $fn = Resolve-Path($OutputPath)
+  $xmlResult.Load($fn)
+
+}
+
+
+###########################################################################
+# Run the BlackBox Validate action
+
+function DoBlackBoxValidateAction
+{ 
+  ## *************************
+  ## EXECUTE SOAP REQUEST
+  ## *************************
+  
+  Log "Executing BlackBox SOAP Request: ValidateDataFileByID(1001)"
+  Execute-SOAPRequest "ValidateDataFileByID" "1001"
+
+	return $true
+}
