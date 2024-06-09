@@ -40,6 +40,22 @@ function CompleteUploadJob
 
 
 ###########################################################################
+# Format XML output
+
+function Format-XML 
+{
+  [CmdletBinding()]
+  Param ([Parameter(ValueFromPipeline=$true,Mandatory=$true)][string]$xmlcontent)
+  $xmldoc = New-Object -TypeName System.Xml.XmlDocument
+  $xmldoc.LoadXml($xmlcontent)
+  $sw = New-Object System.IO.StringWriter
+  $writer = New-Object System.Xml.XmlTextwriter($sw)
+  $writer.Formatting = [System.XML.Formatting]::Indented
+  $xmldoc.WriteContentTo($writer)
+  $sw.ToString()
+}
+
+###########################################################################
 # Execute a SOAP request
 
 function Execute-SOAPRequest([String]$action, [String]$fid) 
@@ -63,12 +79,13 @@ function Execute-SOAPRequest([String]$action, [String]$fid)
   #make the web request and save the result to an XML file
   (Invoke-WebRequest -UseBasicParsing -UseDefaultCredentials -method Post -Body $body `
      -uri 'http://localhost/BlackBoxDev/BlackBoxAPIService.asmx' `
-     -ContentType "text/xml").content | Out-File -FilePath $OutputPath -Force
+     -ContentType "text/xml").content | Format-XML | Out-File -FilePath $OutputPath -Force
 
   #load the file into an XMLDocument object
-  $xmlResult = New-Object System.Xml.XmlDocument
-  $fn = Resolve-Path($OutputPath)
-  $xmlResult.Load($fn)
+  $xmlResult = [xml](Get-Content $OutputPath)  
+
+  $result = $xmlResult.envelope.body.LoadDataFileByIDResponse.LoadDataFileByIDResult
+  Log ("{0} >> {1}" -f $action, $result)
 
 }
 
