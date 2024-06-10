@@ -335,7 +335,7 @@
 
       case "CustomScheduleStep":
       case "CustomRecallStep":
-          isCustom = false;
+          isCustom = true;
           break;
 
       case "CustomRegisterStep":

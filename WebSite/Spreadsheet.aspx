@@ -15,7 +15,7 @@
   <meta charset="UTF-8" />
   <title></title>
   <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
-  <meta http-equiv='refresh' content='14400;url=timeout.aspx' />     
+  <meta http-equiv='refresh' content='14400;url=~/timeout.aspx' />     
   <link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Resources/Style/Content.css") %>' />
   <link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Resources/Style/Root.css") %>' />
    
@@ -57,7 +57,7 @@
           tbAlertMessage.SetText("This function is currently not available");        
           pcAlert.Show();
           btConfirm.Focus();
-          //openURL("./Support/Help.aspx", false);
+          //openURL("~/Help.aspx", false);
           break;
              
       case "MainMenuNewTab":
@@ -227,72 +227,6 @@
               <ClientSideEvents ItemClick="OnMenuItemClick" /> 
           </dx:ASPxMenu>
         
-          <%-- this is an user level menu --%>
-          <dx:ASPxMenu ID="ASPxMenuITAM" runat="server" ClientInstanceName="itamMenu" Orientation="Vertical" 
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
-              <Items> 
-                  <dx:MenuItem Name="MainMenuAssets" NavigateUrl="~/Imports/AssetUploads.aspx?group=ITAM&source=Assets" Text="Assets">
-                      <Image IconID="businessobjects_bo_order_svg_white_32x32" />
-                  </dx:MenuItem>
-                  <dx:MenuItem Name="MainMenuPurchases" NavigateUrl="~/Imports/PurchaseUploads.aspx?group=ITAM&source=Purchases" Text="Purchases">
-                      <Image IconID="businessobjects_bo_price_svg_white_32x32" />
-                  </dx:MenuItem>
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-          </dx:ASPxMenu>
-        
-          <%-- this is an user level menu --%>
-          <dx:ASPxMenu ID="ASPxMenuRioTinto" runat="server" ClientInstanceName="rioMenu" Orientation="Vertical" 
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
-              <Items> 
-                  <dx:MenuItem Name="MainMenuCriticality" NavigateUrl="~/RioTinto/CriticalityUploads.aspx?group=RIOTINTO&source=AssetCriticality" Text="Criticality">
-                      <Image IconID="businessobjects_bo_opportunity_svg_white_32x32" />
-                  </dx:MenuItem>
-                  <dx:MenuItem Name="MainMenuSIDA" NavigateUrl="~/RioTinto/SIDAUploads.aspx?group=RIOTINTO&source=SiteAssetApplications" Text="SIDA">
-                      <Image IconID="dashboards_editrules_svg_white_32x32" />
-                  </dx:MenuItem>
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-          </dx:ASPxMenu>
-        
-          <%-- this is an manager level menu --%>
-          <dx:ASPxMenu ID="ASPxMenuAnalysis" runat="server" ClientInstanceName="analysisMenu" Orientation="Vertical" 
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
-              <Items> 
-                  <dx:MenuItem Name="MainMenuMetrics" NavigateUrl="~/Imports/Metrics.aspx?group=ITAM&source=Metrics" Text="Metrics">
-                      <Image IconID="iconbuilder_business_calculator_svg_white_32x32" />
-                  </dx:MenuItem>
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-          </dx:ASPxMenu>
-        
           <%-- this is an manager level menu --%>
           <dx:ASPxMenu ID="ASPxMenuMiddle" runat="server" ClientInstanceName="middleMenu" Orientation="Vertical" 
               BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
@@ -301,126 +235,10 @@
               <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
               <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
               <Items> 
-                  <dx:MenuItem Name="MainMenuDummy" NavigateUrl="~/Manager.aspx" Text="Users">
-                      <Image IconID="iconbuilder_shopping_box_svg_white_32x32" />
-                  </dx:MenuItem>
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-          </dx:ASPxMenu>
-          
-          <%-- this is an manager level menu --%>                 
-          <dx:ASPxMenu ID="ASPxMenuManager" runat="server" ClientInstanceName="managerMenu" Orientation="Vertical" 
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
-              <Items> 
-                  <dx:MenuItem Name="MainMenuTemplates" Text="Templates" NavigateUrl="~/Manager/TemplateUploads.aspx">
-                      <Image IconID="scheduling_import_svg_white_32x32" />
-                  </dx:MenuItem>       
-                  <dx:MenuItem Name="MainMenuContacts" NavigateUrl="~/Manager/Users.aspx" Text="Users">
-                      <Image IconID="businessobjects_bo_contact_svg_white_32x32" />
-                  </dx:MenuItem> 
-                  <dx:MenuItem Name="MainMenuLists" NavigateUrl="~/Manager/Lists.aspx" Text="Lists">
-                      <Image IconID="format_listbullets_svg_white_32x32" />           
-                  </dx:MenuItem>                                                      
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-          </dx:ASPxMenu>
-           
-          <%-- this is an administrator level menu --%>
-          <dx:ASPxMenu ID="ASPxMenuBase" runat="server" ClientInstanceName="systemMenu" Orientation="Vertical" 
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
-              <Items> 
-                 <dx:MenuItem Name="MainMenuFileManager" Text="File Manager" BeginGroup="true" NavigateUrl="~/System/FileManager.aspx">
-                     <Image IconID="actions_open2_svg_white_32x32" />
-                 </dx:MenuItem>
-                 <dx:MenuItem Name="MainMenuProcessLogs" NavigateUrl="~/System/Logs.aspx" Text="Process Logs">
-                     <Image IconID="diagramicons_showprintpreview_svg_white_32x32" />
-                 </dx:MenuItem>                                                 
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-          </dx:ASPxMenu>
-          
-          <%-- this is an administrator level menu --%>
-          <dx:ASPxMenu ID="ASPxMenuSystem" runat="server" ClientInstanceName="systemMenu" Orientation="Vertical" 
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
-              <Items> 
-                  <dx:MenuItem Name="MainMenuJobs" Text="Jobs" BeginGroup="true" NavigateUrl="~/System/Jobs.aspx">
-                      <Image IconID="outlookinspired_tasklist_svg_white_32x32" />
-                  </dx:MenuItem>
-                  <dx:MenuItem Name="MainMenuDatasets" Text="Datasets" BeginGroup="true" NavigateUrl="~/System/Datasets.aspx">
-                      <Image IconID="dashboards_updatedataextract_svg_white_32x32" />
-                  </dx:MenuItem>
-                  <dx:MenuItem Name="MainMenuDataSources" Text="DataSources" NavigateUrl="~/System/DataSources.aspx">
-                      <Image IconID="spreadsheet_selectdatasource_svg_white_32x32" />
-                  </dx:MenuItem>
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-          </dx:ASPxMenu>
-          
-          <%-- this is an administrator level menu --%>
-          <dx:ASPxMenu ID="ASPxMenuAdministrator" runat="server" ClientInstanceName="mainMenu" Orientation="Vertical" 
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                     
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />
-              <Items>
-                  <dx:MenuItem Name="MainMenuSystem" Text="System" NavigateUrl="~/Admin/Uploads.aspx">
-                      <Image IconID="scheduling_import_svg_white_32x32" />
-                  </dx:MenuItem>         
-                  <dx:MenuItem Name="MainMenuSettings" Text="Settings" NavigateUrl="~/Admin/Settings.aspx">
-                      <Image IconID="setup_properties_svg_white_32x32" />
-                  </dx:MenuItem>                            
-              </Items>
-              <ItemStyle VerticalAlign="Middle" ForeColor="White">
-                  <Font Bold="True" Size="Large"></Font>                        
-              </ItemStyle>
-              <LinkStyle>
-                  <Font Bold="True" Size="Large"></Font>
-              </LinkStyle>
-              <ClientSideEvents ItemClick="OnMenuItemClick" />                     
-          </dx:ASPxMenu>
-                              
-          <%-- this is an user level menu --%>                                     
-          <dx:ASPxMenu ID="ASPxMenuSupport" runat="server" ClientInstanceName="supportMenu" Orientation="Vertical"
-              BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Bottom" 
-              Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-              <Border BorderColor="#616161" />
-              <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
-              <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
-              <Items>
-                  <dx:MenuItem Name="MainMenuLogs" NavigateUrl="~/Support/Logs.aspx" Text="Logs">
+                  <dx:MenuItem Name="MainMenuLogs" NavigateUrl="~/FileManager.aspx" Text="File Manager">
+                      <Image IconID="actions_open2_svg_white_32x32" />                      
+                  </dx:MenuItem>                                                 
+                  <dx:MenuItem Name="MainMenuLogs" NavigateUrl="~/Logs.aspx" Text="Logs">
                       <Image IconID="diagramicons_showprintpreview_svg_white_32x32" />
                   </dx:MenuItem>                                                 
               </Items>
@@ -431,7 +249,7 @@
                   <Font Bold="True" Size="Large"></Font>
               </LinkStyle>
           </dx:ASPxMenu>
-          
+         
           <%-- this is an user level menu --%>                                     
           <dx:ASPxMenu ID="ASPxMenuBottom" runat="server" ClientInstanceName="bottomMenu" Orientation="Vertical"
               BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Bottom" 
@@ -440,7 +258,7 @@
               <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
               <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
               <Items>
-                  <dx:MenuItem Name="MainMenuHelp" NavigateUrl="~/Help/Content.aspx" Text="Help">
+                  <dx:MenuItem Name="MainMenuHelp" NavigateUrl="~/Help.aspx" Text="Help">
                       <Image IconID="iconbuilder_actions_question_svg_white_32x32" />
                   </dx:MenuItem>                       
                   <%--
