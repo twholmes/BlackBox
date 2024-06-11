@@ -19,7 +19,7 @@ $ScriptPath = Split-Path (Get-Variable MyInvocation -Scope 0).Value.MyCommand.Pa
 
 function BuildWebConfig
 {
-  # set key web site config variables
+  ## set key web site config variables
 	$WebSite = GetConfigValue "WebSiteName"
 	$AppPoolName = GetConfigValue "WebAppPool"
 	$WebApp = GetConfigValue "WebApplication"
@@ -30,7 +30,12 @@ function BuildWebConfig
 	$WorkerPath = GetConfigValue "WorkerAppPath"
 
   $WebConfileFileName = "Web.config"
+
+  ## first stop IIS
+  Log "Stopping IIS ..."
+  iisreset /stop | Out-Null
   
+  ## assemble config file parts
   $block1 = @"
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -286,8 +291,11 @@ Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $bl
 "@
   Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block8 -Encoding ASCII -Append
 
-
   Log "New Web.config written"
+
+  ## restart IIS
+  Log "Restarting IIS ..."  
+  iisreset | Out-Null
 
   return $true
 }
@@ -311,13 +319,13 @@ function ConfigureWebSite
 	
 	$ServiceAccount = GetConfigValue "BlackBoxServiceAccount"
 
-  # announce configuration
+  ## announce configuration
   Log "Configure IIS WebSite: $WebSite"
   Log "Configure WebSite for WebApp: $WebApp"
   Log " @ location $WebSitePath"  
   Log ""
 
-  # get service account credentials
+  ## get service account credentials
 	$cred = GetCredentials `
 		"Requesting credentials for the AppPool..." `
 		"AppPool credentials" `
@@ -343,7 +351,7 @@ function ConfigureWebSite
     New-WebAppPool -Force -Name $AppPoolName | Out-Host
   }
 
-  # set AppPool properties
+  ## set AppPool properties
   $AppPoolPath = "IIS:\AppPools\$AppPoolName"
   Log "Configuring AppPool: $AppPoolName"
   Log " @ location $AppPoolPath"
@@ -370,7 +378,7 @@ function ConfigureWebSite
   Log "   processmodel.password = *****" 
   Set-ItemProperty -Path $AppPoolPath -Name processmodel.password -Value $ServiceAccountPassword | Out-Host
 
-  # create WebApplication
+  ## create WebApplication
   Log ""
   Log "Recreate WebApplication Configure $WebApp"
   Log " @ location $WebSitePath"  
@@ -392,16 +400,16 @@ function ConfigureWebSite
   Set-ItemProperty $WebAppPath -Name applicationPool -Value $AppPoolName | Out-Host
   #Stop-IISCommitDelay
 
-  # add virtual directories to WebApplication
+  ## add virtual directories to WebApplication
   Log ""
   Log "Configure virtual directories"
   Log "...with"
   
-  # get worker path and set virtual directory
+  ## get worker path and set virtual directory
   Log "...Worker = '$WorkerPath'"   
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Worker" -PhysicalPath $WorkerPath | Out-Host
 
-  # get adapters path and set virtual directory
+  ## get adapters path and set virtual directory
   $regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
   $beaconDir = Get-RegKeyValue $regPath "BaseDirectory"
   $adaptersDir = Join-Path $beaconDir "BusinessAdapter\"
@@ -412,63 +420,63 @@ function ConfigureWebSite
   Log "...Adapters = '$adaptersDir'"   
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Adapters" -PhysicalPath $adaptersDir | Out-Host
   
-  # get archives path and set virtual directory
+  ## get archives path and set virtual directory
   $archivesDir = Join-Path $WebSiteContentPath "Archives\"
   Log "...Archives = '$archivesDir'"   
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Archives" -PhysicalPath $archivesDir | Out-Host
 
-  # get content path and set virtual directory
+  ## get content path and set virtual directory
   $contentDir = Join-Path $WebSiteContentPath "Content\"
   Log "...Content = '$contentDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Content" -PhysicalPath $contentDir | Out-Host
   
-  # get data path and set virtual directory
+  ## get data path and set virtual directory
   $dataDir = Join-Path $WebSiteContentPath "Data\"
   Log "...Data = '$dataDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Data" -PhysicalPath $dataDir | Out-Host
   
-  # images data path and set virtual directory
+  ## images data path and set virtual directory
   #$imagesDir = Join-Path $WebSiteContentPath "Images\"
   #Log "...Images = '$imagesDir'" 
   #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Images" -PhysicalPath $imagesDir | Out-Host
 
-  # get jobs path and set virtual directory  
+  ## get jobs path and set virtual directory  
   $jobsDir = Join-Path $WebSiteContentPath "Jobs\"
   Log "...Jobs = '$jobsDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Jobs" -PhysicalPath $jobsDir | Out-Host
 
-  # get logs path and set virtual directory  
+  ## get logs path and set virtual directory  
   $logsDir = Join-Path $WebSiteContentPath "Logs\"
   Log "...Logs = '$logsDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Logs" -PhysicalPath $logsDir | Out-Host
 
-  # get packages path and set virtual directory  
+  ## get packages path and set virtual directory  
   $packagesDir = Join-Path $WebSiteContentPath "Packages\"
   Log "...Packages = '$packagesDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Packages" -PhysicalPath $packagesDir | Out-Host
   
-  # get photos path and set virtual directory  
+  ## get photos path and set virtual directory  
   #$photosDir = Join-Path $WebSiteContentPath "Photos\"
   #Log "...Photos = '$photosDir'" 
   #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Photos" -PhysicalPath $photosDir | Out-Host
 
-  # get scripts path and set virtual directory  
+  ## get scripts path and set virtual directory  
   $scriptsDir = Join-Path $WebSiteContentPath "Scripts\"
   Log "...Scripts = '$scriptsDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Scripts" -PhysicalPath $scriptsDir | Out-Host
 
-  # get tasks path and set virtual directory  
+  ## get tasks path and set virtual directory  
   $tasksDir = Join-Path $WebSiteContentPath "Tasks\"
   Log "...Tasks = '$tasksDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Tasks" -PhysicalPath $tasksDir | Out-Host
   
-  # get templates path and set virtual directory  
+  ## get templates path and set virtual directory  
   $templatesDir = Join-Path $WebSiteContentPath "Templates\"
   Log "...Templates = '$templatesDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Templates" -PhysicalPath $templatesDir | Out-Host
   Log ""
 
-  # configure web site authentication
+  ## configure web site authentication
   Log "Disable anonymous authentication"
   Set-WebConfigurationProperty -Filter '/system.webServer/security/authentication/anonymousAuthentication' -Name 'enabled' -Value 'false' -PSPath 'IIS:\' -Location "$WebSite/$WebApp" | Out-Host
 

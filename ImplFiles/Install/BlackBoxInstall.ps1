@@ -117,46 +117,6 @@ function ConfigureWindowsFeaturesForBlackBox
 
 
 ###########################################################################
-# Copy files to live from DEV published
-
-function UpdateLiveFromDevPublished
-{
-  ## set key web site config variables
-	$WebSite = GetConfigValue "WebSiteName"
-	$AppPoolName = GetConfigValue "WebAppPool"
-	$WebApp = GetConfigValue "WebApplication"
-
-	$WebSitePath = GetConfigValue "WebSitePath"
-	$WebSiteContentPath = GetConfigValue "WebSiteContentPath"	
-
-	$WorkerPath = GetConfigValue "WorkerAppPath"
-
-  ## what is the source?
-	$DevPublishedDir = GetConfigValue "DevPublishDir"
-
-  ## first stop IIS
-  Log "Stopping IIS ..."
-  iisreset /stop | Out-Null
-
-  ## remove all existing website files
-  Log ("Cleanup temp folder files {0}" -f $WebSitePath)
-  Get-ChildItem -Path $WebSitePath -Include *.* -File -Recurse | foreach { $_.Delete()}
-  
-  ## delete any empty directories left behind after deleting the old files
-  Get-ChildItem -Path $WebSitePath -Recurse -Force | Where-Object { $_.PSIsContainer -and (Get-ChildItem -Path $_.FullName -Recurse -Force | Where-Object { !$_.PSIsContainer }) -eq $null } | Remove-Item -Force -Recurse
-
-  ## copy new files from source
-  Copy-Item -Path (Join-Path $DevPublishedDir "*") -Recurse -Destination $WebSitePath -Verbose
-
-  ## restart IIS
-  Log "Restarting IIS ..."  
-  iisreset | Out-Null
-
-	Log "Live web site updated from DEV published"
-	return $true
-}
-
-###########################################################################
 # Copy files to GitHub from DEV published
 
 function UpdateGitHubFromDevPublished
