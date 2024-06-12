@@ -528,6 +528,7 @@ GO
 
 CREATE PROCEDURE [dbo].[UpdateFileStatus]
   @FileID [int],
+  @Object [nvarchar](30),
   @StatusID [int],
   @Action [nvarchar](20) = 'unknown',
   @UserID [int] = 99
@@ -545,7 +546,7 @@ AS
   DECLARE @Message [nvarchar](1024)
   SET @Message = 'File status updated to sid=' + convert(nvarchar(2),@StatusID) + ' after action=' + @Action  
 
-  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES('File', @DataSourceInstanceID, @UserID, @Action, @Message, GetDate())
+  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES(@Object, @DataSourceInstanceID, @UserID, @Action, @Message, GetDate())
 
 GO
 
@@ -556,6 +557,7 @@ GO
 
 CREATE PROCEDURE [dbo].[UpdateDataSourceStatus]
   @DataSourceInstanceID [int],
+  @Object [nvarchar](30),  
   @StatusID [int],
   @Action [nvarchar](20) = 'unknown',
   @UserID [int] = 99
@@ -572,7 +574,7 @@ AS
   DECLARE @Message [nvarchar](1024)
   SET @Message = 'DataSourceInstance status updated to sid=' + convert(nvarchar(2),@StatusID) + ' after action=' + @Action
 
-  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES('DataSource', @FileID, @UserID, @Action, @Message, GetDate())
+  INSERT INTO [dbo].[BlackBoxHistory] ([Object],[RefID],[UserID],[Action],[Message],[TimeStamp]) VALUES(@Object, @FileID, @UserID, @Action, @Message, GetDate())
 
 GO
 
