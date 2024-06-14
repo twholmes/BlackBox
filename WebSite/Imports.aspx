@@ -869,8 +869,8 @@
                                 <dx:GridViewToolbarItem Text="Steps" BeginGroup="true" AdaptivePriority="6">
                                     <Items>
                                         <dx:GridViewToolbarItem Name="CustomRegisterStep" Text="Register" BeginGroup="true" Enabled="false" />
+                                        <dx:GridViewToolbarItem Name="CustomScheduleStep" Text="Schedule" BeginGroup="true" Enabled="false" />                                        	                                        	
                                         <dx:GridViewToolbarItem Name="CustomLoadStep" Text="Load" BeginGroup="false" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomScheduleStep" Text="Schedule" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomRecallStep" Text="Recall" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomValidateStep" Text="Validate" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomStageStep" Text="Stage" BeginGroup="false" Enabled="false" />
