@@ -179,6 +179,8 @@ function ListBlackBoxFiles
 
 function ProcessScheduledBlackBoxFiles
 { 
+  $FileID = GetConfigValue "FileID"
+
   $DbServer = GetConfigValue "BlackBoxDBServer"
   $DbName = GetConfigValue "BlackBoxDBName"
   
@@ -217,3 +219,29 @@ function ProcessScheduledBlackBoxFiles
   return $true
 }
 
+
+###########################################################################
+# Publish the named BlackBox DataSource
+
+function PublishBlackBoxDataSource
+{ 
+  $FileID = GetConfigValue "FileID"
+  $DataSource = GetConfigValue "DataSource"
+
+  $DbServer = GetConfigValue "BlackBoxDBServer"
+  $DbName = GetConfigValue "BlackBoxDBName"
+  
+  $query = "SELECT [FID],[JOBID],[GUID],[Name],[Location],[TypeID],[Group],[DataSource],[DataSourceInstanceID],[TimeStamp] FROM [dbo].[BlackBoxFiles] WHERE [StatusID] = 3"
+
+  $con = new-object System.Data.SqlClient.SqlConnection
+  $con.ConnectionString = "Server=$DbServer;Database=$DbName;Integrated Security=true"
+  try
+  {
+    Log ("Publising: DataSource={0}, FileID={1}" -f $FileID, $DataSource)
+  }
+  finally
+  {
+    $con.Close()
+  }
+  return $true
+}
