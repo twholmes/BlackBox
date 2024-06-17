@@ -875,15 +875,15 @@
                                         <dx:GridViewToolbarItem Name="CustomValidateStep" Text="Validate" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomStageStep" Text="Stage" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomRejectStep" Text="Reject" BeginGroup="false" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomDeleteStep" Text="Delete" BeginGroup="true" Enabled="false" />                                          
                                     </Items>
                                 </dx:GridViewToolbarItem>
-                   
-                                <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="7" Enabled="false" />
+
+                                <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="true" AdaptivePriority="7" Enabled="false" />                                       	                   
+                                <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
                                    
-                                <dx:GridViewToolbarItem Name="CustomWithdrawStep" Text="Withdraw" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
-                                <dx:GridViewToolbarItem Name="CustomArchiveStep" Text="Archive" BeginGroup="true" AdaptivePriority="9" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomWithdrawStep" Text="Withdraw" BeginGroup="true" AdaptivePriority="9" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomArchiveStep" Text="Archive" BeginGroup="true" AdaptivePriority="10" Enabled="false" />
                             </Items>
                         </dx:GridViewToolbar>
                     </Toolbars>                     

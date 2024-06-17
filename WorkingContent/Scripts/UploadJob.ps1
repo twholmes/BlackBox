@@ -1,7 +1,7 @@
 ##-------------------------------------------------------------------------
 ## Copyright (C) 2024 Crayon Australia
 ## This script is run from PowerShell automation
-## Publish BlackBox data source
+## Process Upload file job
 ## Check Number: 1.00
 ## Updated: 17/06/2024 19:50
 ##-------------------------------------------------------------------------
