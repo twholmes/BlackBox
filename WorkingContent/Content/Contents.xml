@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Nodes>
+  <TreeViewNode Text="Overview" NavigateUrl="~\Help\Content.aspx?page=overview" ImageUrl="~/Content/Menu/class.gif">
+    <TreeViewNode Text="Responsive Web Application" NavigateUrl="#ResponsiveWebApplication" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Navigation Bar" NavigateUrl="#navbar" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Sidebars" NavigateUrl="#sidebar" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Adaptive Toolbar" NavigateUrl="#toolbar" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Sticky Footer" NavigateUrl="#stickyFooter" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Content Pages" NavigateUrl="#content" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Grid View" NavigateUrl="#grid" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Scheduler" NavigateUrl="#scheduler" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="Article" NavigateUrl="#article" ImageUrl="~/Content/Menu/property.gif" />
+    <TreeViewNode Text="SignIn/Register" NavigateUrl="#signin" ImageUrl="~/Content/Menu/property.gif" />
+  </TreeViewNode>
+  <TreeViewNode Text="Article" NavigateUrl="~\Help\Content.aspx?page=article" ImageUrl="~/Content/Menu/class.gif">  
+  </TreeViewNode>
+</Nodes>

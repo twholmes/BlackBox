@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BlackBox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Schema>ScriptRunner</Schema>
+  <Class>Job</Class>
+  <Version>1.00</Version>
+  <Instance>
+    <Name>Exports</Name>
+    <Status>active</Status>
+    <Description>Exports tasks</Description>
+  </Instance>
+  <Settings>
+    <Setting name="ProviderConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+    <Setting name="BlackBoxConnectionString" value="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" />
+    <Setting name="FnmsConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+    <Setting name="WorkingDir" value=".\\" />
+    <Setting name="LogFileName" value="BlackBox.log" />
+    <Setting name="TranscriptFileName" value="Exports.log" />
+    <Setting name="ZipArchive" value="Exports.zip" />
+    <Setting name="WriteTaskFiles" type="bool" value="true" />
+    <Setting name="WriteDataFiles" type="bool" value="true" />    
+  </Settings>
+  <Tasks>
+    <Task>
+      <Num>0</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>001-01</ID>
+      <Name>Export001</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" />      	
+        <Setting name="ScriptFile" value="Export001.Setup.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="Database" value="FNMSStaging" />
+        <Setting name="API" value="SqlCMD" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Setup for Exports]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>1</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>101-01</ID>
+      <Name>Export101</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export101.AssetInfo.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="AssetInfo" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Asset Info records]]></Notes>
+    </Task>
+    <Task>
+      <Num>2</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>102-01</ID>
+      <Name>Export102</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export102.AssetPurchases.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="AssetPurchases" />
+        <Setting name="Database" value="FNMSCompliance" />
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Asset Purchase records]]></Notes>
+    </Task>
+    <Task>
+      <Num>3</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>103-01</ID>
+      <Name>Export103</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export103.AssetLeases.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="AssetLeases" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Asset Lease records]]></Notes>
+    </Task>
+    <Task>
+      <Num>4</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>104-01</ID>
+      <Name>Export104</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export104.AssetLifeCycle.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="AssetLifeCycle" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Asset Life Cycle records]]></Notes>
+    </Task>
+    <Task>
+      <Num>5</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>105-01</ID>
+      <Name>Export105</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export105.AssetFinancials.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="AssetFinancials" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Asset Finance records]]></Notes>
+    </Task>
+    <Task>
+      <Num>6</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>111-01</ID>
+      <Name>Export111</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export111.Vendors.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Vendors" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Vendor records]]></Notes>
+    </Task>
+    <Task>
+      <Num>7</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>121-01</ID>
+      <Name>Export121</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export121.Users.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Users" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Compliance User records]]></Notes>
+    </Task>
+    <Task>
+      <Num>8</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>131-01</ID>
+      <Name>Export131</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export131.PurchaseOrders.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="PurchaseOrders" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Purchase Order records]]></Notes>
+    </Task>
+    <Task>
+      <Num>9</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>132-01</ID>
+      <Name>Export132</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export132.Purchases.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Purchases" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Purchase records]]></Notes>
+    </Task>
+    <Task>
+      <Num>10</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>141-01</ID>
+      <Name>Export141</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export141.Contracts.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Contracts" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Contracts records]]></Notes>
+    </Task>
+    <Task>
+      <Num>11</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>151-01</ID>
+      <Name>Export151</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export151.SoftwareLicenses.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Licenses" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Software License records]]></Notes>
+    </Task>
+    <Task>
+      <Num>12</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>161-01</ID>
+      <Name>Export161</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export161.CurrencyRates.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="CurrencyRates" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Software License records]]></Notes>
+    </Task>
+    <Task>
+      <Num>13</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>201-01</ID>
+      <Name>Export201</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export201.Computers.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Computers" />
+        <Setting name="Database" value="FNMSCompliance" />          
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Currency Rates and Snapshots records]]></Notes>
+    </Task>
+    <Task>
+      <Num>14</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>202-01</ID>
+      <Name>Export202</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export202.ComplianceComputers.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Computers" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Compliance Computer records]]></Notes>
+    </Task>
+    <Task>
+      <Num>15</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>203-01</ID>
+      <Name>Export203</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export203.ImportedComputers.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Computers" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Imported Computer records]]></Notes>
+    </Task>
+    <Task>
+      <Num>16</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>211-01</ID>
+      <Name>Export211</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export211.WMI.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="WMIEvidence" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS WMI Evidence records]]></Notes>
+    </Task>
+    <Task>
+      <Num>17</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>212-01</ID>
+      <Name>Export212</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export212.WMI.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="WMIEvidence" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS WMI Evidence records]]></Notes>
+    </Task>
+    <Task>
+      <Num>18</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>221-01</ID>
+      <Name>Export221</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export221.VMPools.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="VMPools" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS VM Pool records]]></Notes>
+    </Task>
+    <Task>
+      <Num>19</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>231-01</ID>
+      <Name>Export231</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export231.InstallerEvidence.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="InstallerEvidence" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Installer Evidence records]]></Notes>
+    </Task>
+    <Task>
+      <Num>20</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>241-01</ID>
+      <Name>Export241</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export241.FileEvidence.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="FileEvidence" />
+        <Setting name="Database" value="FNMSCompliance" />
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS File Evidence records]]></Notes>
+    </Task>
+    <Task>
+      <Num>21</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>251-01</ID>
+      <Name>Export251</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export251.OracleDatabaseUser.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="OracleUser" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Oracle Database User Evidence records]]></Notes>
+    </Task>
+    <Task>
+      <Num>22</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>301-01</ID>
+      <Name>Export301</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export301.ComputerAllocations.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="ComputerAllocations" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS Device Allocations]]></Notes>
+    </Task>
+    <Task>
+      <Num>23</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>302-01</ID>
+      <Name>Export302</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+        <Setting name="ScriptFile" value="Export302.UserAllocations.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="UserAllocations" />
+        <Setting name="Database" value="FNMSCompliance" />         
+        <Setting name="OutputTo" value="csv,xlsx,db" />
+      </Settings>          
+      <Notes><![CDATA[Query FNMS User Allocations]]></Notes>
+    </Task>
+  </Tasks>
+</BlackBox>

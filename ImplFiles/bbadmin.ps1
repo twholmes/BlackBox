@@ -1622,6 +1622,7 @@ if ($target)
 
   # Parse setting values specified on the command line
   $GlobalCommandLineSettings = @{}
+  
   foreach ($s in $settings) {
     if ($s -match "([^=]*)=(.*)") {
       $GlobalCommandLineSettings[$matches[1]] = $matches[2]

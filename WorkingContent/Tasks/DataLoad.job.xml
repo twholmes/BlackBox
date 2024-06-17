@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BlackBox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Schema>ScriptRunner</Schema>
+  <Class>Job</Class>
+  <Version>1.00</Version>
+  <Instance>
+    <Name>DataLoad</Name>
+    <Status>active</Status>
+    <Description>DataLoad tasks</Description>
+  </Instance>
+  <Settings>
+    <Setting name="ProviderConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+    <Setting name="BlackBoxConnectionString" value="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" />
+    <Setting name="FnmsConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+    <Setting name="WorkingDir" value=".\\" />
+    <Setting name="LogFileName" value="BlackBox.log" />
+    <Setting name="TranscriptFileName" value="DataLoad.log" />
+    <Setting name="ZipArchive" value="DataLoad.zip" />
+    <Setting name="Host" value="FlexeraOne" />    
+    <Setting name="CredentialTarget" value="KOLORA" />  
+    <Setting name="APITokenURI" value="https://login.flexera.au/oidc/token" />
+    <Setting name="APIRootSOAP" value="https://slo.app.flexera.au" />
+    <Setting name="APIRefreshToken" value="oY_FG5yWYdiqMgz33hLZTe9J95KURzgrgUpP3V2SfwI" />
+    <Setting name="FlexeraOneOrgID" value="35857" />    
+    <Setting name="WriteTaskFiles" type="bool" value="true" />
+    <Setting name="WriteDataFiles" type="bool" value="true" />    
+  </Settings>
+  <Tasks>
+    <Task>
+      <Num>1</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>100-01</ID>
+      <Name>DataLoad1001</Name>
+      <TaskType>web</TaskType>
+      <Settings>
+        <Setting name="OutputFile" value="InventoryDevices.csv" />
+        <Setting name="API" value="GetCustomView" />
+        <Setting name="ReportID" type="int" value="199" />
+        <Setting name="TableName" value="InventoryDevices" />
+        <Setting name="WriteToCSV" type="bool" value="true" />
+        <Setting name="WriteToXLSX" type="bool" value="true" />
+        <Setting name="WriteToDatabase" type="bool" value="true" />
+        <Setting name="WriteToSchema" type="bool" value="false" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Run WebServices request to return Inventory Devices data]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>    
+      <Num>2</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>200-01</ID>
+      <Name>DataLoad2001</Name>
+      <TaskType>load</TaskType>
+      <Settings>
+        <Setting name="DataFile" value="Data\Vendors\*.xlsx" />
+        <Setting name="TableName" value="Vendors" />
+        <Setting name="Dataset" value="Vendors" />
+        <Setting name="Adapter" value="Vendors" />        
+        <Setting name="Consume" tyep="bool" value="true" />        
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Load Vendors data file to the staging database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>  	
+    <Task>    
+      <Num>3</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>200-02</ID>
+      <Name>DataLoad2002</Name>
+      <TaskType>load</TaskType>
+      <Settings>
+        <Setting name="DataFile" value="Data\Currency\*.xlsx" />
+        <Setting name="TableName" value="Currency" />
+        <Setting name="Dataset" value="Currency" />
+        <Setting name="Adapter" value="Currency" />        
+        <Setting name="Consume" tyep="bool" value="true" />        
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Load Currency data file to the staging database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>    
+      <Num>4</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>200-03</ID>
+      <Name>DataLoad2003</Name>
+      <TaskType>load</TaskType>
+      <Settings>
+        <Setting name="DataFile" value="Data\Contracts\*.xlsx" />
+        <Setting name="TableName" value="Contracts" />
+        <Setting name="Dataset" value="Contracts" />
+        <Setting name="Adapter" value="Contracts" />        
+        <Setting name="Consume" tyep="bool" value="true" />        
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Load Contracts data file to the staging database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>    
+      <Num>5</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>200-04</ID>
+      <Name>DataLoad2004</Name>
+      <TaskType>load</TaskType>
+      <Settings>
+        <Setting name="DataFile" value="Data\PurchaseOrders\*.xlsx" />
+        <Setting name="TableName" value="PurchaseOrders" />
+        <Setting name="Dataset" value="PurchaseOrders" />
+        <Setting name="Adapter" value="PurchaseOrders" />        
+        <Setting name="Consume" tyep="bool" value="true" />        
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Load PurchaseOrders data file to the staging database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>    
+      <Num>6</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>200-05</ID>
+      <Name>DataLoad2005</Name>
+      <TaskType>load</TaskType>
+      <Settings>
+        <Setting name="DataFile" value="Data\Purchases\*.xlsx" />
+        <Setting name="TableName" value="Purchases" />
+        <Setting name="Dataset" value="Purchases" />
+        <Setting name="Adapter" value="Purchases" />        
+        <Setting name="Consume" tyep="bool" value="true" />        
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Load Purchases data file to the staging database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>    
+      <Num>7</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>200-06</ID>
+      <Name>DataLoad2006</Name>
+      <TaskType>load</TaskType>
+      <Settings>
+        <Setting name="DataFile" value="Data\Licenses\*.xlsx" />
+        <Setting name="TableName" value="Licenses" />
+        <Setting name="Dataset" value="Licenses" />
+        <Setting name="Adapter" value="Licenses" />        
+        <Setting name="Consume" tyep="bool" value="true" />        
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Load Licenses data file to the staging database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>  	 	
+  </Tasks>
+</BlackBox>

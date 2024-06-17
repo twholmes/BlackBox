@@ -1,0 +1,25 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=AssetIQ.chm
+Contents file=AssetIQ.hhc
+Default Font=Segoe UI,10,0
+Default topic=Introduction.html
+Display compile progress=Yes
+Language=0xc09 English (Australia)
+Title=AssetIQ
+
+
+[FILES]
+HomePage.html
+Introduction.html
+Map.html
+MgrMap.html
+Elements.html
+Grids.html
+DefaultPage.html
+TimeoutPage.html
+Index.html
+Glossary.html
+
+[INFOTYPES]
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data>
+  <Namespace>BlackBox</Namespace>
+  <Schema>Job</Schema>
+  <Job>
+    <Name>Test</Name>
+    <Status>active</Status>
+    <Description>Test job</Description>
+    <Settings>test.cfg</Settings>
+  </Job>
+  <PreTasks count="1">
+    <PreTask Num="1" ID="100-001" Name="Test101" IsEnabled="no" TaskType="web" ScriptFile="" OutputFile="InventoryDevices.csv" DataFile="">
+      <Settings>Host=FlexeraOne|API=GetCustomView|ReportID=199|TableName=InventoryDevices|WriteToCSV=true|WriteToDatabase=true</Settings>
+      <CommandLine/>      
+      <Comment>Run WebServices request to return Inventory Devices data</Comment>
+    </PreTask>
+  </PreTasks>    
+  <Tasks count="2">
+    <Task Num="2" ID="200-001" Name="Test201" IsEnabled="no" TaskType="load" ScriptFile="" OutputFile="" DataFile="Data\Vendors\*.xlsx">
+      <Settings>TableName=Vendors|Dataset=Vendors|Adapter=Vendors|Consume=true</Settings>
+      <CommandLine/>      
+      <Comment>Load Vendors data file to the staging database</Comment>
+    </Task>
+    <Task Num="3" ID="200-002" Name="Test202" IsEnabled="yes" TaskType="cmd" ScriptFile="" OutputFile="" DataFile="">
+      <Settings/>
+      <CommandLine>StartIn=C:\Program Files (x86)\Flexera Software\Inventory Beacon\DotNet\bin|Program=FlxBizAdapterImporter.exe|Args=-n Vendor</CommandLine>
+      <Comment>Runs the FlxBizAdapterImporter commandline to import Vendors into Flexera One</Comment>
+    </Task>
+  </Tasks>
+  <Help><![CDATA[
+     BlackBox job
+     ]]></Help>
+</Data>

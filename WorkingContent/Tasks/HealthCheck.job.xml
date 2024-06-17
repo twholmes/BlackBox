@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BlackBox xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Schema>ScriptRunner</Schema>
+  <Class>Job</Class>
+  <Version>1.00</Version>
+  <Instance>
+    <Name>HealthCheck</Name>
+    <Status>active</Status>
+    <Description>HealthCheck tasks</Description>
+  </Instance>
+  <Settings>
+    <Setting name="ProviderConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+    <Setting name="BlackBoxConnectionString" value="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" />
+    <Setting name="FnmsConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />
+    <Setting name="WorkingDir" value=".\\" />
+    <Setting name="LogFileName" value="BlackBox.log" />
+    <Setting name="TranscriptFileName" value="HealthCheck.log" />
+    <Setting name="ZipArchive" value="HealthCheck.zip" />
+    <Setting name="WriteTaskFiles" type="bool" value="true" />
+    <Setting name="WriteDataFiles" type="bool" value="true" />    
+  </Settings>
+  <Tasks>
+    <Task>
+      <Num>1</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>100-01</ID>
+      <Name>Check100</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" />        
+        <Setting name="ScriptFile" value="Check100.ps1" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Check installed versions of FNMS and export all FNMS registry settings]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>2</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>100-02</ID>
+      <Name>Check100</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check100.QuerySchemaVersion.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="Database" value="FNMSCompliance" />
+        <Setting name="API" value="ExecuteSQLQuerySingleValue" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query the FNMSCompliance schema version]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>3</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>101-01</ID>
+      <Name>Check101</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check101.Query.sql" />
+        <Setting name="OutputFile" value="Check101.LicenseCounts.csv" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="FnmsLicenseCount" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query the FNMS license counts]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>4</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>102-01</ID>
+      <Name>Check102</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check102.Query.sql" />
+        <Setting name="OutputFile" value="Check102.BeaconConnections.csv" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="BeaconConnections" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query the FNMS Beacon Connections]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>5</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>103-01</ID>
+      <Name>Check103</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check103.Query.sql" />
+        <Setting name="OutputFile" value="Check103.ComplianceConnections.csv" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="ComplianceConnections" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query the FNMS Compliance Connections]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>6</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>138-01</ID>
+      <Name>Check138</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check138.QueryTotalSizes.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="TotalDbSizes" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Run the Total DB Size check against the FNMS databases]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>7</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>138-02</ID>
+      <Name>Check138</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check138.QueryFileSizes.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="DbFileSizes" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Run the DB File Size check against the FNMS databases]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>8</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>138-03</ID>
+      <Name>Check138</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check138.QueryTableSizes.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="DbTableSizes" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Run the DB Table Size check against the FNMS databases]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>9</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>138-04</ID>
+      <Name>Check138</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check138.QueryBackupSizes.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="DbBackupSizes" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Run the DB Backup Size check against the FNMS databases]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>10</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>140-01</ID>
+      <Name>Check140</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check140.QueryFragmentation.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Fragmentation1" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Run the Fragmentation check against the FNMSCompliance database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>11</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>140-02</ID>
+      <Name>Check140</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSInventory;Integrated Security=True" />        
+        <Setting name="ScriptFile" value="Check140.QueryFragmentation.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="Fragmentation2" />
+        <Setting name="Database" value="FNMSInventory" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Run the Fragmentation check against the FNMSInventory database]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>12</Num>
+      <IsEnabled>yes</IsEnabled>
+      <ID>142-01</ID>
+      <Name>Check142</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSStaging;Integrated Security=True" />        
+        <Setting name="ScriptFile" value="Check142.ps1" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Analyses IIS log files to return a list of users]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>13</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>601-01</ID>
+      <Name>Check601</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check601.QueryAssetProperties.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="Object" value="Assets" />        
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="AssetProperties" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query to find Asset custom properties]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>14</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>601-02</ID>
+      <Name>Check601</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check601.QueryPurchaseProperties.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="Object" value="PO Details" /> 
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="PurchaseProperties" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query to find Purchases custom properties]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>15</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>601-03</ID>
+      <Name>Check601</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check601.QueryLicenseProperties.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="Object" value="Software Licenses" /> 
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="LicenseProperties" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query to find Software License custom properties]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>16</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>601-04</ID>
+      <Name>Check601</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check601.QueryContractProperties.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="Object" value="Contracts" /> 
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="ContactProperties" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query to find Contract custom properties]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+    <Task>
+      <Num>17</Num>
+      <IsEnabled>no</IsEnabled>
+      <ID>601-05</ID>
+      <Name>Check601</Name>
+      <TaskType>script</TaskType>
+      <Settings>
+        <Setting name="DatabaseConnectionString" value="Data Source=localhost;Initial Catalog=FNMSCompliance;Integrated Security=True" />       
+        <Setting name="ScriptFile" value="Check601.QuerySoftwareProperties.sql" />
+        <Setting name="OutputFile" value="" />
+        <Setting name="DataFile" value="" />
+        <Setting name="Object" value="Software Titles" /> 
+        <Setting name="API" value="ExecuteSQLQueryDataTable" />
+        <Setting name="Dataset" value="SoftwareProperties" />
+        <Setting name="Database" value="FNMSCompliance" />        
+        <Setting name="OutputTo" value="csv,xlsx" />
+      </Settings>          
+      <CommandLine />
+      <Notes><![CDATA[Query to find Software Titles custom properties]]></Notes>
+      <Script><![CDATA[]]></Script>
+    </Task>
+  </Tasks>
+</BlackBox>

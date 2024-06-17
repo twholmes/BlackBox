@@ -1,15 +1,38 @@
 ##-------------------------------------------------------------------------
 ## Copyright (C) 2024 Crayon Australia
 ## This script runs a PowerShell procedure to setup IIS for Blackbox
-## Updated: 31/05/2024 21:15
+## Updated: 24/05/2024 8:15
 ##-------------------------------------------------------------------------
+
+## Get this script name and path
+$ScriptName = Split-Path (Get-Variable MyInvocation -Scope 0).Value.MyCommand.Name
+$ScriptPath = Split-Path (Get-Variable MyInvocation -Scope 0).Value.MyCommand.Path
+
+###########################################################################
+# Start and s Stop IIS
+
+function StartIIS
+{
+  Log "Restarting IIS ..."  
+  iisreset | Out-Null
+
+  return $true
+}
+
+function StopIIS
+{
+  Log "Stopping IIS ..."
+  iisreset /stop | Out-Null
+
+  return $true
+}
 
 ############################################################
 # Build a BlackBox Web.config file
 
 function BuildWebConfig
 {
-  # set key web site config variables
+  ## set key web site config variables
 	$WebSite = GetConfigValue "WebSiteName"
 	$AppPoolName = GetConfigValue "WebAppPool"
 	$WebApp = GetConfigValue "WebApplication"
@@ -20,7 +43,8 @@ function BuildWebConfig
 	$WorkerPath = GetConfigValue "WorkerAppPath"
 
   $WebConfileFileName = "Web.config"
-  
+ 
+  ## assemble config file parts
   $block1 = @"
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -275,7 +299,6 @@ Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $bl
 </configuration>
 "@
   Out-File -FilePath (Join-Path $WebSitePath $WebConfileFileName) -InputObject $block8 -Encoding ASCII -Append
-
 
   Log "New Web.config written"
 

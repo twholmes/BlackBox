@@ -7,7 +7,7 @@ REM Change to directory containing this file
 CD /D %~dp0
 
 REM Run the PowerShell command line as Admin
-PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 UpdateGitHubFromDevPublished"
+PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyLiveContentFromDevPublished"
 
 pause
 
