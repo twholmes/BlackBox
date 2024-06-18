@@ -30,10 +30,10 @@
     switch(e.item.name) 
     {
       case "PageMenuDataFiles":
-          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues2);
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues1);
           break;
       case "PageMenuJobFiles":
-          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues3);
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues2);
           break;
     }
   }
@@ -126,16 +126,8 @@
           gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues1);     
           break;
 
-       case "CustomDataFolder":
-          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues2);
-          break;
-
-       case "CustomFileFolder":
-          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues3);
-          break;
-
        case "CustomEditFile":
-          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues4);
+          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues3);
           break;
 
        case "CustomArchiveStep":
@@ -149,20 +141,15 @@
 
   function OnGetUploadedFilesFocusedRowValues1(fid)
   {
-    openUrlWithParamFromPage("Spreadsheet.aspx", "fid", fid, true);
+    openUrlWithParamFromPage("DataFiles.aspx", "fid", fid, true);
   }
 
   function OnGetUploadedFilesFocusedRowValues2(fid)
   {
-    openUrlWithParamFromPage("DataFiles.aspx", "fid", fid, true);
-  }
-
-  function OnGetUploadedFilesFocusedRowValues3(fid)
-  {
     openUrlWithParamFromPage("JobFiles.aspx", "fid", fid, true);
   }
 
-  function OnGetUploadedFilesFocusedRowValues4(fid)
+  function OnGetUploadedFilesFocusedRowValues3(fid)
   {
     openUrlWithParamFromPage("Editor.aspx", "fid", fid, true);
   } 
@@ -219,11 +206,6 @@
     var isCustom = false;
     switch(command) 
     {
-      case "CustomFileFolder":
-      case "CustomDataFolder":      
-          isCustom = false;
-          break;
-
       case "CustomDownloadFile":
           isCustom = true;
           break;
@@ -860,8 +842,6 @@
                                     <Items>
                                         <dx:GridViewToolbarItem Name="CustomDownloadFile" Text="Download" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="false" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomFileFolder" Text="Job Files" BeginGroup="true" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomDataFolder" Text="Data Files" BeginGroup="false" Enabled="false" />
                                         <%--<dx:GridViewToolbarItem Name="CustomEditFile" Text="Edit" BeginGroup="true" Enabled="false" />--%>
                                     </Items>
                                 </dx:GridViewToolbarItem>

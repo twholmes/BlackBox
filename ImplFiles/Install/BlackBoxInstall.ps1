@@ -119,7 +119,7 @@ function ConfigureWindowsFeaturesForBlackBox
 ###########################################################################
 # Copy files to GitHub from DEV published
 
-function UpdateGitHubFromDevPublished
+function CopyGitHubFromDevPublished
 {
   ## set key web site config variables
 	$GitHubWebSitePath = GetConfigValue "GitHubWebSiteDir"

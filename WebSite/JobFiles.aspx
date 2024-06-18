@@ -27,7 +27,7 @@
   // page functions
   // ///////////////////////
 
-	//var urlParams = window.location.href
+  //var urlParams = window.location.href
   //var getQuery = urlParams.split('?')[1]
   //var params = getQuery.split('&')
            
@@ -237,7 +237,7 @@
        <Items>
           <dx:MenuItem Name="PageMenuDataFiles" Text="Data Files" Alignment="Right" AdaptivePriority="1">
                <Image IconID="format_listbullets_svg_dark_16x16" />
-          </dx:MenuItem>               	
+          </dx:MenuItem>                
           <dx:MenuItem Alignment="Right" AdaptivePriority="2">  
               <ItemStyle BackColor="White" />  
               <TextTemplate>  
@@ -297,7 +297,7 @@
                       OnItemRenaming="FileManager_ItemRenaming" OnItemCopying="FileManager_ItemCopying" OnItemRenamed="FileManager_ItemRenamed" OnItemsCopied="FileManager_ItemsCopied"
                       OnFileUploading="FileManager_FileUploading" OnFolderCreating="FileManager_FolderCreating">
                       <Settings RootFolder="~/Jobs" ThumbnailFolder="~/Resources/Thumbnails"
-                          AllowedFileExtensions=".jpg,.jpeg,.gif,.rtf,.txt,.avi,.png,.mp3,.xml,.doc,.pdf,.html,.log,.csv,.xls,.xlsx,.xml,.sql,.zip"
+                          AllowedFileExtensions=".rtf,.doc,.txt,.xml,.html,.log,.csv,.xml,.sql,.cmd"
                           InitialFolder="~/Jobs" />
                       <SettingsEditing AllowCreate="true" AllowDelete="true" AllowMove="true" AllowRename="true" AllowCopy="true" AllowDownload="true" />
                       <SettingsPermissions>
@@ -367,101 +367,59 @@
 
    <%--
    **** CONTENT TABS
-   --%>
+   --%>           
 
-   <dx:ASPxSplitter runat="server" id="ASPxSplitter1" ResizingMode="Live" >
-       <Panes>
-           <dx:SplitterPane AutoHeight="False" Size="20%" MinSize="110px" >
-               <ContentCollection>
-                   <dx:SplitterContentControl ID="SplitterContentControl1" runat="server" SupportsDisabledAttribute="True">
-
-                   <dx:ASPxFileManager runat="server" ID="SelectFileManager" ClientInstanceName="SelectFileManager" Height="700"
-                       OnCustomCallback="SelectFileManager_CustomCallback" OnCustomThumbnail="OnFileManagerCustomThumbnails"
-                       OnFolderCreating="SelectFileManager_FolderCreating" OnItemDeleting="SelectFileManager_ItemDeleting" OnItemMoving="SelectFileManager_ItemMoving" 
-                       OnItemRenaming="SelectFileManager_ItemRenaming" OnFileUploading="SelectFileManager_FileUploading" 
-                       OnItemCopying="SelectFileManager_ItemCopying">
-                       <Settings RootFolder="~/" ThumbnailFolder="~/Resources/Thumbnails" 
-                           AllowedFileExtensions=".rtf,.txt,.xml,.doc,.html,.xml,.log"
-                           InitialFolder="~/Jobs" />
-                       <SettingsEditing AllowCreate="false" AllowDelete="false" AllowMove="false" AllowRename="false" AllowCopy="false" AllowDownload="false" />
-                       <SettingsPermissions>
-                           <AccessRules>
-                               <dx:FileManagerFolderAccessRule Path="system" Edit="Deny" />
-                               <dx:FileManagerFileAccessRule Path="system\*" Download="Deny" />
-                           </AccessRules>
-                       </SettingsPermissions>
-                       <SettingsFolders Visible="False" />                                    
-                       <SettingsFileList ShowFolders="false" ShowParentFolder="false" />
-                       <SettingsBreadcrumbs Visible="false" ShowParentFolderButton="false" Position="Top" />
-                       <SettingsUpload UseAdvancedUploadMode="false">
-                           <AdvancedModeSettings EnableMultiSelect="false" />
-                       </SettingsUpload>
-                       <SettingsAdaptivity Enabled="true" />
-                       <ClientSideEvents SelectedFileChanged="OnSelectedFileChanged" CallbackError="OnExceptionOccurred"></ClientSideEvents>
-                   </dx:ASPxFileManager>                  
-             
-                   </dx:SplitterContentControl>
-               </ContentCollection>
-           </dx:SplitterPane>
-           <dx:SplitterPane AutoHeight="True" Size="80%" MinSize="280px" >
-               <ContentCollection>
-                   <dx:SplitterContentControl ID="SplitterContentControl2" runat="server" SupportsDisabledAttribute="True">
-
-                   <dx:ASPxRichEdit ID="RichEditSelected" runat="server" ClientInstanceName="RichEditSelected" Height="800" Width="100%"
-                       OnCallback="RichEditSelected_Callback" ActiveTabIndex="0" RibbonMode="OneLineRibbon"
-                       ShowConfirmOnLosingChanges="false" OnPreRender="RichEditSelected_PreRender">
-                       <RibbonTabs>
-                           <dx:RERHomeTab>
-                               <Groups>
-                                   <dx:RERFileCommonGroup>
-                                       <Items>
-                                           <dx:RERSaveCommand Size="Large" Text="Save" ToolTip="Ctrl + S" />
-                                           <dx:RERSaveAsCommand Size="Large" Text="SaveAs" ToolTip="Ctrl + Z" />
-                                       </Items>
-                                   </dx:RERFileCommonGroup>
-                                   <dx:RERUndoGroup>
-                                       <Items>
-                                           <dx:RERUndoCommand Size="Large" Text="Undo" ToolTip="Ctrl + Z" />
-                                           <dx:RERRedoCommand Size="Large" Text="Redo" ToolTip="Ctrl + Y" />
-                                       </Items>
-                                   </dx:RERUndoGroup>
-                                   <dx:RERClipboardGroup>
-                                       <Items>
-                                           <dx:RERPasteCommand Size="Large" Text="Paste" ToolTip="Ctrl + P" />
-                                           <dx:RERCopyCommand Size="Small" Text="Copy" ToolTip="Ctrl + C" />
-                                           <dx:RERCutCommand Size="Small" Text="Cut" ToolTip="Ctrl + X" />                                                            	
-                                       </Items>
-                                   </dx:RERClipboardGroup>
-                                   <dx:REREditingGroup>
-                                       <Items>
-                                           <dx:RERFindCommand Size="Large" Text="Find" ToolTip="Ctrl + F" />
-                                           <dx:RERReplaceCommand Size="Large" Text="Replace" ToolTip="Ctrl + R" />
-                                           <dx:RERSelectAllCommand Size="Large" Text="SelectAll" ToolTip="Ctrl + A" />                                                            	
-                                       </Items>
-                                   </dx:REREditingGroup>
-                                   <dx:RERViewGroup>
-                                       <Items>
-                                           <dx:RERToggleFullScreenCommand ToolTip="F11" />
-                                       </Items>
-                                   </dx:RERViewGroup>
-                               </Groups>
-                           </dx:RERHomeTab>
-                       </RibbonTabs>                                        
-                       <Settings>                                        
-                           <Views ViewType="Simple">
-                               <SimpleView>
-                                   <Paddings Top="10" Left="10"/>
-                               </SimpleView>
-                           </Views>
-                       </Settings>
-                       <ClientSideEvents EndCallback="OnRichEditEndCallback"></ClientSideEvents>
-                   </dx:ASPxRichEdit>
-                   
-                   </dx:SplitterContentControl>
-               </ContentCollection>
-           </dx:SplitterPane>
-       </Panes>
-   </dx:ASPxSplitter>                   
+   <dx:ASPxRichEdit ID="RichEditSelected" runat="server" ClientInstanceName="RichEditSelected" Height="800" Width="100%"
+       OnCallback="RichEditSelected_Callback" ActiveTabIndex="0" RibbonMode="OneLineRibbon"
+       ShowConfirmOnLosingChanges="false" OnPreRender="RichEditSelected_PreRender">
+       <RibbonTabs>
+           <dx:RERHomeTab>
+               <Groups>
+                   <dx:RERFileCommonGroup>
+                       <Items>
+                           <dx:REROpenCommand Size="Large" Text="Open" ToolTip="Ctrl + O" />                       	
+                           <dx:RERSaveCommand Size="Large" Text="Save" ToolTip="Ctrl + S" />
+                           <dx:RERSaveAsCommand Size="Large" Text="SaveAs" ToolTip="Ctrl + Z" />
+                       </Items>
+                   </dx:RERFileCommonGroup>
+                   <dx:RERUndoGroup>
+                       <Items>
+                           <dx:RERUndoCommand Size="Large" Text="Undo" ToolTip="Ctrl + Z" />
+                           <dx:RERRedoCommand Size="Large" Text="Redo" ToolTip="Ctrl + Y" />
+                       </Items>
+                   </dx:RERUndoGroup>
+                   <dx:RERClipboardGroup>
+                       <Items>
+                           <dx:RERPasteCommand Size="Large" Text="Paste" ToolTip="Ctrl + P" />
+                           <dx:RERCopyCommand Size="Small" Text="Copy" ToolTip="Ctrl + C" />
+                           <dx:RERCutCommand Size="Small" Text="Cut" ToolTip="Ctrl + X" />                                                              
+                       </Items>
+                   </dx:RERClipboardGroup>
+                   <dx:REREditingGroup>
+                       <Items>
+                           <dx:RERFindCommand Size="Large" Text="Find" ToolTip="Ctrl + F" />
+                           <dx:RERReplaceCommand Size="Large" Text="Replace" ToolTip="Ctrl + R" />
+                           <dx:RERSelectAllCommand Size="Large" Text="SelectAll" ToolTip="Ctrl + A" />                                                              
+                       </Items>
+                   </dx:REREditingGroup>
+                   <dx:RERViewGroup>
+                       <Items>
+                           <dx:RERToggleFullScreenCommand ToolTip="F11" />
+                       </Items>
+                   </dx:RERViewGroup>
+               </Groups>
+           </dx:RERHomeTab>
+       </RibbonTabs>                                        
+       <Settings>                                        
+           <Views ViewType="Simple">
+               <SimpleView>
+                   <Paddings Top="10" Left="10"/>
+               </SimpleView>
+           </Views>
+       </Settings>
+       <ClientSideEvents EndCallback="OnRichEditEndCallback"></ClientSideEvents>
+       <SettingsDocumentSelector FileListSettings-View="Details"></SettingsDocumentSelector>       
+   </dx:ASPxRichEdit>                
 
    <%--
    **** POPUP PANEL
