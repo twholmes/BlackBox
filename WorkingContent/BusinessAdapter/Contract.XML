@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <ManageSoft connectiontype="default" runintransaction="False" />
+  <Imports>
+    <Import Type="SqlServer" Name="Contract" Template="Contract" Enabled="True" Description="select * from Contracts" ConnectionString="Password=Ak7sBQquS7Z4HTgm;Persist Security Info=True;User ID=fnms-service;Initial Catalog=FNMSStaging;Data Source=fnms-nprd-sql-mi.3bfe2199f719.database.windows.net" Query="select * from Contracts" TimeOut="0" TraceActions="rejected" tracelifetime="1 Month(s)" Impersonate="true" Username="agl.int\svc_fnmsprc_tst" Password="2|AAQAAANCMnd8BFdERjHoAwE/Cl+sBAAAABYeDL2bneEq0NblmXcgtpgQAAAACAAAAAAADZgAAwAAAABAAAABOMpG/ySiKMtggmEnm4iFjAAAAAASAAACgAAAAEAAAAMz6MfBz38EVKQD/Xrns0cgoAAAAmtHNIQqhV+Tw7IYpbQ1lpuw8ltj/QyDQpykOGbGvrw7zojxHb/5gghQAAACHDV2YTshuF5dYs3orCT0bXU/rvA==">
+      <Object Type="Vendor" Name="Vendor" Update="False" Create="True" OutputField="vendoroutid">
+        <Property Type="vendorname" Name="Name" Update="Never" ValueType="Field Value" Value="Vendor" UseForMatching="True" />
+      </Object>
+      <Object Type="Contract" Name="Contract_1" Update="True" Create="True" OutputField="Contract_1_ID">
+        <Property Type="contractno" Name="Contract No" Update="Do not blank" ValueType="Field Value" Value="MasterContractNumber" UseForMatching="True" Length="60" />
+        <Property Type="contractname" Name="Contract Description" Update="Do not blank" ValueType="Field Value" Value="MasterContractName" Length="100" />
+        <Property Type="contracttype" Name="Contract Type" Update="Do not blank" ValueType="Field Value" Value="MasterContractType" Length="1000" />
+      </Object>
+      <Object Type="Location" Name="Location" Update="True" Create="True" OutputField="Location_ID">
+        <Property Type="groupcn" Name="Name" Update="Never" ValueType="Field Value" Value="Location" UseForMatching="True" Length="128" RegexSplit="/" />
+        <Property Type="groupexid" Name="ID" Update="Never" ValueType="Field Value" Value="Location_ID" UseForMatching="True" MatchingMode="like" DataType="Integer" UseNullValueForMatching="RemoveProperty" />
+      </Object>
+      <Object Type="CorporateUnit" Name="Corporate Unit" Update="True" Create="True" OutputField="CorporateUnit_ID">
+        <Property Type="groupcn" Name="Name" Update="Never" ValueType="Field Value" Value="CorporateStructure" UseForMatching="True" Length="128" RegexSplit="/" />
+        <Property Type="groupexid" Name="ID" Update="Never" ValueType="Field Value" Value="CorporateUnit_ID" UseForMatching="True" MatchingMode="like" DataType="Integer" UseNullValueForMatching="RemoveProperty" />
+      </Object>
+      <Object Type="CostCenter" Name="Cost Center" Update="True" Create="True" OutputField="CostCenter_ID">
+        <Property Type="groupcn" Name="Name" Update="Never" ValueType="Field Value" Value="CostCenter" UseForMatching="True" Length="128" RegexSplit="/" />
+        <Property Type="groupexid" Name="ID" Update="Never" ValueType="Field Value" Value="CostCenter_ID" UseForMatching="True" MatchingMode="like" DataType="Integer" UseNullValueForMatching="RemoveProperty" />
+      </Object>
+      <Object Type="Category" Name="Category" Update="True" Create="True" OutputField="Category_ID">
+        <Property Type="groupcn" Name="Name" Update="Never" ValueType="Field Value" Value="Category" UseForMatching="True" Length="128" RegexSplit="/" />
+        <Property Type="groupexid" Name="ID" Update="Never" ValueType="Field Value" Value="Category_ID" UseForMatching="True" MatchingMode="like" DataType="Integer" UseNullValueForMatching="RemoveProperty" />
+      </Object>
+      <Object Type="Contract" Name="Contract" Update="True" Create="True" OutputField="Contract_ID">
+        <Property Type="contractno" Name="Contract No" Update="Do not blank" ValueType="Field Value" Value="ContractNumber" UseForMatching="True" Length="60" />
+        <Property Type="contractname" Name="Contract Description" Update="Do not blank" ValueType="Field Value" Value="ContractName" Length="100" />
+        <Property Type="contracttype" Name="Contract Type" Update="Do not blank" ValueType="Field Value" Value="ContractType" Length="1000" />
+        <Property Type="contractstatus" Name="Contract Status" Update="Do not blank" ValueType="Field Value" Value="ContractStatus" Length="1000" OnMissingFieldValue="Remove Property" />
+        <Property Type="startdate" Name="Start Date" Update="Do not blank" ValueType="Field Value" Value="StartDate" DataType="Date" />
+        <Property Type="enddate" Name="Expiry Date" Update="Do not blank" ValueType="Field Value" Value="EndDate" DataType="Date" />
+        <Property Type="neverexpires" Name="Evergreen" Update="Do not blank" ValueType="Field Value" Value="NeverExpires" />
+        <Property Type="preexpirydate" Name="Review Date" Update="Do not blank" ValueType="Field Value" Value="PreExpiryDate" DataType="Date" />
+        <Property Type="renewaldate" Name="Next Renewal Date" Update="Do not blank" ValueType="Field Value" Value="RenewalDate" DataType="Date" />
+        <Property Type="monthlyvalue" Name="Monthly Amount" Update="Do not blank" ValueType="Field Value" Value="Monthly amount" DataType="Float" />
+        <Property Type="totalvalue" Name="Global Amount" Update="Do not blank" ValueType="Field Value" Value="Global amount" DataType="Float" />
+        <Property Type="vendorid" Name="Vendor ID" Update="Do not blank" ValueType="Field Value" Value="vendoroutid" DataType="Integer" />
+        <Property Type="comments" Name="Comments" Update="Do not blank" ValueType="Field Value" Value="Comments" />
+        <Property Type="lastreneweddate" Name="Last Renewed Date" Update="Do not blank" ValueType="Field Value" Value="Last renewed date" DataType="Date" />
+        <Property Type="mastercontractid" Name="Master Contract ID" Update="Do not blank" ValueType="Field Value" Value="Contract_1_ID" DataType="Integer" />
+        <Property Type="locationid" Name="Location ID" Update="Do not blank" ValueType="Field Value" Value="Location_ID" Length="128" />
+        <Property Type="businessunitid" Name="Corporate Unit ID" Update="Do not blank" ValueType="Field Value" Value="CorporateUnit_ID" Length="128" />
+        <Property Type="costcenterid" Name="Cost Center ID" Update="Do not blank" ValueType="Field Value" Value="CostCenter_ID" Length="128" />
+        <Property Type="categoryid" Name="Category ID" Update="Do not blank" ValueType="Field Value" Value="Category_ID" Length="128" />
+      </Object>
+    </Import>
+  </Imports>
+</root>
