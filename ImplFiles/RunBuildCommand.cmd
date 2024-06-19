@@ -23,8 +23,9 @@ ECHO .
 ECHO 6) Configure BlackBox web site
 ECHO .
 ECHO 7) Configure scheduled task to process Scheduled BlackBox Files
+ECHO 8) Configure the Flexera integration
 ECHO .
-ECHO 8) Synch bbadmin settings to registry
+ECHO 9) Synch bbadmin settings to registry
 ECHO .
 
 REM select command to run
@@ -66,6 +67,12 @@ IF %n% == 7 (
 ECHO .
 
 IF %n% == 8 (
+  ECHO Configure the Flexera integration
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureFlexeraIntegration"
+)
+ECHO .
+
+IF %n% == 9 (
   ECHO Synch bbadmin settings to registry
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 SyncBbAdminSettings"
 )

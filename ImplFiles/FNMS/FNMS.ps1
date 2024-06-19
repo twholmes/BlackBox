@@ -302,6 +302,26 @@ function CheckFNMSDatabaseConnections
 
   return $true
 }
+
+
+###########################################################################
+# Configure the Flexera integration
+
+function ConfigureFlexeraIntegration
+{
+  ## set the Flexera integration type
+	$FlexeraIntegration = GetConfigValue "FlexeraIntegration"
+
+  ## set the path to MGSBI.exe
+	$MGSBIPath = GetConfigValue "MGSBIPath"
+
+  ## set the path to FlxBizAdapterImporter.exe
+	$FBAIPath = GetConfigValue "FBAIPath"
+
+
+	Log "Flexera is integrated at the $FlexeraIntegration level"
+	return $true
+}
   
 
 
