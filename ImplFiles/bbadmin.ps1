@@ -426,8 +426,8 @@ function SyncConfigValues()
     foreach ($setting in $mc.Xml.Configuration.Setting) 
     {
       $v = $GlobalConfigSettings[$setting.Name]
-      #Set-RegKeyValue "HKLM:\SOFTWARE\WOW6432Node\Crayon Australia\BlackBox" $setting.Name $v
-      Log ("Setting {0} = {1}" -f $setting.Name $v)
+      Set-RegKeyValue "HKLM:\\SOFTWARE\\WOW6432Node\\Crayon Australia\\BlackBox" $setting.Name $v
+      Log ("Setting {0} = {1}" -f $setting.Name, $v)
     }
   }
   return $true
