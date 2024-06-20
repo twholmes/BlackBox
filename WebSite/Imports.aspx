@@ -838,32 +838,28 @@
                                 <dx:GridViewToolbarItem Command="ShowFilterRow" BeginGroup="true" AdaptivePriority="1"/>
                                 <dx:GridViewToolbarItem Command="ShowCustomizationWindow" AdaptivePriority="2"/>  
 
-                                <dx:GridViewToolbarItem Text="Files" BeginGroup="true" AdaptivePriority="3">
-                                    <Items>
-                                        <dx:GridViewToolbarItem Name="CustomDownloadFile" Text="Download" BeginGroup="true" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="false" Enabled="false" />
-                                        <%--<dx:GridViewToolbarItem Name="CustomEditFile" Text="Edit" BeginGroup="true" Enabled="false" />--%>
-                                    </Items>
-                                </dx:GridViewToolbarItem>
+                                <dx:GridViewToolbarItem Name="CustomDownloadFile" Text="Download" BeginGroup="true" AdaptivePriority="3" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="true" AdaptivePriority="4" Enabled="false" />
+                                <%--<dx:GridViewToolbarItem Name="CustomEditFile" Text="Edit" BeginGroup="true" Enabled="false" />--%>
 
-                                <dx:GridViewToolbarItem Text="Steps" BeginGroup="true" AdaptivePriority="6">
+                                <dx:GridViewToolbarItem Text="Steps" BeginGroup="true" AdaptivePriority="5">
                                     <Items>
                                         <dx:GridViewToolbarItem Name="CustomRegisterStep" Text="Register" BeginGroup="true" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomScheduleStep" Text="Schedule" BeginGroup="true" Enabled="false" />                                        	                                        	
+                                        <dx:GridViewToolbarItem Name="CustomScheduleStep" Text="Schedule" BeginGroup="true" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomLoadStep" Text="Load" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomRecallStep" Text="Recall" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomValidateStep" Text="Validate" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomStageStep" Text="Stage" BeginGroup="false" Enabled="false" />
                                         <dx:GridViewToolbarItem Name="CustomRejectStep" Text="Reject" BeginGroup="false" Enabled="false" />
-                                        <dx:GridViewToolbarItem Name="CustomDeleteStep" Text="Delete" BeginGroup="true" Enabled="false" />                                          
                                     </Items>
                                 </dx:GridViewToolbarItem>
 
-                                <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="true" AdaptivePriority="7" Enabled="false" />                                       	                   
-                                <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="true" AdaptivePriority="6" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="7" Enabled="false" />
                                    
-                                <dx:GridViewToolbarItem Name="CustomWithdrawStep" Text="Withdraw" BeginGroup="true" AdaptivePriority="9" Enabled="false" />
-                                <dx:GridViewToolbarItem Name="CustomArchiveStep" Text="Archive" BeginGroup="true" AdaptivePriority="10" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomWithdrawStep" Text="Withdraw" BeginGroup="true" AdaptivePriority="8" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomArchiveStep" Text="Archive" BeginGroup="true" AdaptivePriority="9" Enabled="false" />
+                                <dx:GridViewToolbarItem Name="CustomDeleteStep" Text="Delete" BeginGroup="true" AdaptivePriority="10" Enabled="false" />        	
                             </Items>
                         </dx:GridViewToolbar>
                     </Toolbars>                     

@@ -63,6 +63,12 @@
       case "Thumbnails":
           s.PerformCallback("Thumbnails");
           break;
+
+      case "OpenFile":
+          //var file = FileManager.GetSelectedFile();
+          //var filefullname = file.GetFullName();
+          s.PerformCallback("OpenFile");
+          break;
     }
   }  
   
@@ -70,35 +76,6 @@
   {
   }
  
-  // //////////////////////////////////
-  // settings grid functions
-  // //////////////////////////////////
-
-  // settings grid toolbar functions  
-  function OnGridViewSettingsToolbarItemClick(s, e) 
-  {
-    if (IsCustomGridViewToolbarCommand(e.item.name)) 
-    {
-      e.processOnServer=true;
-      e.usePostBack=true;
-    }
-  }
-
-  // settings gridview functions
-  function OnGridViewSettingsInit(s, e) 
-  { 
-    var toolbar = gridViewSettings.GetToolbar(0);  
-    if (toolbar != null) 
-    {  
-    }
-  }
-    
-  function OnGridViewSettingsSelectionChanged(s, e) 
-  {
-    e.processOnServer=true;
-    e.usePostBack=true;
-  }
-
   // ///////////////////////////
   // page control functions
   // //////////////////////////
@@ -319,6 +296,9 @@
                           <Items>
                               <dx:FileManagerToolbarCustomButton CommandName="Properties" BeginGroup="true">
                                   <Image IconID="setup_properties_32x32" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="OpenFile" BeginGroup="true">
+                                  <Image IconID="actions_openfile_32x32gray" />
                               </dx:FileManagerToolbarCustomButton>
                               <dx:FileManagerToolbarCreateButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarRenameButton BeginGroup="true" />                           

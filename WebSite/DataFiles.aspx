@@ -355,6 +355,9 @@
                               <dx:FileManagerToolbarCustomButton CommandName="Properties" BeginGroup="true">
                                   <Image IconID="setup_properties_32x32" />
                               </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="OpenFile" BeginGroup="true">
+                                  <Image IconID="actions_openfile_32x32gray" />
+                              </dx:FileManagerToolbarCustomButton>
                               <dx:FileManagerToolbarCreateButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarRenameButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarMoveButton />
