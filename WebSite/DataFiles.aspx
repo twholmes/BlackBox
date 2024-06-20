@@ -59,8 +59,25 @@
   {
     switch(e.commandName) 
     {
+      case "ChangeView-Thumbnails":
+          s.PerformCallback("Thumbnails");
+          break;
+      case "ChangeView-Details":
+          s.PerformCallback("Details");
+          break
+                        	
       case "Thumbnails":
           s.PerformCallback("Thumbnails");
+          break;
+
+      case "Thumbnails":
+          s.PerformCallback("Thumbnails");
+          break;
+
+      case "OpenFile":
+          //var file = FileManager.GetSelectedFile();
+          //var filefullname = file.GetFullName();
+          s.PerformCallback("OpenFile");
           break;
     }
   }  
@@ -332,7 +349,7 @@
                       OnItemRenaming="FileManager_ItemRenaming" OnItemCopying="FileManager_ItemCopying" OnItemRenamed="FileManager_ItemRenamed" OnItemsCopied="FileManager_ItemsCopied"
                       OnFileUploading="FileManager_FileUploading" OnFolderCreating="FileManager_FolderCreating">
                       <Settings RootFolder="~/Jobs" ThumbnailFolder="~/Resources/Thumbnails"
-                          AllowedFileExtensions=".jpg,.jpeg,.gif,.rtf,.txt,.avi,.png,.mp3,.xml,.doc,.pdf,.html,.log,.csv,.xls,.xlsx,.xml,.sql,.zip"
+                          AllowedFileExtensions=".rtf,.doc,.docx,.xls,.xlsx,.txt,.xml,.html,.log,.csv,.xml,.sql,.cmd"
                           InitialFolder="~/Jobs" />
                       <SettingsEditing AllowCreate="true" AllowDelete="true" AllowMove="true" AllowRename="true" AllowCopy="true" AllowDownload="true" />
                       <SettingsPermissions>
@@ -352,19 +369,25 @@
                       <SettingsAdaptivity Enabled="true" /> 
                       <SettingsToolbar>
                           <Items>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Thumbnails" GroupName="ViewMode">
+                                  <Image IconID="grid_cards_32x32" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Details" GroupName="ViewMode">
+                                  <Image IconID="grid_grid_32x32" />
+                              </dx:FileManagerToolbarCustomButton>                          	
                               <dx:FileManagerToolbarCustomButton CommandName="Properties" BeginGroup="true">
                                   <Image IconID="setup_properties_32x32" />
                               </dx:FileManagerToolbarCustomButton>
                               <dx:FileManagerToolbarCustomButton CommandName="OpenFile" BeginGroup="true">
                                   <Image IconID="actions_openfile_32x32gray" />
                               </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarRefreshButton BeginGroup="true" />
                               <dx:FileManagerToolbarCreateButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarRenameButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarMoveButton />
                               <dx:FileManagerToolbarCopyButton />
                               <dx:FileManagerToolbarDeleteButton />
-                              <dx:FileManagerToolbarRefreshButton BeginGroup="true" />
-                              <dx:FileManagerToolbarDownloadButton />
+                              <dx:FileManagerToolbarDownloadButton BeginGroup="true" />
                           </Items>
                       </SettingsToolbar>
                       <ClientSideEvents Init="OnFileManagerInit" CustomCommand="OnCustomFileManagerCommand" />                        

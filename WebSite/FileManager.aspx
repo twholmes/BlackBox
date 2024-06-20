@@ -58,10 +58,23 @@
     switch(e.commandName) 
     {
       case "Thumbnails":
-          s.PerformCallback("Thumbnails");      
+          //s.PerformCallback("Thumbnails");      
           break;
       case "Details":
           //s.PerformCallback("Details");      
+          break;
+
+      case "ChangeView-Thumbnails":
+          s.PerformCallback("Thumbnails");
+          break;
+      case "ChangeView-Details":
+          s.PerformCallback("Details");
+          break
+
+      case "OpenFile":
+          //var file = FileManager.GetSelectedFile();
+          //var filefullname = file.GetFullName();
+          s.PerformCallback("OpenFile");
           break;
     }
   }  
@@ -443,7 +456,7 @@
                           <dx:LayoutItem ShowCaption="False" CssClass="buttonAlign" Width="100%">
                               <LayoutItemNestedControlCollection>
                                   <dx:LayoutItemNestedControlContainer runat="server" SupportsDisabledAttribute="True">
-                                      <asp:Button ID="ResetSettingsButton" runat="server" AutoPostBack="false" OnClick="ResetSettingsButton_Click" Text="Reset" />	
+                                      <asp:Button ID="ResetSettingsButton" runat="server" AutoPostBack="false" OnClick="ResetSettingsButton_Click" Text="Reset" />  
                                   </dx:LayoutItemNestedControlContainer>
                               </LayoutItemNestedControlCollection>
                           </dx:LayoutItem>
@@ -553,12 +566,12 @@
                                       <dx:GridViewColumnLayoutItem ColumnName="Value">
                                         <Template>
                                            <dx:ASPxTextBox ID="valueTextBox" runat="server" Width="80%" Text='<%# Bind("Value") %>' OnValidation="ASPxTextBoxSettings_Validation">
-                                           	  <%-- --%>
+                                              <%-- --%>
                                               <ValidationSettings ValidationGroup="testGroup">
                                                  <RequiredField IsRequired="True" ErrorText="A value is required"/>
                                               </ValidationSettings>
                                               <%-- --%>
-                                           </dx:ASPxTextBox>	
+                                           </dx:ASPxTextBox>  
                                         </Template>
                                       </dx:GridViewColumnLayoutItem>
                                       <dx:EditModeCommandLayoutItem Width="100%" HorizontalAlign="Right" />                                                                                                                                
@@ -604,17 +617,17 @@
            **** DATAFOLDER TABPAGE
            --%>
 
-           <dx:TabPage Text="Job and Upload Files">
+           <dx:TabPage Text="Job Files">
               <ContentCollection>
                   <dx:ContentControl ID="MainContentControl1" runat="server">
-                  	
+                    
                   <dx:ASPxFileManager ID="FileManager" ClientInstanceName="FileManager" runat="server" Width="95%" Height="750px"
                       OnCustomCallback="FileManager_CustomCallback" OnCustomThumbnail="OnFileManagerCustomThumbnails"
                       OnItemDeleting="FileManager_ItemDeleting" OnItemMoving="FileManager_ItemMoving" OnItemsDeleted="FileManager_ItemsDeleted" OnItemMoved="FileManager_ItemMoved"
                       OnItemRenaming="FileManager_ItemRenaming" OnItemCopying="FileManager_ItemCopying" OnItemRenamed="FileManager_ItemRenamed" OnItemsCopied="FileManager_ItemsCopied"
                       OnFileUploading="FileManager_FileUploading" OnFolderCreating="FileManager_FolderCreating">
                       <Settings RootFolder="~/Jobs" ThumbnailFolder="~/Resources/Thumbnails"
-                          AllowedFileExtensions=".jpg,.jpeg,.gif,.rtf,.txt,.avi,.png,.mp3,.xml,.doc,.pdf,.html,.log,.csv,.xls,.xlsx,.xml,.sql,.zip"
+                          AllowedFileExtensions=".jpg,.jpeg,.gif,.rtf,.txt,.avi,.png,.mp3,.xml,.doc,.pdf,.html,.log,.csv,.xls,.xlsx,.xml,.sql,.cmd,.zip"
                           InitialFolder="~/Jobs" />
                       <SettingsEditing AllowCreate="true" AllowDelete="true" AllowMove="true" AllowRename="true" AllowCopy="true" AllowDownload="true" />
                       <SettingsPermissions>
@@ -634,16 +647,25 @@
                       <SettingsAdaptivity Enabled="true" /> 
                       <SettingsToolbar>
                           <Items>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Thumbnails" GroupName="ViewMode">
+                                  <Image IconID="grid_cards_32x32" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Details" GroupName="ViewMode">
+                                  <Image IconID="grid_grid_32x32" />
+                              </dx:FileManagerToolbarCustomButton>                            
                               <dx:FileManagerToolbarCustomButton CommandName="Properties" BeginGroup="true">
                                   <Image IconID="setup_properties_32x32" />
                               </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="OpenFile" BeginGroup="true">
+                                  <Image IconID="actions_openfile_32x32gray" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarRefreshButton BeginGroup="true" />
                               <dx:FileManagerToolbarCreateButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarRenameButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarMoveButton />
                               <dx:FileManagerToolbarCopyButton />
                               <dx:FileManagerToolbarDeleteButton />
-                              <dx:FileManagerToolbarRefreshButton BeginGroup="true" />
-                              <dx:FileManagerToolbarDownloadButton />
+                              <dx:FileManagerToolbarDownloadButton BeginGroup="true" />
                           </Items>
                       </SettingsToolbar>
                       <ClientSideEvents Init="OnFileManagerInit" CustomCommand="OnCustomFileManagerCommand" />                        
@@ -660,14 +682,14 @@
            <dx:TabPage Text="Log Files">
               <ContentCollection>
                   <dx:ContentControl ID="MainContentControl2" runat="server">
-                  	
+                    
                   <dx:ASPxFileManager ID="LogsFileManager" ClientInstanceName="LogsFileManager" runat="server" Width="95%" Height="750px"
                       OnCustomCallback="LogsFileManager_CustomCallback" OnCustomThumbnail="OnFileManagerCustomThumbnails"
                       OnItemDeleting="LogsFileManager_ItemDeleting" OnItemMoving="LogsFileManager_ItemMoving" OnItemsDeleted="LogsFileManager_ItemsDeleted" OnItemMoved="LogsFileManager_ItemMoved"
                       OnItemRenaming="LogsFileManager_ItemRenaming" OnItemCopying="LogsFileManager_ItemCopying" OnItemRenamed="LogsFileManager_ItemRenamed" OnItemsCopied="LogsFileManager_ItemsCopied"
                       OnFileUploading="LogsFileManager_FileUploading" OnFolderCreating="LogsFileManager_FolderCreating">
                       <Settings RootFolder="~/Logs" ThumbnailFolder="~/Resources/Thumbnails"
-                          AllowedFileExtensions=".jpg,.jpeg,.gif,.rtf,.txt,.avi,.png,.mp3,.xml,.doc,.pdf,.html,.log,.csv,.xls,.xlsx,.xml,.zip"
+                          AllowedFileExtensions=".jpg,.jpeg,.gif,.rtf,.txt,.avi,.png,.mp3,.xml,.doc,.pdf,.html,.log,.csv,.xls,.xlsx,.xml,.sql,.cmd,.zip"
                           InitialFolder="~/Logs" />
                       <SettingsEditing AllowCreate="true" AllowDelete="true" AllowMove="true" AllowRename="true" AllowCopy="true" AllowDownload="true" />
                       <SettingsPermissions>
@@ -687,16 +709,24 @@
                       <SettingsAdaptivity Enabled="true" /> 
                       <SettingsToolbar>
                           <Items>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Thumbnails" GroupName="ViewMode">
+                                  <Image IconID="grid_cards_32x32" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Details" GroupName="ViewMode">
+                                  <Image IconID="grid_grid_32x32" />
+                              </dx:FileManagerToolbarCustomButton>                            
                               <dx:FileManagerToolbarCustomButton CommandName="Properties" BeginGroup="true">
                                   <Image IconID="setup_properties_32x32" />
                               </dx:FileManagerToolbarCustomButton>
-                              <dx:FileManagerToolbarCreateButton BeginGroup="true" />                           
-                              <dx:FileManagerToolbarRenameButton BeginGroup="true" />                           
+                              <dx:FileManagerToolbarCustomButton CommandName="OpenFile" BeginGroup="true">
+                                  <Image IconID="actions_openfile_32x32gray" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCreateButton BeginGroup="true" />
+                              <dx:FileManagerToolbarRenameButton BeginGroup="true" />
                               <dx:FileManagerToolbarMoveButton />
                               <dx:FileManagerToolbarCopyButton />
                               <dx:FileManagerToolbarDeleteButton />
-                              <dx:FileManagerToolbarRefreshButton BeginGroup="true" />
-                              <dx:FileManagerToolbarDownloadButton />
+                              <dx:FileManagerToolbarDownloadButton BeginGroup="true" />
                           </Items>
                       </SettingsToolbar>
                       <ClientSideEvents Init="OnFileManagerInit" CustomCommand="OnCustomFileManagerCommand" />                        
