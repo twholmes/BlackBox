@@ -38,7 +38,7 @@ function BuildWebConfig
 	$WebApp = GetConfigValue "WebApplication"
 
 	$WebSitePath = GetConfigValue "WebSitePath"
-	$WebSiteContentPath = GetConfigValue "WebSiteContentPath"	
+	$WorkingContentPath = GetConfigValue "WorkingContentPath"	
 
 	$WorkerPath = GetConfigValue "WorkerAppPath"
 

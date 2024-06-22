@@ -318,6 +318,14 @@ function ConfigureFlexeraIntegration
   ## set the path to FlxBizAdapterImporter.exe
 	$FBAIPath = GetConfigValue "FBAIPath"
 
+  ## set the path to FNMS InvSvr IncomingD
+	$FNMSInvSvrIncomingPath = GetConfigValue "FNMSInvSvrIncomingDir"
+
+  ## set the path to FNMS Beacon Server FQDN
+	$FNMSBeaconServerFQDN = GetConfigValue "FNMSBeaconServerFQDN"
+
+  ## set the path to FNMS Beacon BusinessAdapter
+	$FNMSBeaconBusinessAdapterPath = GetConfigValue "FNMSBeaconBusinessAdapterDir"
 
 	Log "Flexera is integrated at the $FlexeraIntegration level"
 	return $true

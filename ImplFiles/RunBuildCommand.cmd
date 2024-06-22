@@ -13,27 +13,35 @@ SET BlackBoxWorkingDir=%~dp0
 
 REM List BlackBox comman options
 ECHO BlackBox PowerShell Commands:
-ECHO 1) Open PowerShell console
+ECHO 0) Open PowerShell console
+ECHO .
+ECHO 1) Install all
 ECHO .
 ECHO 2) Rebuild database
-ECHO 3) Copy to Live from DEV published
-ECHO 4) Copy to LiveContent from DEV published
-ECHO 5) Copy to GitHub from DEV published
+ECHO 3) Copy DEV published to Live
+ECHO 4) Copy DEV published content to Live
+ECHO 5) Copy DEV published to GitHub
 ECHO .
 ECHO 6) Configure BlackBox web site
 ECHO .
 ECHO 7) Configure scheduled task to process Scheduled BlackBox Files
 ECHO 8) Configure the Flexera integration
+ECHO 9) Configure all Business adapters
 ECHO .
-ECHO 9) Synch bbadmin settings to registry
+ECHO 10) Synch bbadmin settings to registry
 ECHO .
 
 REM select command to run
 set /P n="Run action #: "
 
 ECHO .
-IF %n% == 1 (
+IF %n% == 0 (
   powershell start-process powershell -verb runas 
+)
+
+IF %n% == 1 (
+  ECHO Install all components
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 InstallAll"
 )
 
 IF %n% == 2 (
@@ -43,16 +51,16 @@ IF %n% == 2 (
 
 IF %n% == 3 (
   ECHO Copy to Live from DEV published
-  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyLiveFromDevPublished"
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedToLive"
 )
 IF %n% == 4 (
-  ECHO Copy to LiveContent from DEV published
-  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyLiveContentFromDevPublished"
+  ECHO Copy DEV published content to Live
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedContentToLive"
 )
 
 IF %n% == 5 (
-  ECHO Copy to GitHub from DEV published
-  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyGitHubFromDevPublished"
+  ECHO DEV published to GitHub
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedToGitHub"
 )
 
 IF %n% == 6 (
@@ -73,6 +81,12 @@ IF %n% == 8 (
 ECHO .
 
 IF %n% == 9 (
+  ECHO Configure all Business adapters
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureAllAdapters"
+)
+ECHO .
+
+IF %n% == 10 (
   ECHO Synch bbadmin settings to registry
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 SyncBbAdminSettings"
 )

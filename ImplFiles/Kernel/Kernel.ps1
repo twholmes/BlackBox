@@ -14,6 +14,8 @@ function SyncBbAdminSettings
   Log "Synch bbadmin settings to registry"  
   try 
   {
+    Remove-Item -Path "HKLM:\\SOFTWARE\\WOW6432Node\\Crayon Australia\\BlackBox" -force | Out-Null
+    New-Item -Path "HKLM:\\SOFTWARE\\WOW6432Node\\Crayon Australia\\BlackBox" -force | Out-Null
     SyncConfigValues | Out-Null
     Log    
   }

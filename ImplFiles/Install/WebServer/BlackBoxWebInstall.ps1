@@ -80,7 +80,7 @@ function UninstallBlackBoxWebServer
 ###########################################################################
 # Copy files to live from DEV published
 
-function CopyLiveFromDevPublished
+function CopyDevPublishedToLive
 {
   ## set key web site config variables
   $WebSite = GetConfigValue "WebSiteName"
@@ -88,12 +88,12 @@ function CopyLiveFromDevPublished
   $WebApp = GetConfigValue "WebApplication"
 
   $WebSitePath = GetConfigValue "WebSitePath"
-  $WebSiteContentPath = GetConfigValue "WebSiteContentPath" 
+  $WorkingContentPath = GetConfigValue "WorkingContentPath" 
 
   $WorkerPath = GetConfigValue "WorkerAppPath"
 
   ## what is the source?
-  $DevPublishedDir = GetConfigValue "DevPublishDir"
+  $DevPublishedDir = GetConfigValue "DevSourcePublishDir"
 
   ## Files in the support directory often end up in a 'blocked' state after being downloaded from an
   ## untrusted Internet site. We unblock these files here to seek to avoid failures while running the website
@@ -116,7 +116,7 @@ function CopyLiveFromDevPublished
 ###########################################################################
 # Copy content files to live from DEV published
 
-function CopyLiveContentFromDevPublished
+function CopyDevPublishedContentToLive
 {
   ## set key web site config variables
   $WebSite = GetConfigValue "WebSiteName"
@@ -124,29 +124,37 @@ function CopyLiveContentFromDevPublished
   $WebApp = GetConfigValue "WebApplication"
 
   $WebSitePath = GetConfigValue "WebSitePath"
-  $WebSiteContentPath = GetConfigValue "WebSiteContentPath" 
+  $WorkingContentPath = GetConfigValue "WorkingContentPath" 
 
   $WorkerPath = GetConfigValue "WorkerAppPath"
 
   ## what is the source?
-  $DevContentDir = GetConfigValue "DevContentDir"
+  $DevSourceContentDir = GetConfigValue "DevSourceContentDir"
+  Log "DEV source content directory is: $DevSourceContentDir"
 
   ## Files in the support directory often end up in a 'blocked' state after being downloaded from an
   ## untrusted Internet site. We unblock these files here to seek to avoid failures while running the website
   #Get-ChildItem -Recurse $DevPublishedDir | Unblock-File | Out-Null
 
   ## remove all existing virtual directory files before copying new (Content)
-  $VirtualDirPath = Join-Path $WebSiteContentPath "Content"  
+  $VirtualDirPath = Join-Path $WorkingContentPath "Content"  
   Log ("Cleanup virtial directory files {0}" -f $VirtualDirPath)
-  Get-ChildItem -Path $VirtualDirPath -Include *.* -File -Recurse | foreach { $_.Delete()}
-  Get-ChildItem -Path $VirtualDirPath -Recurse -Force | Where-Object { $_.PSIsContainer -and (Get-ChildItem -Path $_.FullName -Recurse -Force | Where-Object { !$_.PSIsContainer }) -eq $null } | Remove-Item -Force -Recurse  
+  if (Test-Path $VirtualDirPath) 
+  {
+    Get-ChildItem -Path $VirtualDirPath -Include *.* -File -Recurse | foreach { $_.Delete()}
+    Get-ChildItem -Path $VirtualDirPath -Recurse -Force | Where-Object { $_.PSIsContainer -and (Get-ChildItem -Path $_.FullName -Recurse -Force | Where-Object { !$_.PSIsContainer }) -eq $null } | Remove-Item -Force -Recurse  
+  }
+  else
+  {
+    New-Item -Path $WorkingContentPath -Name "Content" -ItemType "directory" | Out-Null
+  }
 
-  $SourcePath = Join-Path $DevContentDir "Content"  
+  $SourcePath = Join-Path $DevSourceContentDir "Content"  
   Copy-Item -Path (Join-Path $SourcePath "*") -Recurse -Destination $VirtualDirPath -Verbose
   Log ""
 
   ## remove all existing virtual directory files before copying new (Scripts)
-  $VirtualDirPath = Join-Path $WebSiteContentPath "Scripts"  
+  $VirtualDirPath = Join-Path $WorkingContentPath "Scripts"  
   Log ("Cleanup virtial directory files {0}" -f $VirtualDirPath)
   if (Test-Path $VirtualDirPath) 
   {
@@ -155,15 +163,15 @@ function CopyLiveContentFromDevPublished
   }
   else
   {
-    New-Item -Path $WebSiteContentPath -Name "Scripts" -ItemType "directory" | Out-Null
+    New-Item -Path $WorkingContentPath -Name "Scripts" -ItemType "directory" | Out-Null
   }
 
-  $SourcePath = Join-Path $DevContentDir "Scripts"
+  $SourcePath = Join-Path $DevSourceContentDir "Scripts"
   Copy-Item -Path (Join-Path $SourcePath "*") -Recurse -Destination $VirtualDirPath -Verbose
   Log ""
 
   ## remove all existing virtual directory files before copying new (Templates)
-  $VirtualDirPath = Join-Path $WebSiteContentPath "Templates"  
+  $VirtualDirPath = Join-Path $WorkingContentPath "Templates"  
   Log ("Cleanup virtial directory files {0}" -f $VirtualDirPath)
   if (Test-Path $VirtualDirPath) 
   {
@@ -172,15 +180,15 @@ function CopyLiveContentFromDevPublished
   }
   else
   {
-    New-Item -Path $WebSiteContentPath -Name "Templates" -ItemType "directory" | Out-Null
+    New-Item -Path $WorkingContentPath -Name "Templates" -ItemType "directory" | Out-Null
   }
 
-  $SourcePath = Join-Path $DevContentDir "Templates"
+  $SourcePath = Join-Path $DevSourceContentDir "Templates"
   Copy-Item -Path (Join-Path $SourcePath "*") -Recurse -Destination $VirtualDirPath -Verbose
   Log ""
 
   ## remove all existing virtual directory files before copying new (Tasks)
-  $VirtualDirPath = Join-Path $WebSiteContentPath "Tasks"
+  $VirtualDirPath = Join-Path $WorkingContentPath "Tasks"
   Log ("Cleanup virtial directory files {0}" -f $VirtualDirPath)
   if (Test-Path $VirtualDirPath) 
   {
@@ -189,15 +197,15 @@ function CopyLiveContentFromDevPublished
   }
   else
   {
-    New-Item -Path $WebSiteContentPath -Name "Tasks" -ItemType "directory" | Out-Null 
+    New-Item -Path $WorkingContentPath -Name "Tasks" -ItemType "directory" | Out-Null 
   }
 
-  $SourcePath = Join-Path $DevContentDir "Tasks"
+  $SourcePath = Join-Path $DevSourceContentDir "Tasks"
   Copy-Item -Path (Join-Path $SourcePath "*") -Recurse -Destination $VirtualDirPath -Verbose
   Log ""
 
   ## remove all existing virtual directory files before copying new (Jobs)
-  $VirtualDirPath = Join-Path $WebSiteContentPath "Jobs"
+  $VirtualDirPath = Join-Path $WorkingContentPath "Jobs"
   Log ("Cleanup virtial directory files {0}" -f $VirtualDirPath)
   if (Test-Path $VirtualDirPath) 
   {
@@ -206,19 +214,19 @@ function CopyLiveContentFromDevPublished
   }
   else
   {
-    New-Item -Path $WebSiteContentPath -Name "Jobs" -ItemType "directory" | Out-Null 
+    New-Item -Path $WorkingContentPath -Name "Jobs" -ItemType "directory" | Out-Null 
   }
   
   New-Item -Path (Join-Path $VirtualDirPath "temp") -ItemType Directory | Out-Null
 
-  $JobsPath = Join-Path $DevContentDir "Jobs"
+  $JobsPath = Join-Path $DevSourceContentDir "Jobs"
   $SourcePath = Join-Path $JobsPath "00000000-0000-0000-0000-000000000000"
   New-Item -Path (Join-Path $VirtualDirPath "00000000-0000-0000-0000-000000000000") -ItemType Directory | Out-Null
   Copy-Item -Path (Join-Path $SourcePath "*") -Recurse -Destination (Join-Path $VirtualDirPath "00000000-0000-0000-0000-000000000000") -Verbose
   Log ""
 
   ## remove all existing virtual directory files before copying new (Archives)
-  $VirtualDirPath = Join-Path $WebSiteContentPath "Archives"
+  $VirtualDirPath = Join-Path $WorkingContentPath "Archives"
   Log ("Cleanup virtial directory files {0}" -f $VirtualDirPath)
   if (Test-Path $VirtualDirPath) 
   {
@@ -227,7 +235,20 @@ function CopyLiveContentFromDevPublished
   }
   else
   {
-    New-Item -Path $WebSiteContentPath -Name "Archives" -ItemType "directory" | Out-Null 
+    New-Item -Path $WorkingContentPath -Name "Archives" -ItemType "directory" | Out-Null 
+  }
+
+  ## remove all existing working directory files before copying new (BusinessAdapter)
+  $WorkingDirPath = Join-Path $WorkingContentPath "BusinessAdapter"
+  Log ("Cleanup virtial directory files {0}" -f $WorkingDirPath)
+  if (Test-Path $VirtualDirPath) 
+  {
+    Get-ChildItem -Path $WorkingDirPath -Include *.* -File -Recurse | foreach { $_.Delete()}
+    Get-ChildItem -Path $WorkingDirPath -Recurse -Force | Where-Object { $_.PSIsContainer -and (Get-ChildItem -Path $_.FullName -Recurse -Force | Where-Object { !$_.PSIsContainer }) -eq $null } | Remove-Item -Force -Recurse
+  }
+  else
+  {
+    New-Item -Path $WorkingContentPath -Name "BusinessAdapter" -ItemType "directory" | Out-Null 
   }
 
   Log "Live web site content files updated from DEV published"
@@ -249,7 +270,7 @@ function ConfigureWebSite
 	$WorkerPath = GetConfigValue "WorkerAppPath"
 
 	$WebSitePath = GetConfigValue "WebSitePath"
-	$WebSiteContentPath = GetConfigValue "WebSiteContentPath"	
+	$WorkingContentPath = GetConfigValue "WorkingContentPath"	
 	
 	$ServiceAccount = GetConfigValue "BlackBoxServiceAccount"
 
@@ -344,68 +365,68 @@ function ConfigureWebSite
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Worker" -PhysicalPath $WorkerPath | Out-Host
 
   ## get adapters path and set virtual directory
-  $regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
-  $beaconDir = Get-RegKeyValue $regPath "BaseDirectory"
-  $adaptersDir = Join-Path $beaconDir "BusinessAdapter\"
-  if ([string]::IsNullOrEmpty($adaptersDir) -OR !(Test-Path $adaptersDir)) 
-  {
-    $adaptersDir = Join-Path $WebSiteContentPath "Adapters\"
-  }
-  Log "...Adapters = '$adaptersDir'"   
-  New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Adapters" -PhysicalPath $adaptersDir | Out-Host
+  #$regPath = "HKLM:\SOFTWARE\WOW6432Node\ManageSoft Corp\ManageSoft\Beacon\CurrentVersion"
+  #$beaconDir = Get-RegKeyValue $regPath "BaseDirectory"
+  #$adaptersDir = Join-Path $beaconDir "BusinessAdapter\"
+  #if ([string]::IsNullOrEmpty($adaptersDir) -OR !(Test-Path $adaptersDir)) 
+  #{
+  #  $adaptersDir = Join-Path $WorkingContentPath "Adapters\"
+  #}
+  #Log "...Adapters = '$adaptersDir'"   
+  #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Adapters" -PhysicalPath $adaptersDir | Out-Host
   
   ## get archives path and set virtual directory
-  $archivesDir = Join-Path $WebSiteContentPath "Archives\"
+  $archivesDir = Join-Path $WorkingContentPath "Archives\"
   Log "...Archives = '$archivesDir'"   
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Archives" -PhysicalPath $archivesDir | Out-Host
 
   ## get content path and set virtual directory
-  $contentDir = Join-Path $WebSiteContentPath "Content\"
+  $contentDir = Join-Path $WorkingContentPath "Content\"
   Log "...Content = '$contentDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Content" -PhysicalPath $contentDir | Out-Host
   
   ## get data path and set virtual directory
-  $dataDir = Join-Path $WebSiteContentPath "Data\"
+  $dataDir = Join-Path $WorkingContentPath "Data\"
   Log "...Data = '$dataDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Data" -PhysicalPath $dataDir | Out-Host
   
   ## images data path and set virtual directory
-  #$imagesDir = Join-Path $WebSiteContentPath "Images\"
+  #$imagesDir = Join-Path $WorkingContentPath "Images\"
   #Log "...Images = '$imagesDir'" 
   #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Images" -PhysicalPath $imagesDir | Out-Host
 
   ## get jobs path and set virtual directory  
-  $jobsDir = Join-Path $WebSiteContentPath "Jobs\"
+  $jobsDir = Join-Path $WorkingContentPath "Jobs\"
   Log "...Jobs = '$jobsDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Jobs" -PhysicalPath $jobsDir | Out-Host
 
   ## get logs path and set virtual directory  
-  $logsDir = Join-Path $WebSiteContentPath "Logs\"
+  $logsDir = Join-Path $WorkingContentPath "Logs\"
   Log "...Logs = '$logsDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Logs" -PhysicalPath $logsDir | Out-Host
 
   ## get packages path and set virtual directory  
-  $packagesDir = Join-Path $WebSiteContentPath "Packages\"
+  $packagesDir = Join-Path $WorkingContentPath "Packages\"
   Log "...Packages = '$packagesDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Packages" -PhysicalPath $packagesDir | Out-Host
   
   ## get photos path and set virtual directory  
-  #$photosDir = Join-Path $WebSiteContentPath "Photos\"
+  #$photosDir = Join-Path $WorkingContentPath "Photos\"
   #Log "...Photos = '$photosDir'" 
   #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Photos" -PhysicalPath $photosDir | Out-Host
 
   ## get scripts path and set virtual directory  
-  $scriptsDir = Join-Path $WebSiteContentPath "Scripts\"
-  Log "...Scripts = '$scriptsDir'" 
-  New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Scripts" -PhysicalPath $scriptsDir | Out-Host
+  #$scriptsDir = Join-Path $WorkingContentPath "Scripts\"
+  #Log "...Scripts = '$scriptsDir'" 
+  #New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Scripts" -PhysicalPath $scriptsDir | Out-Host
 
   ## get tasks path and set virtual directory  
-  $tasksDir = Join-Path $WebSiteContentPath "Tasks\"
+  $tasksDir = Join-Path $WorkingContentPath "Tasks\"
   Log "...Tasks = '$tasksDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Tasks" -PhysicalPath $tasksDir | Out-Host
   
   ## get templates path and set virtual directory  
-  $templatesDir = Join-Path $WebSiteContentPath "Templates\"
+  $templatesDir = Join-Path $WorkingContentPath "Templates\"
   Log "...Templates = '$templatesDir'" 
   New-WebVirtualDirectory -Force -Site $WebSite -Application $WebApp -Name "Templates" -PhysicalPath $templatesDir | Out-Host
   Log ""
