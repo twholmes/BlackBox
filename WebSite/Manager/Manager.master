@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Root.master.cs" Inherits="BlackBox.RootMaster" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Manager.master.cs" Inherits="BlackBox.ManagerMaster" %>
 
 <%@ Register assembly="DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
 
@@ -190,11 +190,11 @@
       **** LEFT PANEL
       --%>
 
-      <%-- COLOR SCHEMES: GREY=#E1E1E1, USER=#616161, SYSTEM=#003300, ADMIN=#660033, DEV=#660033 --%>
+      <%-- COLOR SCHEMES: GREY=#E1E1E1, USER=#003300, SYSTEM=#003300, ADMIN=#660033, DEV=#660033 --%>
 
       <dx:ASPxPanel runat="server" ID="LeftPanel" ClientInstanceName="leftPanel"
           Collapsible="true" ScrollBars="Auto" FixedPosition="WindowLeft" FixedPositionOverlap="true" Width="220px"
-          CssClass="left-panel" Paddings-Padding="0" BackColor="#616161">
+          CssClass="left-panel" Paddings-Padding="0" BackColor="#003300">
           <Styles>
               <ExpandBar CssClass="expand-bar"></ExpandBar>
           </Styles>
@@ -224,10 +224,10 @@
             
               <%-- this is an user level menu --%>                              
               <dx:ASPxMenu ID="ASPxMenuTop" runat="server" ClientInstanceName="topMenu" Orientation="Vertical" 
-                  BackColor="#616161" Font-Bold="True" Font-Size="X-Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  BackColor="#003300" Font-Bold="True" Font-Size="X-Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
                   Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-                  <Border BorderColor="#616161" />
-                  <BorderBottom BorderColor="#616161" BorderWidth="20px" />
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />
                   <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
                   <Items>
                       <dx:MenuItem Name="TopMenuBlackBox" Text="BlackBox">
@@ -246,10 +246,10 @@
             
               <%-- this is an user level menu --%>
               <dx:ASPxMenu ID="ASPxMenuHome" runat="server" ClientInstanceName="homeMenu" Orientation="Vertical" 
-                  BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
                   Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-                  <Border BorderColor="#616161" />
-                  <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
                   <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
                   <Items>
                       <dx:MenuItem Name="HomeMenuLanding" NavigateUrl="~/Default.aspx" Text="Home">
@@ -267,10 +267,10 @@
 
               <%-- this is a user level menu --%>
               <dx:ASPxMenu ID="ASPxMenuMiddle" runat="server" ClientInstanceName="middleMenu" Orientation="Vertical" 
-                  BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
                   Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-                  <Border BorderColor="#616161" />
-                  <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
                   <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
                   <Items> 
                       <dx:MenuItem Name="MainMenuLogs" NavigateUrl="~/FileManager.aspx" Text="File Manager">
@@ -290,10 +290,10 @@
 
               <%-- this is a manager level menu --%>
               <dx:ASPxMenu ID="ASPxMenuManager" runat="server" ClientInstanceName="managerMenu" Orientation="Vertical" 
-                  BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Middle" 
                   Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-                  <Border BorderColor="#616161" />
-                  <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
                   <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
                   <Items>
                       <dx:MenuItem Name="MainMenuContacts" NavigateUrl="~/Manager/Users.aspx" Text="Users">
@@ -315,10 +315,10 @@
                  
               <%-- this is an user level menu --%>                                     
               <dx:ASPxMenu ID="ASPxMenuBottom" runat="server" ClientInstanceName="bottomMenu" Orientation="Vertical"
-                  BackColor="#616161" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Bottom" 
+                  BackColor="#003300" Font-Bold="False" Font-Size="Large" ForeColor="White" HorizontalAlign="Left" VerticalAlign="Bottom" 
                   Width="100%" AllowSelectItem="True" AppearAfter="10" ItemWrap="False" MaximumDisplayLevels="1" LinkStyle-HoverColor="#6699FF">
-                  <Border BorderColor="#616161" />
-                  <BorderBottom BorderColor="#616161" BorderWidth="20px" />                        
+                  <Border BorderColor="#003300" />
+                  <BorderBottom BorderColor="#003300" BorderWidth="20px" />                        
                   <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="False" EnableCollapseRootItemsToIcons="true" CollapseRootItemsToIconsAtWindowInnerWidth="200" />                        
                   <Items>
                       <dx:MenuItem Name="MainMenuHelp" NavigateUrl="~/Help.aspx" Text="Help">
