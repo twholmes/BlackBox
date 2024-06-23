@@ -115,29 +115,3 @@ function ConfigureWindowsFeaturesForBlackBox
 	return $true
 }
 
-
-###########################################################################
-# Copy files from DEV published to GitHub
-
-function CopyDevPublishedToGitHub
-{
-  ## set key web site config variables
-	$GitHubWebSitePath = GetConfigValue "DevSourceWebSiteDir"
-
-  ## what is the source?
-	$DevPublishedDir = GetConfigValue "DevSourcePublishDir"
-
-  ## remove all existing website files
-  Log ("Cleanup temp folder files {0}" -f $GitHubWebSitePath)
-  Get-ChildItem -Path $GitHubWebSitePath -Include *.* -File -Recurse | foreach { $_.Delete()}
-  
-  ## delete any empty directories left behind after deleting the old files
-  Get-ChildItem -Path $GitHubWebSitePath -Recurse -Force | Where-Object { $_.PSIsContainer -and (Get-ChildItem -Path $_.FullName -Recurse -Force | Where-Object { !$_.PSIsContainer }) -eq $null } | Remove-Item -Force -Recurse
-
-  ## copy new files from source
-  Copy-Item -Path (Join-Path $DevPublishedDir "*") -Recurse -Destination $GitHubWebSitePath -Verbose
-
-	Log "GitHub web site files updated from DEV published"
-	return $true
-}
-

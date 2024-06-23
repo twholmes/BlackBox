@@ -14,25 +14,26 @@ SET BlackBoxWorkingDir=%~dp0
 REM List BlackBox comman options
 ECHO BlackBox PowerShell Commands:
 ECHO 0) Open PowerShell console
-ECHO .
 ECHO 1) Install all
 ECHO .
-ECHO 2) Rebuild database
-ECHO 3) Copy DEV published to Live
-ECHO 4) Copy DEV published content to Live
-ECHO 5) Copy DEV published to GitHub
+ECHO 11) Rebuild database
+ECHO 12) Copy DEV published to Live
+ECHO 13) Copy DEV published content to Live
 ECHO .
-ECHO 6) Configure BlackBox web site
+ECHO 21) Configure BlackBox web site
+ECHO 22) Configure the Flexera integration
+ECHO 23) Configure all Business adapters
 ECHO .
-ECHO 7) Configure scheduled task to process Scheduled BlackBox Files
-ECHO 8) Configure the Flexera integration
-ECHO 9) Configure all Business adapters
+ECHO 26) Configure scheduled task to process Scheduled BlackBox Files
 ECHO .
-ECHO 10) Synch bbadmin settings to registry
+ECHO 29) Synch bbadmin settings to registry
 ECHO .
 
 REM select command to run
 set /P n="Run action #: "
+
+REM TOP LEVEL COMMANDS
+REM
 
 ECHO .
 IF %n% == 0 (
@@ -44,49 +45,50 @@ IF %n% == 1 (
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 InstallAll"
 )
 
-IF %n% == 2 (
+REM COPY AND INSTALL 
+REM
+
+IF %n% == 11 (
   ECHO Rebuild database
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureBlackBoxDatabase"
 )
 
-IF %n% == 3 (
-  ECHO Copy to Live from DEV published
+IF %n% == 12 (
+  ECHO Copy DEV published to Live
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedToLive"
 )
-IF %n% == 4 (
+IF %n% == 13 (
   ECHO Copy DEV published content to Live
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedContentToLive"
 )
 
-IF %n% == 5 (
-  ECHO DEV published to GitHub
-  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedToGitHub"
-)
+REM CCONFIGURE
+REM
 
-IF %n% == 6 (
+IF %n% == 21 (
   ECHO Configure BlackBox web site
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureWebSite"
 )
 
-IF %n% == 7 (
-  ECHO Configure scheduled task to process Scheduled BlackBox Files
-  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureProcessScheduledBlackBoxFilesScheduledTask"
-)
-ECHO .
-
-IF %n% == 8 (
+IF %n% == 22 (
   ECHO Configure the Flexera integration
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureFlexeraIntegration"
 )
 ECHO .
 
-IF %n% == 9 (
+IF %n% == 23 (
   ECHO Configure all Business adapters
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureAllAdapters"
 )
 ECHO .
 
-IF %n% == 10 (
+IF %n% == 26 (
+  ECHO Configure scheduled task to process Scheduled BlackBox Files
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 ConfigureProcessScheduledBlackBoxFilesScheduledTask"
+)
+ECHO .
+
+IF %n% == 29 (
   ECHO Synch bbadmin settings to registry
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 SyncBbAdminSettings"
 )
