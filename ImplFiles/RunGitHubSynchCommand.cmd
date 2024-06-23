@@ -16,8 +16,15 @@ ECHO BlackBox PowerShell Commands:
 ECHO 0) Open PowerShell console
 ECHO 1) Push all files to GitHub
 ECHO .
-ECHO 32) Copy DEV published to GitHub
-ECHO 33) Copy Live ImplFiles to GitHub
+ECHO 2) Copy DEV published to GitHub
+ECHO 3) Copy Live ImplFiles to GitHub
+ECHO 4) Copy Live WorkingContent to GitHub
+ECHO .
+ECHO 11) Push all files to GitHubCrayon
+ECHO .
+ECHO 12) Copy DEV published to GitHubCrayon
+ECHO 13) Copy Live ImplFiles to GitHubCrayon
+ECHO 14) Copy Live WorkingContent to GitHubCrayon
 ECHO .
 
 REM select command to run
@@ -31,22 +38,50 @@ IF %n% == 0 (
   powershell start-process powershell -verb runas 
 )
 
+REM COPY BACK TO GITHUB
+REM
+
 IF %n% == 1 (
   ECHO Push all files to GitHub
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 UpdateGitHubFiles"
 )
 
-REM COPY BACK TO GITHUB
-REM
-
-IF %n% == 32 (
+IF %n% == 2 (
   ECHO DEV published to GitHub
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedToGitHub"
 )
 
-IF %n% == 33 (
+IF %n% == 3 (
   ECHO Live ImplFiles to GitHub
   PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyLiveImplFilesToGitHub"
+)
+
+IF %n% == 4 (
+  ECHO Live WorkingContent to GitHub
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyLiveWorkingContentToGitHub"
+)
+
+REM COPY BACK TO GITHUBCRAYON
+REM
+
+IF %n% == 11 (
+  ECHO Push all files to GitHubCrayon
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 UpdateGitHubCrayonFiles"
+)
+
+IF %n% == 12 (
+  ECHO DEV published to GitHubCrayon
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyDevPublishedToGitHubCrayon"
+)
+
+IF %n% == 13 (
+  ECHO Live ImplFiles to GitHubCrayon
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyLiveImplFilesToGitHubCrayon"
+)
+
+IF %n% == 14 (
+  ECHO Live WorkingContent to GitHubCrayon
+  PowerShell -NoProfile -ExecutionPolicy Bypass "& .\bbadmin.ps1 CopyLiveWorkingContentToGitHubCrayon"
 )
 
 pause
