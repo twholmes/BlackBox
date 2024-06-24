@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Root.master" CodeBehind="Imports.aspx.cs" Inherits="BlackBox.ImportsPage" Title="BlackBox" %>
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="User.master" CodeBehind="Imports.aspx.cs" Inherits="BlackBox.UserImportsPage" Title="BlackBox" %>
 
 <%@ Register assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
 
@@ -338,7 +338,7 @@
                      <table>
                        <tr style="padding: inherit; margin: 2px 2px 2px 2px; vertical-align: middle; height: 46px; text-indent: 8px;">
                          <td>
-                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="~/Default.aspx" Text="Root" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
+                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="~/Default.aspx" Text="User" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
                            <dx:ASPxLabel ID="BreadcrumbsSpacer" runat="server" Text=">"></dx:ASPxLabel>
                            <dx:ASPxLabel ID="BreadcrumbsLabel" ClientIDMode="Static" runat="server" Text="Home" Font-Bold="True" Font-Size="Large" Width="300px" />
                          </td>
@@ -367,12 +367,14 @@
           <SpriteProperties CssClass="adaptive-image"></SpriteProperties>
        </AdaptiveMenuImage>
        <Items>
+       	  <%--
           <dx:MenuItem Name="PageMenuDataFiles" Text="Data Files" Alignment="Right" AdaptivePriority="1">
                <Image IconID="format_listbullets_svg_dark_16x16" />
           </dx:MenuItem>        
           <dx:MenuItem Name="PageMenuJobFiles" Text="Job Files" Alignment="Right" AdaptivePriority="2">
                <Image IconID="format_listbullets_svg_dark_16x16" />
-          </dx:MenuItem>        
+          </dx:MenuItem>
+          --%>    
           <dx:MenuItem Alignment="Right" AdaptivePriority="2">  
               <ItemStyle BackColor="White" />  
               <TextTemplate>  
@@ -599,7 +601,7 @@
                                 <dx:LayoutItem Caption="Guest" ColumnSpan="1">
                                     <LayoutItemNestedControlCollection>
                                         <dx:LayoutItemNestedControlContainer>
-                                            <dx:ASPxCheckBox ID="cbUserGuest" runat="server" AutoPostBack="False" Width="50" Checked="True" />
+                                            <dx:ASPxCheckBox ID="cbUserGuest" runat="server" AutoPostBack="False" Width="50" Enabled="False" Checked="True" />
                                         </dx:LayoutItemNestedControlContainer>
                                     </LayoutItemNestedControlCollection>
                                 </dx:LayoutItem>
@@ -607,7 +609,7 @@
                                 <dx:LayoutItem Caption="User">
                                     <LayoutItemNestedControlCollection>
                                         <dx:LayoutItemNestedControlContainer>
-                                            <dx:ASPxCheckBox ID="cbUserOperator" runat="server" AutoPostBack="False" Width="50" Checked="False" />
+                                            <dx:ASPxCheckBox ID="cbUserOperator" runat="server" AutoPostBack="False" Width="50" Enabled="False" Checked="False" />
                                         </dx:LayoutItemNestedControlContainer>
                                     </LayoutItemNestedControlCollection>
                                 </dx:LayoutItem>
@@ -615,7 +617,7 @@
                                 <dx:LayoutItem Caption="Manager" ColumnSpan="1">
                                     <LayoutItemNestedControlCollection>
                                         <dx:LayoutItemNestedControlContainer>
-                                            <dx:ASPxCheckBox ID="cbUserManager" runat="server" AutoPostBack="False" Width="50" Checked="False" />
+                                            <dx:ASPxCheckBox ID="cbUserManager" runat="server" AutoPostBack="False" Width="50" Enabled="False" Checked="False" />
                                         </dx:LayoutItemNestedControlContainer>
                                     </LayoutItemNestedControlCollection>
                                 </dx:LayoutItem>
@@ -623,7 +625,7 @@
                                 <dx:LayoutItem Caption="Administrator" ColumnSpan="1">
                                     <LayoutItemNestedControlCollection>
                                         <dx:LayoutItemNestedControlContainer>
-                                            <dx:ASPxCheckBox ID="cbUserAdmin" runat="server" AutoPostBack="False" Width="50" Checked="False" />
+                                            <dx:ASPxCheckBox ID="cbUserAdmin" runat="server" AutoPostBack="False" Width="50" Enabled="False" Checked="False" />
                                         </dx:LayoutItemNestedControlContainer>
                                     </LayoutItemNestedControlCollection>
                                 </dx:LayoutItem>                                                  
@@ -663,14 +665,16 @@
               <ContentCollection>
                   <dx:ContentControl ID="RightPanelContentControl2" runat="server">
            
-                  <dx:ASPxFileManager runat="server" ID="fileManager" ClientInstanceName="fileManager" OnFolderCreating="FileManager_FolderCreating"
+                  <dx:ASPxFileManager runat="server" ID="fileManager" ClientInstanceName="fileManager" Height="750px" 
+                  	  OnFolderCreating="FileManager_FolderCreating"
                       OnItemDeleting="FileManager_ItemDeleting" OnItemMoving="FileManager_ItemMoving" OnCustomThumbnail="OnFileManagerCustomThumbnails"
                       OnItemRenaming="FileManager_ItemRenaming" OnFileUploading="FileManager_FileUploading" OnFilesUploaded="FileManager_FilesUploaded" 
                       OnItemCopying="FileManager_ItemCopying">
                       <Settings RootFolder="~/Templates" ThumbnailFolder="~/Resources/Thumbnails" 
                           AllowedFileExtensions=".csv,.xls,.xlsx"
                           InitialFolder="~/Templates" />
-                      <SettingsEditing AllowCreate="false" AllowDelete="true" AllowMove="false" AllowRename="true" AllowCopy="true" AllowDownload="true" />
+                      <SettingsToolbar ShowPath="false" />
+                      <SettingsEditing AllowCreate="false" AllowDelete="false" AllowMove="false" AllowRename="false" AllowCopy="false" AllowDownload="true" />
                       <SettingsPermissions>
                           <AccessRules>
                               <dx:FileManagerFolderAccessRule Path="system" Edit="Deny" />
@@ -678,10 +682,10 @@
                           </AccessRules>
                       </SettingsPermissions>
                       <SettingsFolders Visible="False" />                                    
-                      <SettingsFileList ShowFolders="true" ShowParentFolder="true" />
-                      <SettingsBreadcrumbs Visible="true" ShowParentFolderButton="true" Position="Top" />
-                      <SettingsUpload UseAdvancedUploadMode="true">
-                          <AdvancedModeSettings EnableMultiSelect="true" />
+                      <SettingsFileList ShowFolders="false" ShowParentFolder="false" />
+                      <SettingsBreadcrumbs Visible="true" ShowParentFolderButton="false" Position="Top" />
+                      <SettingsUpload Enabled="false" UseAdvancedUploadMode="false">
+                          <AdvancedModeSettings EnableMultiSelect="false" />
                       </SettingsUpload>
                       <SettingsAdaptivity Enabled="true" />
                   </dx:ASPxFileManager>                  
@@ -842,6 +846,7 @@
                                 <dx:GridViewToolbarItem Name="CustomOpenFile" Text="Open" BeginGroup="true" AdaptivePriority="4" Enabled="false" />
                                 <%--<dx:GridViewToolbarItem Name="CustomEditFile" Text="Edit" BeginGroup="true" Enabled="false" />--%>
 
+                                <%--
                                 <dx:GridViewToolbarItem Text="Steps" BeginGroup="true" AdaptivePriority="5">
                                     <Items>
                                         <dx:GridViewToolbarItem Name="CustomRegisterStep" Text="Register" BeginGroup="true" Enabled="false" />
@@ -853,6 +858,7 @@
                                         <dx:GridViewToolbarItem Name="CustomRejectStep" Text="Reject" BeginGroup="false" Enabled="false" />
                                     </Items>
                                 </dx:GridViewToolbarItem>
+                                --%>
 
                                 <dx:GridViewToolbarItem Name="CustomProcessStep" Text="Process" BeginGroup="true" AdaptivePriority="6" Enabled="false" />
                                 <dx:GridViewToolbarItem Name="CustomPublishStep" Text="Publish" BeginGroup="true" AdaptivePriority="7" Enabled="false" />

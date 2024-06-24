@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Manager.master" CodeBehind="Users.aspx.cs" Inherits="BlackBox.ManageUsersPage" Title="BlackBox" %>
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Manager.master" CodeBehind="Users.aspx.cs" Inherits="BlackBox.ManagerUsersPage" Title="BlackBox" %>
 
 <%@ Register assembly="DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
 
