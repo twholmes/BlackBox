@@ -126,15 +126,19 @@
           gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues1);     
           break;
 
-       case "CustomEditFile":
-          gridViewUploadedFiles.GetRowValues(fri, 'FID', OnGetUploadedFilesFocusedRowValues3);
-          break;
-
        case "CustomArchiveStep":
+          lblAction.SetText("archive");
           memoActionMessage.SetText("Do you really want to achive this file?");        
           pcAction.Show();
           btActionCancel.Focus(); 
           break;
+
+       case "CustomDeleteStep":
+          lblAction.SetText("delete");
+          memoActionMessage.SetText("Do you really want to delete this file?");        
+          pcAction.Show();
+          btActionCancel.Focus(); 
+          break;          
       }
     }
   }
@@ -148,11 +152,6 @@
   {
     openUrlWithParamFromPage("JobFiles.aspx", "fid", fid, true);
   }
-
-  function OnGetUploadedFilesFocusedRowValues3(fid)
-  {
-    openUrlWithParamFromPage("Editor.aspx", "fid", fid, true);
-  } 
 
   // //////////////////////////////////
   // history gridview functions
@@ -215,10 +214,6 @@
           isCustom = false;
           break;
                 
-      case "CustomEditFile":
-          isCustom = false;
-          break;
-
       case "CustomScheduleStep":
       case "CustomRecallStep":
           isCustom = true;
@@ -249,16 +244,12 @@
           break;
 
       case "CustomArchiveStep":
+      case "CustomDeleteStep": 
           isCustom = false;
           break;
 
       case "CustomExcludeRecord":
       case "CustomIncludeRecord":
-          isCustom = true;
-          break;
-
-      case "CustomDeleteStep":     
-          LoadingPanel.Show();      
           isCustom = true;
           break;
     }
@@ -1298,6 +1289,13 @@
                        <dx:PanelContent runat="server">
                            <dx:ASPxFormLayout runat="server" ID="pcActionFormLayout" Width="100%" Height="100%">
                                <Items>
+                                   <dx:LayoutItem Caption="Action" ShowCaption="False">
+                                       <LayoutItemNestedControlCollection>
+                                           <dx:LayoutItemNestedControlContainer>
+                                               <dx:ASPxLabel ID="lblAction" ClientInstanceName="lblAction" runat="server" Text="none" />
+                                           </dx:LayoutItemNestedControlContainer>
+                                       </LayoutItemNestedControlCollection>
+                                   </dx:LayoutItem>
                                    <dx:LayoutItem Caption="Message" ShowCaption="False">
                                        <LayoutItemNestedControlCollection>
                                            <dx:LayoutItemNestedControlContainer>
@@ -1308,12 +1306,12 @@
                                    <dx:LayoutItem ShowCaption="False">
                                        <LayoutItemNestedControlCollection>
                                            <dx:LayoutItemNestedControlContainer>
+                                               <dx:ASPxButton ID="btActionConfirm" runat="server" Text="OK" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
+                                                   <ClientSideEvents Click="function(s, e) { pcAction.Hide(); LoadingPanel.Show(); actionsCallback.PerformCallback(lblAction.GetText()); }" />
+                                               </dx:ASPxButton>
+                                               <dx:ASPxLabel ID="SpacerLabel1" runat="server" Text="  " />
                                                <dx:ASPxButton ID="btActionCancel" runat="server" Text="Cancel" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
                                                    <ClientSideEvents Click="function(s, e) { pcAction.Hide(); }" />
-                                               </dx:ASPxButton>
-                                               <dx:ASPxLabel ID="SpacerLabel1" runat="server" Text="  " />                                               
-                                               <dx:ASPxButton ID="btActionConfirm" runat="server" Text="OK" Width="80px" AutoPostBack="False" Style="float: left; margin-right: 8px">
-                                                   <ClientSideEvents Click="function(s, e) { pcAction.Hide(); LoadingPanel.Show(); actionsCallback.PerformCallback('archive'); }" />
                                                </dx:ASPxButton>
                                            </dx:LayoutItemNestedControlContainer>
                                        </LayoutItemNestedControlCollection>

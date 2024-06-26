@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Root.master" CodeBehind="Editor.aspx.cs" Inherits="BlackBox.EditorPage" Title="BlackBox" %>
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="Manager.master" CodeBehind="JobFiles.aspx.cs" Inherits="BlackBox.ManagerJobFilesPage" Title="BlackBox" %>
 
 <%@ Register assembly="DevExpress.Web.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
 <%@ Register assembly="DevExpress.Web.ASPxRichEdit.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.ASPxRichEdit" tagprefix="dx" %>
@@ -7,22 +7,30 @@
 **** HEADER CONTENT
 --%>
 
-<asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolderHead">    
+<asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolderHead">
+  
+  <style type="text/css">
+
+  .page-content
+  {
+      min-height: 100%;
+      max-width: 1200px;
+      margin: 10px auto;
+      padding: 20px 14px 20px 14px;
+  } 
+  
+  </style>
+    
   <script type="text/javascript">
  
   // ///////////////////////
   // page functions
   // ///////////////////////
 
-	//var urlParams = window.location.href
+  //var urlParams = window.location.href
   //var getQuery = urlParams.split('?')[1]
   //var params = getQuery.split('&')
-  
-  // main page control
-  function OnPageControlInit(s, e) 
-  { 
-  }
-          
+           
   // page toolbar
   function updateToolbarButtonsState() 
   {
@@ -43,9 +51,7 @@
   // ///////////////////////////
   // file manager functions
   // //////////////////////////
-
-  var postponedCallbackRequired = false;
-    
+  
   function OnFileManagerInit(s, e) 
   { 
   }
@@ -54,12 +60,35 @@
   {
     switch(e.commandName) 
     {
+      case "ChangeView-Thumbnails":
+          s.PerformCallback("Thumbnails");
+          break;
+      case "ChangeView-Details":
+          s.PerformCallback("Details");
+          break
+                        	
       case "Thumbnails":
           s.PerformCallback("Thumbnails");
           break;
+
+      case "OpenFile":
+          //var file = FileManager.GetSelectedFile();
+          //var filefullname = file.GetFullName();
+          s.PerformCallback("OpenFile");
+          break;
     }
   }  
-
+  
+  function OnToolbarUpdating(s, e) 
+  {
+  }
+ 
+  // ///////////////////////////
+  // page control functions
+  // //////////////////////////
+  
+  var postponedCallbackRequired = false;
+  
   function OnSelectedFileChanged(s, e) 
   {
     if (e.file) 
@@ -70,11 +99,6 @@
         postponedCallbackRequired = true;
     }
   }
-
-  // ///////////////////////////
-  // richedit control functions
-  // //////////////////////////
- 
  
   function OnRichEditEndCallback(s, e) 
   {
@@ -89,9 +113,23 @@
   // common functions
   // /////////////////////
   
-  //function OnToolbarUpdating(s, e) 
-  //{
-  //}
+  // is the toolbar command custom or standard
+  function IsCustomGridViewToolbarCommand(command) 
+  {
+    var isCustom = false;
+    switch(command) 
+    {
+      case "CustomExportToXLS":
+      case "CustomExportToXLSX":
+          isCustom = true;
+          break;
+      
+      case "CustomExportToSQL":
+          isCustom = true;
+          break;
+    }
+    return isCustom;
+  }
  
   // open url in new tab or existing tab
   function openUrlFromPage(url, newtab) 
@@ -126,16 +164,15 @@
 
   window.OnFileManagerInit = OnFileManagerInit;
   window.OnCustomFileManagerCommand = OnCustomFileManagerCommand;
-  window.OnSelectedFileChanged = OnSelectedFileChanged;   
-  window.OnExceptionOccurred = OnExceptionOccurred;
   
-  window.OnRichEditEndCallback = OnRichEditEndCallback;
-   
-  //window.OnToolbarUpdating = OnToolbarUpdating;  
+  window.OnToolbarUpdating = OnToolbarUpdating;  
+
+  window.OnExceptionOccurred = OnExceptionOccurred;
  
   </script>
 
 </asp:Content>
+
 
 <%--
 **** BREADCRUMB MENU CONTENT
@@ -153,9 +190,9 @@
                      <table>
                        <tr style="padding: inherit; margin: 2px 2px 2px 2px; vertical-align: middle; height: 46px; text-indent: 8px;">
                          <td>
-                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="~/Default.aspx" Text="Root" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
+                           <dx:ASPxHyperLink ID="BreadcrumbsHyperLink" runat="server" NavigateUrl="Imports.aspx" Text="Manager" Font-Bold="True" Font-Size="Large" Border-BorderStyle="None" Border-BorderWidth="8px" />
                            <dx:ASPxLabel ID="BreadcrumbsSpacer" runat="server" Text=">"></dx:ASPxLabel>
-                           <dx:ASPxLabel ID="BreadcrumbsLabel" ClientIDMode="Static" runat="server" Text="Editor" Font-Bold="True" Font-Size="Large" Width="300px" />
+                           <dx:ASPxLabel ID="BreadcrumbsLabel" ClientIDMode="Static" runat="server" Text="Job Files" Font-Bold="True" Font-Size="Large" Width="300px" />
                          </td>
                          <td>&nbsp;</td>
                        </tr>
@@ -184,7 +221,7 @@
        <Items>
           <dx:MenuItem Name="PageMenuDataFiles" Text="Data Files" Alignment="Right" AdaptivePriority="1">
                <Image IconID="format_listbullets_svg_dark_16x16" />
-          </dx:MenuItem>               	
+          </dx:MenuItem>                
           <dx:MenuItem Alignment="Right" AdaptivePriority="2">  
               <ItemStyle BackColor="White" />  
               <TextTemplate>  
@@ -216,6 +253,13 @@
     **** RIGHT PANEL DATA SOURCES
     --%>    
 
+    <asp:ObjectDataSource ID="SettingsDataModelSource" runat="server" TypeName="BlackBox.Model.SettingsProvider"
+        SelectMethod="GetSettingsGroupsList" InsertMethod="AddNewSetting" UpdateMethod="SetSetting" DeleteMethod="DeleteSetting" 
+        OnSelecting="SettingsDataModelSource_Selecting" >
+       <SelectParameters>
+           <asp:QueryStringParameter DefaultValue="FileManager" Name="Groups" QueryStringField="Groups" Type="String" />
+       </SelectParameters>
+    </asp:ObjectDataSource>
 
     <%--
     **** RIGHT PANEL CONTENT
@@ -237,7 +281,7 @@
                       OnItemRenaming="FileManager_ItemRenaming" OnItemCopying="FileManager_ItemCopying" OnItemRenamed="FileManager_ItemRenamed" OnItemsCopied="FileManager_ItemsCopied"
                       OnFileUploading="FileManager_FileUploading" OnFolderCreating="FileManager_FolderCreating">
                       <Settings RootFolder="~/Jobs" ThumbnailFolder="~/Resources/Thumbnails"
-                          AllowedFileExtensions=".txt,.xml,.html,.log,.csv,.sql"
+                          AllowedFileExtensions=".rtf,.doc,.docx,.txt,.xml,.html,.log,.csv,.xml,.sql,.cmd"
                           InitialFolder="~/Jobs" />
                       <SettingsEditing AllowCreate="true" AllowDelete="true" AllowMove="true" AllowRename="true" AllowCopy="true" AllowDownload="true" />
                       <SettingsPermissions>
@@ -257,19 +301,28 @@
                       <SettingsAdaptivity Enabled="true" /> 
                       <SettingsToolbar>
                           <Items>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Thumbnails" GroupName="ViewMode">
+                                  <Image IconID="grid_cards_32x32" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="ChangeView-Details" GroupName="ViewMode">
+                                  <Image IconID="grid_grid_32x32" />
+                              </dx:FileManagerToolbarCustomButton>                          	
                               <dx:FileManagerToolbarCustomButton CommandName="Properties" BeginGroup="true">
                                   <Image IconID="setup_properties_32x32" />
                               </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarCustomButton CommandName="OpenFile" BeginGroup="true">
+                                  <Image IconID="actions_openfile_32x32gray" />
+                              </dx:FileManagerToolbarCustomButton>
+                              <dx:FileManagerToolbarRefreshButton BeginGroup="true" />
                               <dx:FileManagerToolbarCreateButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarRenameButton BeginGroup="true" />                           
                               <dx:FileManagerToolbarMoveButton />
                               <dx:FileManagerToolbarCopyButton />
                               <dx:FileManagerToolbarDeleteButton />
-                              <dx:FileManagerToolbarRefreshButton BeginGroup="true" />
-                              <dx:FileManagerToolbarDownloadButton />
+                              <dx:FileManagerToolbarDownloadButton BeginGroup="true" />
                           </Items>
                       </SettingsToolbar>
-                      <ClientSideEvents Init="OnFileManagerInit" CustomCommand="OnCustomFileManagerCommand" SelectedFileChanged="OnSelectedFileChanged" CallbackError="OnExceptionOccurred"/>
+                      <ClientSideEvents Init="OnFileManagerInit" CustomCommand="OnCustomFileManagerCommand" />                        
                   </dx:ASPxFileManager>
     
                   </dx:ContentControl>
@@ -307,7 +360,7 @@
 
    <%--
    **** CONTENT TABS
-   --%>
+   --%>           
 
    <dx:ASPxRichEdit ID="RichEditSelected" runat="server" ClientInstanceName="RichEditSelected" Height="800" Width="100%"
        OnCallback="RichEditSelected_Callback" ActiveTabIndex="0" RibbonMode="OneLineRibbon"
@@ -332,14 +385,14 @@
                        <Items>
                            <dx:RERPasteCommand Size="Large" Text="Paste" ToolTip="Ctrl + P" />
                            <dx:RERCopyCommand Size="Small" Text="Copy" ToolTip="Ctrl + C" />
-                           <dx:RERCutCommand Size="Small" Text="Cut" ToolTip="Ctrl + X" />                                                            	
+                           <dx:RERCutCommand Size="Small" Text="Cut" ToolTip="Ctrl + X" />                                                              
                        </Items>
                    </dx:RERClipboardGroup>
                    <dx:REREditingGroup>
                        <Items>
                            <dx:RERFindCommand Size="Large" Text="Find" ToolTip="Ctrl + F" />
                            <dx:RERReplaceCommand Size="Large" Text="Replace" ToolTip="Ctrl + R" />
-                           <dx:RERSelectAllCommand Size="Large" Text="SelectAll" ToolTip="Ctrl + A" />                                                            	
+                           <dx:RERSelectAllCommand Size="Large" Text="SelectAll" ToolTip="Ctrl + A" />                                                              
                        </Items>
                    </dx:REREditingGroup>
                    <dx:RERViewGroup>
@@ -358,13 +411,34 @@
            </Views>
        </Settings>
        <ClientSideEvents EndCallback="OnRichEditEndCallback"></ClientSideEvents>
-   </dx:ASPxRichEdit>                  
+       <SettingsDocumentSelector FileListSettings-View="Details"></SettingsDocumentSelector>       
+   </dx:ASPxRichEdit>                
 
    <%--
    **** POPUP PANEL
    --%>
 
+     
+   <%--
+   **** CONTENT FOOTER
+   --%>
+   
+   <%--<div class="footer-wrapper" id="footerWrapper"> --%>
+   <%--    <div class="footer"> --%>
+   <%--       <br/> --%>
+   <%--        <span class="footer-left">&copy; 2021 BlackBox --%>
+   <%--            <a class="footer-link" href="#">Privacy Policy</a> --%>
+   <%--            <a class="footer-link" href="#">Terms of Service</a> --%>
+   <%--        </span> --%>
+   <%--    </div> --%>
+   <%--</div> --%>
 
+
+   <%--
+   **** ADDITIONAL DATA SOURCES
+   --%>
+
+  
    <%--
    **** DATA SOURCES
    --%>
