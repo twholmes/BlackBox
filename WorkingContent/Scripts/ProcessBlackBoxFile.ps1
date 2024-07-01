@@ -16,153 +16,52 @@ param
 $ScriptName = $MyInvocation.MyCommand.Name
 $ScriptPath = $MyInvocation.MyCommand.Path
 
-############################################################
-# RegKey functions
-
-function Get-RegKeyValue([string]$regPath, [string]$regName)
-{
-  $value = ""
-  try 
-  {
-    $value = Get-ItemPropertyValue -Path $regPath -Name $regName
-    #Write-Host "Registry key found"
-    #Write-Host "  key=$regPath"
-    #Write-Host "  entry=$regName"
-    #Write-Host "  value=$value"
-  }
-  catch 
-  {
-    Write-Warning "$_"
-  }
-  return $value
-}
-
-function Set-RegKeyValue([string]$regPath, [string]$regName, [string]$regValue)
-{
-  try 
-  {
-    Set-ItemProperty -Path $regPath -Name $regName -Value $regValue -Force | Out-Null
-  }
-  catch 
-  {
-    Write-Warning "$_"
-  }
-}
+Write-Host $ScriptPath
 
 ############################################################
-# Write to the script log
+## DONT EDIT THIS SECTION ##
 
-function Write-Log([string]$message)
-{
- 
-  # write the log entry
-  $msg = "{0} POWERSHELL: {1}" -f (Get-Date -format "yyyy-MM-dd HH:mm:ss"), $message
-  Write-Output $msg | Out-File -Append -Encoding ASCII -FilePath $LogFilePath
-}
-
-function Write-Text([string]$message)
-{
-  # write the log entry and standard-out
-  Write-Host $message
-  Write-Output $message | Out-File -Append -Encoding ASCII -FilePath $LogFilePath
-}
-
-###########################################################################
-# Initialize CUA logging
-
-function Write-ScriptInfo() 
-{
-  $wmi_OperatingSystem = Get-CimInstance -Class win32_operatingsystem
-
-  $RAMTotal = [Math]::Round($wmi_OperatingSystem.TotalVisibleMemorySize/1MB)
-  $RAMFree = [Math]::Round($wmi_OperatingSystem.FreePhysicalMemory/1MB)
-  $os = [string]$wmi_OperatingSystem.Caption
-
-  $loggedInUser = "{0}\{1}" -f $($env:UserDomain), $($env:UserName)
-
-  $datetime = Get-Date -format "dd.MM.yyyy hh:mm"
-
-  Write-Text ""    
-  Write-Text "------------ Starting process ($PID) -----------------"
-  Write-Text "Script:             $($ScriptName)"  
-  Write-Text "Computer Name:      $($env:COMPUTERNAME)"
-  Write-Text "RAM:                $RAMTotal GB ($RAMFree GB available)"
-  Write-Text "Operating System:   $os"
-  Write-Text ("Logged in user:     {0}" -f $loggedInUser)  
-  Write-Text ("----------------- {0} --------------------" -f $datetime)
-  Write-Text ""
-}
-
+## load BlackBox module
+$ScriptDir = split-path -parent $MyInvocation.MyCommand.Definition
+Import-Module -Force (Join-Path $ScriptDir 'BlackBoxAutomation.psm1')
 
 ############################################################
 # Mainline
  
-## *************************
-## SETUP LOGGING
-## *************************
-
-## set log file name
-
-$LogFileName = $ScriptName + ".log"
-if ([string]::IsNullOrEmpty($ScriptName)) 
-{
-  $ScriptName = $target + ".ps1"
-  $LogFileName = $target + ".log"  
-}
-
-# get log file path
-$BlackBoxPathReg = "HKLM:\SOFTWARE\WOW6432Node\Crayon Australia\BlackBox"
-$LogFilesDir = Get-RegKeyValue $BlackBoxPathReg "LogDir"
-$LogFilePath = Join-Path $LogFilesDir $LogFileName
-if ([string]::IsNullOrEmpty($LogFilesDir) -OR !(Test-Path $LogFilesDir)) 
-{
-  $LogPath = "C:\\BlackBox\\LogFiles\\" + $LogFileName
-}
+## initialise logging
+Initialize-Logging $ScriptName
  
-## *************************
-## SCRIPT INFO
-## *************************
-
+## write script info block to log
 Write-ScriptInfo
 
-$sx = $settings.Split(",")
-foreach ($s in $sx) 
-{
-  if ($s -match "([^=]*)=(.*)") 
-  {
-    switch ($matches[1])
-    {
-      "DataSource" {
-        $DataSource = $($matches[2])
-        Write-Text "Command line setting: DataSource = $($matches[2])"
-      }
+## split and parse settings param 
+Split-Settings $settings
 
-      "FileID" {
-        $FileID = $($matches[2])
-        Write-Text "Command line setting: FileID = $($matches[2])"
-      }
+#Write-Text ""
+#Write-Text "DataSource = $Global:DataSource"
+#Write-Text "FileID = $Global:FileID"
+#Write-Text "JobGUID = $Global:JobGUID"
+#Write-Text ""
 
-      "JobGUID" {
-        $JobGUID = $($matches[2])
-        Write-Text "Command line setting: JobGUID = $($matches[2])"
-      }
+$now = Get-Date
+$RunTime = [DateTime]$now - [DateTime]$Global:StartDateTime
+Write-Text
+Write-Text "Runtime = $RunTime"
+Write-Text
 
-      default {
-        Write-Text "Unknown command line setting: $($matches[1]) = $($matches[2])"
-      }
-    }
-  }
-}
+## copy log file to working
+Copy-LogToWorking
 
-Write-Text ""
-Write-Text "DataSource = $DataSource"
-Write-Text "FileID = $FileID"
-Write-Text "JobGUID = $JobGUID"
-Write-Text ""
+#Return $FileID
 
-Return $FileID
+[hashtable]$Results = @{} 
+$Results.FileID = [int]$Global:FileID
+$Results.DataSource = [string]$Global:DataSource 
+$Results.JobGUID = [string]$Global:JobGUID 
 
-#[hashtable]$Return = @{} 
-#$Return.ReturnCode = [int]1 
-#$Return.ReturnString = [string]"All Done!" 
-#Return $Return 
+$Results.ReturnCode = [int]0 
+$Results.ReturnString = [string]"All Done!" 
+
+Return $Results
+
+ 
